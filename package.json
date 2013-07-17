@@ -1,0 +1,32 @@
+{
+    "name"         : "greppy",
+    "description"  : "Easy and lightweight application framework",
+    "version"      : "0.1.0",
+    "private"      : false,
+    "contributors" : [
+        {
+            "name"  : "Hermann Mayer",
+            "email" : "hermann.mayer92@gmail.com"
+        }
+    ],
+    "dependencies" : {
+        "node-getopt"       : "~0.2.3",
+
+        "node-fs"           : "~0.1.5",
+        "async"             : "~0.2.5",
+        "winston"           : "~0.7.2",
+        "extend"            : "~1.1.3",
+        "moment"            : "~2.0.0",
+        "node-uuid"         : "~1.4.0",
+        "memory-cache"      : "~0.0.5",
+        "colors"            : "~0.6.0",
+
+        "express"           : "3.x",
+        "jade"              : "~0.31.2",
+        "piler"             : "~0.4.1",
+        "validator"         : "~1.2.1",
+        "express-validator" : "~0.3.2",
+        "express-winston"   : "~0.2.0"
+    },
+    "main": "./lib/greppy"
+}
