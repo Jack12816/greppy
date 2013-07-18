@@ -6,7 +6,7 @@
 
 ## Greppy Binary
 
-### ./bin/greppy init [APPNAME]
+### ./bin/greppy --new[=APPNAME]
 
 Create the application directory structure.
 This will create such a directory hierarchy.
@@ -27,7 +27,7 @@ This will create such a directory hierarchy.
     ├── package.json
     └── README.md
 
-### ./bin/greppy start [-d] [MODULE1 MODULE2 ...]
+### ./bin/greppy --start [-d] [MODULE1 MODULE2 ...]
 
 Start the configured application ((non-)clustered).
 If the -d switch is passed, the application gets started
@@ -36,29 +36,29 @@ in development mode.
 Furthermore you can pass explicit module names to start
 to start only some contexts of the application.
 
-### ./bin/greppy stop [MODULE1 MODULE2 ...]
+### ./bin/greppy --stop [MODULE1 MODULE2 ...]
 
 Stop the whole application. If explicit module names
 are given stop just them.
 
-### ./bin/greppy status
+### ./bin/greppy --status
 
 Check the status of the whole application.
 List all processes (with pids) according to the application.
 
-### ./bin/greppy clear logs
+### ./bin/greppy --clear logs
 
 Clear all application logs.
 
-### ./bin/greppy generate docs
+### ./bin/greppy --generate docs
 
 Generate an application documentation based on JSDocs.
 
-### ./bin/greppy generate model [NAME]
+### ./bin/greppy --generate model [NAME]
 
 Generate a new model scaffold (migration, fixture, model).
 
-### ./bin/greppy generate controller [NAME]
+### ./bin/greppy --generate controller [NAME]
 
 Generate a new controller scaffold (controller, views).
 

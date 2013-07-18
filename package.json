@@ -15,7 +15,8 @@
     "moment": "~2.0.0",
     "node-uuid": "~1.4.0",
     "memory-cache": "~0.0.5",
-    "colors": "~0.6.0"
+    "colors": "~0.6.0",
+    "tab": "~0.1.0"
   },
   "main": "./lib/greppy",
   "directories": {
