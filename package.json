@@ -19,6 +19,9 @@
     "tab": "~0.1.0"
   },
   "main": "./lib/greppy",
+  "bin": {
+    "greppy": "./bin/greppy"
+  },
   "directories": {
     "doc": "docs",
     "test": "tests"

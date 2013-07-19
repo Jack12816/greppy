@@ -15,25 +15,43 @@ directory structure which helps you to manage large code bases.
 * Configuration and extension support
 * Simple but powerful MVC setup to ease the getting started process
 
-## Application Structure
+## Getting Started
+
+### Installation
+
+    npm install -g greppy
+
+### Create a new project
+
+Open a terminal and go to your usual workspace. The next step
+will create a new Greppy project for you.
+
+    greppy --new=PROJECT_NAME
+
+This will create a new directory in your current working
+directory which is named as your specified project name.
+The structure will be created and an initial vendor package
+installation will be done.
+
+### Project Directory Structure
 
     .
     ├── app
     │   └── config
     ├── bin
-    │   └── greppy
     ├── database
+    │   ├── fixtures
+    │   └── migrations
     ├── docs
     ├── modules
     ├── public
+    │   ├── css
+    │   ├── js
+    │   └── img
     ├── tests
     ├── var
     │   └── log
     ├── CHANGELOG.md
     ├── package.json
     └── README.md
-
-## Installation
-
-    npm install -g greppy
 
