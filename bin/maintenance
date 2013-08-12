@@ -1,0 +1,97 @@
+#!/bin/bash
+#
+# @author   Hermann Mayer <hermann.mayer92@gmail.com>
+# @name     maintenance
+
+# Get the full path of the current file, no matter where it being called from
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Go in this path and change to the app directory
+cd "${DIR}" && cd ../ && echo "Current working dir: `pwd`"
+
+# Set the Commandline Args
+TEMP=`getopt -o h --long generate-docs -- "$@"`
+
+function print_todo()
+{
+    echo -e "\n  \E[0;33m${1} \E[0m..\n"
+}
+
+function generate-docs()
+{
+    print_todo "Generate the HTML version out of the Markdown files"
+
+    cd docs
+    echo > index.html;
+
+    cat << 'EOF' > 01_toc.md
+# Gliederung
+EOF
+
+    grep '#' *.md | cut -d ':' -f2 | \
+        sed 's/#/* /g' | \
+        sed 's/\* \* \* \*/        */g' | \
+        sed 's/\* \* \*/     */g' | \
+        sed 's/\* \*/   */g' >> 01_toc.md
+
+    cat << 'EOF' > index.html
+<html>
+<head>
+<title>Greppy Framework Documentation</title>
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400" rel="stylesheet" type="text/css">
+<link href="http://cdn.hermann-mayer.net/styles/markdown.css" rel="stylesheet"></link>
+<link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/github.min.css">
+<script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+<script>
+    hljs.tabReplace = ' ';
+    hljs.initHighlightingOnLoad();
+</script>
+</head>
+<body>
+EOF
+
+    for file in $(find *.md); do
+        marked --gfm --tables --lang-prefix "" $file >> index.html;
+    done
+
+    cat << 'EOF' >> index.html
+</body>
+</html>
+EOF
+
+    rm 01_toc.md
+}
+
+function usage()
+{
+    echo "Usage: $0 [OPTION]";
+    echo
+    echo " -h, --help                     Print this Help";
+    echo
+    echo " --generate-docs                Generate documentation files";
+    exit 1;
+}
+
+if [ $? != 0 ] ; then
+    usage
+fi
+
+eval set -- "$TEMP"
+
+while true ; do
+    case "$1" in
+        --help|-h|--)
+            shift
+            usage
+            break;;
+        --generate-docs)
+            shift
+            generate-docs
+            break;;
+        *)
+            echo "Internal error!"
+            exit 1;;
+    esac
+done
+

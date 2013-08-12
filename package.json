@@ -4,7 +4,10 @@
   "version": "0.1.0",
   "private": false,
   "contributors": [
-    "Hermann Mayer <hermann.mayer92@gmail.com>"
+    {
+      "name": "Hermann Mayer",
+      "email": "hermann.mayer92@gmail.com"
+    }
   ],
   "dependencies": {
     "node-getopt": "~0.2.3",

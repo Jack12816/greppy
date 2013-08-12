@@ -7,12 +7,11 @@
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
-var fs = require('fs');
-var path = require('path');
-var colors = require('colors')
+var fs           = require('fs');
+var path         = require('path');
+var colors       = require('colors')
 var childProcess = require('child_process');
-
-var Table = require('tab');
+var Table        = require('tab');
 
 var getopt = require('node-getopt').create([
     ['', 'new=APP_PATH', 'Create the application directory structure'],
