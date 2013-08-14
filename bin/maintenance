@@ -10,7 +10,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${DIR}" && cd ../ && echo "Current working dir: `pwd`"
 
 # Set the Commandline Args
-TEMP=`getopt -o h --long generate-docs -- "$@"`
+TEMP=`getopt -o h --long generate-docs,generate-api-docs -- "$@"`
 
 function print_todo()
 {
@@ -63,13 +63,22 @@ EOF
     rm 01_toc.md
 }
 
+function generate-api-docs()
+{
+    print_todo "Generate the HTML version out of the libraries .js files"
+
+    rm -f ./docs/api/*.html
+    jsdoc -c ./docs/api/conf.json ./lib
+}
+
 function usage()
 {
     echo "Usage: $0 [OPTION]";
     echo
     echo " -h, --help                     Print this Help";
     echo
-    echo " --generate-docs                Generate documentation files";
+    echo " --generate-docs                Generate documentation";
+    echo " --generate-api-docs            Generate api-documentation";
     exit 1;
 }
 
@@ -88,6 +97,10 @@ while true ; do
         --generate-docs)
             shift
             generate-docs
+            break;;
+        --generate-api-docs)
+            shift
+            generate-api-docs
             break;;
         *)
             echo "Internal error!"
