@@ -1,0 +1,32 @@
+{
+	"tags"      : {
+		"allowUnknownTags" : true
+	},
+	"plugins"   : ["plugins/markdown"],
+	"markdown"  : {
+		"parser"   : "gfm",
+		"hardwrap" : true
+	},
+    "opts": {
+        "template": "./docs/api/",
+        "encoding": "utf8",
+        "destination": "./docs/api/",
+        "recurse": true,
+        "lenient": true
+    },
+	"templates" : {
+		"cleverLinks"     : true,
+		"monospaceLinks"  : false,
+		"default"         : {
+			"outputSourceFiles" : true
+		},
+		"systemName"      : "Greppy",
+		"footer"          : "Greppy is what you make it.",
+		"copyright"       : "Greppy Copyright © 2013 The contributors to the Greppy project.",
+		"navType"         : "vertical",
+		"theme"           : "bootstrap",
+		"linenums"        : false,
+		"collapseSymbols" : true,
+		"inverseNav"      : false
+	}
+}
