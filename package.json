@@ -6,7 +6,21 @@
   "contributors": [
     {
       "name": "Hermann Mayer",
-      "email": "hermann.mayer92@gmail.com"
+      "email": "hermann.mayer92@gmail.com",
+      "web": "hermann-mayer.net"
+    },
+    {
+      "name": "Patrick Jaksch",
+      "email": "patrick@jaksch.biz"
+    },
+    {
+      "name": "Lars Dietrich",
+      "email": "lars@dietrich-hosting.de"
+    },
+    {
+      "name": "Ralf Grawunder",
+      "email": "r.grawunder@gmail.com",
+      "web": "black-magic-voodoo-stuff.net"
     }
   ],
   "dependencies": {
