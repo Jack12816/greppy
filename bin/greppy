@@ -15,8 +15,9 @@ var Table        = require('tab');
 
 var getopt = require('node-getopt').create([
     ['', 'new=APP_PATH', 'Create the application directory structure'],
-    ['', 'start=ARG+', 'Start the configured application ((non-)clustered)'],
-    ['', 'stop=ARG+', 'Stop the whole application or explicit modules'],
+    ['', 'start=ARG', 'Start the configured application ((non-)clustered)'],
+    ['', 'stop=ARG', 'Stop the whole application or explicit modules'],
+    ['', 'restart=ARG', 'Restart the whole application or explicit modules'],
     ['', 'status', 'Check the status of the whole application'],
 
     ['h', 'help', 'Display this help'],
@@ -46,5 +47,35 @@ if (0 == Object.keys(opts.options).length) {
  */
 if (opts.options.hasOwnProperty('new')) {
     require('./commands/new').run(opts);
+}
+
+/**
+ * start command
+ */
+if (opts.options.hasOwnProperty('start')) {
+    require('./commands/start').run(opts.options.start);
+}
+
+/**
+ * stop command
+ */
+if (opts.options.hasOwnProperty('stop')) {
+    require('./commands/stop').run(opts.options.stop);
+}
+
+/**
+ * restart command
+ */
+if (opts.options.hasOwnProperty('restart')) {
+    require('./commands/stop').run(opts.options.restart, function() {
+        require('./commands/start').run(opts.options.restart);
+    });
+}
+
+/**
+ * status command
+ */
+if (opts.options.hasOwnProperty('status')) {
+    require('./commands/status').run();
 }
 
