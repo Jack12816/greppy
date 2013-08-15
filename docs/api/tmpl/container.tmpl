@@ -5,9 +5,11 @@
 
 <?js if (doc.kind === 'mainpage' || (doc.kind === 'package')) { ?>
 	<?js if (i === 0){ ?>
-	<span class="page-title"><?js= title ?></span>
+	<!-- <span class="page-title"><?js= title ?></span> -->
 	<?js } ?>
+    <div style="top: -14px; position: relative;">
 	<?js= self.partial('mainpage.tmpl', doc) ?>
+    </div>
 
 <?js } else if (doc.kind === 'source') { ?>
 		<h1 class="page-title"><?js= title ?></h1>
