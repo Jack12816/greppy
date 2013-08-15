@@ -65,10 +65,23 @@ EOF
 
 function generate-api-docs()
 {
-    print_todo "Generate the HTML version out of the libraries .js files"
-
+    print_todo "Clear previous build"
     rm -f ./docs/api/*.html
-    jsdoc -c ./docs/api/conf.json ./lib
+
+    print_todo "Prepare markdown index file"
+    cat ./README.md > ./docs/api/index.md
+    echo '---' >> ./docs/api/index.md
+    cd docs
+    for file in $(find *.md); do
+        cat "${file}" >> ./api/index.md
+    done
+    cd ..
+
+    print_todo "Generate the HTML version out of the libraries .js files"
+    jsdoc -c ./docs/api/conf.json ./lib ./docs/api/index.md
+
+    print_todo "Clear temporary files"
+    rm -f ./docs/api/index.md
 }
 
 function usage()

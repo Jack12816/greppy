@@ -148,3 +148,18 @@ body {
 .footer-logo-desc {
     text-align: right;
 }
+
+.page-title {
+  font-size: 38.5px;
+}
+
+.content-wrap {
+    padding-left: 25px;
+    border-left: 3px solid #0088CC;
+    /* background-color: #fff; */
+    /* background-color: rgb(245, 245, 245); */
+}
+
+#toc {
+    /* background-color: rgb(245, 245, 245); */
+}
