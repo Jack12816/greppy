@@ -8,9 +8,9 @@
         "hardwrap" : true
     },
     "opts": {
-        "template": "./docs/api/",
+        "template": "./docs/assets/",
         "encoding": "utf8",
-        "destination": "./docs/api/",
+        "destination": "./docs/",
         "recurse": true,
         "lenient": true
     },
