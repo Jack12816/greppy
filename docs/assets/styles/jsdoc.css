@@ -3,7 +3,7 @@ h1, h2, h3, h4, h5, h6, th, .page-title {
     font-weight: 200;
 }
 .navbar .dropdown-menu {
-  max-height: 300px;
+  max-height: 700px;
   overflow: auto;
   width: 300px;
 }
@@ -156,10 +156,8 @@ body {
 .content-wrap {
     padding-left: 25px;
     border-left: 3px solid #0088CC;
-    /* background-color: #fff; */
-    /* background-color: rgb(245, 245, 245); */
 }
 
-#toc {
-    /* background-color: rgb(245, 245, 245); */
+.span3 > .well {
+    padding-bottom: 0px;
 }

@@ -10,78 +10,41 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${DIR}" && cd ../ && echo "Current working dir: `pwd`"
 
 # Set the Commandline Args
-TEMP=`getopt -o h --long generate-docs,generate-api-docs -- "$@"`
+TEMP=`getopt -o h --long generate-docs,cleanup-docs -- "$@"`
 
 function print_todo()
 {
-    echo -e "\n  \E[0;33m${1} \E[0m..\n"
+    echo -e "\n  \E[0;33m${1} \E[0m.."
+}
+
+function prepare-docs-chaper()
+{
+    print_todo "Prepare \"${1}\" chapter"
+    cd "docs/${1}"
+    for file in $(find *.md 2>/dev/null); do
+        cat "${file}" >> "../chaper_${1}.md"
+    done
+    marked --gfm --tables --lang-prefix "" "../chaper_${1}.md" >> "../chaper_${1}.html";
+    cd ../..
+}
+
+function cleanup-docs()
+{
+    print_todo "Cleanup documentation files"
+    rm -f ./docs/*.html
+    rm -f ./docs/chaper_*.md
 }
 
 function generate-docs()
 {
-    print_todo "Generate the HTML version out of the Markdown files"
+    cleanup-docs
 
-    cd docs
-    echo > index.html;
+    prepare-docs-chaper "guide"
+    # prepare-docs-chaper "concepts"
+    # prepare-docs-chaper "examples"
 
-    cat << 'EOF' > 01_toc.md
-# Gliederung
-EOF
-
-    grep '#' *.md | cut -d ':' -f2 | \
-        sed 's/#/* /g' | \
-        sed 's/\* \* \* \*/        */g' | \
-        sed 's/\* \* \*/     */g' | \
-        sed 's/\* \*/   */g' >> 01_toc.md
-
-    cat << 'EOF' > index.html
-<html>
-<head>
-<title>Greppy Framework Documentation</title>
-<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400" rel="stylesheet" type="text/css">
-<link href="http://cdn.hermann-mayer.net/styles/markdown.css" rel="stylesheet"></link>
-<link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/github.min.css">
-<script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
-<script>
-    hljs.tabReplace = ' ';
-    hljs.initHighlightingOnLoad();
-</script>
-</head>
-<body>
-EOF
-
-    for file in $(find *.md); do
-        marked --gfm --tables --lang-prefix "" $file >> index.html;
-    done
-
-    cat << 'EOF' >> index.html
-</body>
-</html>
-EOF
-
-    rm 01_toc.md
-}
-
-function generate-api-docs()
-{
-    print_todo "Clear previous build"
-    rm -f ./docs/api/*.html
-
-    print_todo "Prepare markdown index file"
-    cat ./README.md > ./docs/api/index.md
-    echo '---' >> ./docs/api/index.md
-    cd docs
-    for file in $(find *.md); do
-        cat "${file}" >> ./api/index.md
-    done
-    cd ..
-
-    print_todo "Generate the HTML version out of the libraries .js files"
-    jsdoc -c ./docs/api/conf.json ./lib ./docs/api/index.md
-
-    print_todo "Clear temporary files"
-    rm -f ./docs/api/index.md
+    print_todo "Generate documentation"
+    jsdoc -c ./docs/jsdoc.conf.json -u ./docs/examples ./lib ./README.md
 }
 
 function usage()
@@ -91,7 +54,7 @@ function usage()
     echo " -h, --help                     Print this Help";
     echo
     echo " --generate-docs                Generate documentation";
-    echo " --generate-api-docs            Generate api-documentation";
+    echo " --cleanup-docs                 Cleanup documentation";
     exit 1;
 }
 
@@ -111,9 +74,9 @@ while true ; do
             shift
             generate-docs
             break;;
-        --generate-api-docs)
+        --cleanup-docs)
             shift
-            generate-api-docs
+            cleanup-docs
             break;;
         *)
             echo "Internal error!"
