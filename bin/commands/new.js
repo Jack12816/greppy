@@ -1,5 +1,5 @@
 /**
- * New project command
+ * New command
  *
  * @module greppy/cli/new
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
@@ -21,6 +21,7 @@ exports.run = function(opts)
         '',
         'app',
         'app/config',
+        'app/context',
         'bin',
         'database',
         'database/fixtures',
@@ -33,7 +34,9 @@ exports.run = function(opts)
         'public/img',
         'tests',
         'var',
-        'var/log'
+        'var/log',
+        'tmp',
+        'tmp/pids'
     ];
 
     var table = new Table.TableOutputStream({
