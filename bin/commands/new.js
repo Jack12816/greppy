@@ -35,8 +35,7 @@ exports.run = function(opts)
         'tests',
         'var',
         'var/log',
-        'tmp',
-        'tmp/pids'
+        'var/run'
     ];
 
     var table = new Table.TableOutputStream({

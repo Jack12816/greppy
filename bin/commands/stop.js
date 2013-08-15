@@ -28,7 +28,7 @@ exports.run = function(opts, callback)
     contexts.forEach(function(context) {
 
         var running = false;
-        var pidFile = appPath + 'tmp/pids/' + context + '.pid';
+        var pidFile = appPath + 'var/run/' + context + '.pid';
 
         if (fs.existsSync(pidFile)) {
 

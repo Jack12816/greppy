@@ -19,6 +19,7 @@ var getopt = require('node-getopt').create([
     ['', 'stop=ARG', 'Stop the whole application or explicit modules'],
     ['', 'restart=ARG', 'Restart the whole application or explicit modules'],
     ['', 'status', 'Check the status of the whole application'],
+    ['', 'list', 'List all application worker contexts'],
 
     ['h', 'help', 'Display this help'],
     ['v', 'version', 'Show version']
@@ -77,5 +78,12 @@ if (opts.options.hasOwnProperty('restart')) {
  */
 if (opts.options.hasOwnProperty('status')) {
     require('./commands/status').run();
+}
+
+/**
+ * list command
+ */
+if (opts.options.hasOwnProperty('list')) {
+    require('./commands/list').run();
 }
 
