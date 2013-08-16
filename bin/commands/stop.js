@@ -11,10 +11,10 @@ var colors = require('colors');
 var daemon = require('daemon');
 var Table  = require('tab');
 
-exports.run = function(opts, callback)
+exports.run = function(contexts, callback)
 {
-    var contexts = opts.split(',');
-    var appPath  = path.normalize(process.cwd() + '/');
+    contexts    = require('../helpers/context').getContextsByArgs(contexts);
+    var appPath = path.normalize(process.cwd() + '/');
 
     var table = new Table.TableOutputStream({
         omitHeader: true,

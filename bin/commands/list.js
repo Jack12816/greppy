@@ -46,6 +46,13 @@ exports.run = function(opts)
             context.name.bold.green,
             context.description.white
         ]);
+
+        table.writeRow([
+            'modules'.white.bold,
+            context.modules.join(', ')
+        ]);
+
+        console.log();
     });
 }
 

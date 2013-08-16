@@ -11,9 +11,9 @@ var colors = require('colors');
 var daemon = require('daemon');
 var Table  = require('tab');
 
-exports.run = function(opts)
+exports.run = function(contexts, debug)
 {
-    var contexts = opts.split(',');
+    contexts    = require('../helpers/context').getContextsByArgs(contexts);
     var appPath = path.normalize(process.cwd() + '/');
 
     var table = new Table.TableOutputStream({
@@ -38,44 +38,137 @@ exports.run = function(opts)
 
     startScript = appPath + 'app/' + startScript;
 
+    if (!debug) {
+
+        // Start all contexts with the found start script
+        contexts.forEach(function(context) {
+
+            var contextState = helper.getContextState(context);
+
+            if (contextState.running) {
+                table.writeRow([
+                    'start '.bold.green,
+                    new String(context + ' -- already running (' + contextState.pid + ')').white
+                ]);
+                return;
+            }
+
+            // Start the daemon process
+            var args   = ['--context', context];
+            var stderr = fs.openSync(appPath + 'var/log/' + context + '.master.stderr.log', 'a');
+            var child  = daemon.daemon(startScript, args, {
+                cwd    : appPath,
+                stderr : stderr
+            });
+
+            // Write its pid
+            fs.writeFileSync(contextState.pidFile, child.pid);
+
+            table.writeRow([
+                'start '.bold.green,
+                new String(context + ' -- started (' + child.pid + ')').white
+            ]);
+        });
+
+        return;
+    }
+
+    if (1 === contexts.length) {
+
+        process.stdin.resume();
+
+        var child = require('child_process').spawn(process.execPath, [
+            startScript, '--context', contexts[0]
+        ], {
+            stdio: [process.stdin, 'pipe', 'pipe']
+        });
+
+        var print = function (data) {
+            console.log(data.toString().replace(/\n$/, ''));
+        };
+
+        child.stdout.on('data', print);
+        child.stderr.on('data', print);
+
+        child.on('close', function() {
+            process.stdin.pause();
+        });
+
+        return;
+    }
+
+    var screenConf = [
+        "# Greppy generated screen config",
+        "# Do not edit.",
+        "",
+        "# Custom screen config",
+        "startup_message off",
+        "msgminwait 0",
+        "defscrollback 50000",
+        "",
+        "# Initial tabs",
+        "{{tabs}}",
+        "sessionname {{projectName}}",
+        "",
+        "# Custom keybindings",
+        "bindkey -k kl prev",
+        "bindkey -k kr next",
+        "bindkey -k k9 quit",
+        "bindkey -k ku copy",
+        "",
+        "# Focus on the first window",
+        "select 1",
+        "",
+        "# Tabbar",
+        "# hardstatus alwayslastline",
+        "hardstatus string '%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<'"
+    ].join('\n');
+
+    var tabs = [];
+    var projectName = require(process.cwd() + '/package').name;
+
     // Start all contexts with the found start script
     contexts.forEach(function(context) {
 
-        var running = false;
-        var pidFile = appPath + 'var/run/' + context + '.pid';
-
-        if (fs.existsSync(pidFile)) {
-
-            var existingPid = fs.readFileSync(pidFile, 'utf8');
-
-            if (fs.existsSync('/proc/' + existingPid + '/status')) {
-                running = true;
-            }
-        }
-
-        if (running) {
-            table.writeRow([
-                'start '.bold.green,
-                new String(context + ' -- already running (' + existingPid + ')').white
-            ]);
-            return;
-        }
-
-        // Start the daemon process
-        var args   = ['--context', context];
-        var stderr = fs.openSync(appPath + 'var/log/' + context + '.master.stderr.log', 'a');
-        var child  = daemon.daemon(startScript, args, {
-            cwd    : appPath,
-            stderr : stderr
-        });
-
-        // Write its pid
-        fs.writeFileSync(pidFile, child.pid);
-
-        table.writeRow([
-            'start '.bold.green,
-            new String(context + ' -- started (' + child.pid + ')').white
-        ]);
+        tabs.push(
+            'screen -t ' + context + ' ' + new String(tabs.length + 1)
+            + ' greppy -s ' + context + ' -d'
+        );
     });
+
+    screenConf = screenConf.replace('{{tabs}}', tabs.join('\n'))
+                           .replace('{{projectName}}', projectName)
+                           .replace('{{contextList}}', contexts.join(','));
+
+    var tmpScreenConfPath = '/tmp/.' + projectName + '.screenrc', screenConf;
+    fs.writeFileSync(tmpScreenConfPath, screenConf);
+
+    var screen = new (require('screen-init'))({
+        args: ['-c', tmpScreenConfPath]
+    });
+}
+
+var helper = {};
+
+helper.getContextState = function(context)
+{
+    var appPath = path.normalize(process.cwd() + '/');
+    var running = false;
+    var pidFile = appPath + 'var/run/' + context + '.pid';
+
+    if (fs.existsSync(pidFile)) {
+
+        var existingPid = fs.readFileSync(pidFile, 'utf8');
+
+        if (fs.existsSync('/proc/' + existingPid + '/status')) {
+            running = true;
+        }
+    }
+
+    return {
+        running : running,
+        pid     : existingPid,
+        pidFile : pidFile
+    };
 }
 
