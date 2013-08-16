@@ -14,12 +14,13 @@ var childProcess = require('child_process');
 var Table        = require('tab');
 
 var getopt = require('node-getopt').create([
-    ['', 'new=APP_PATH', 'Create the application directory structure'],
-    ['', 'start=ARG', 'Start the configured application ((non-)clustered)'],
-    ['', 'stop=ARG', 'Stop the whole application or explicit modules'],
-    ['', 'restart=ARG', 'Restart the whole application or explicit modules'],
-    ['', 'status', 'Check the status of the whole application'],
-    ['', 'list', 'List all application worker contexts'],
+    ['n', 'new=APP_PATH', 'Create the application directory structure'],
+    ['s', 'start', 'Start the configured application ((non-)clustered)'],
+    ['k', 'stop', 'Stop the whole application or explicit modules'],
+    ['r', 'restart', 'Restart the whole application or explicit modules'],
+    ['m', 'status', 'Check the status of the whole application'],
+    ['l', 'list', 'List all application worker contexts'],
+    ['d', 'debug', 'Debug flag'],
 
     ['h', 'help', 'Display this help'],
     ['v', 'version', 'Show version']
@@ -54,22 +55,22 @@ if (opts.options.hasOwnProperty('new')) {
  * start command
  */
 if (opts.options.hasOwnProperty('start')) {
-    require('./commands/start').run(opts.options.start);
+    require('./commands/start').run(opts.argv, (opts.options.hasOwnProperty('debug')) ? true : false);
 }
 
 /**
  * stop command
  */
 if (opts.options.hasOwnProperty('stop')) {
-    require('./commands/stop').run(opts.options.stop);
+    require('./commands/stop').run(opts.argv);
 }
 
 /**
  * restart command
  */
 if (opts.options.hasOwnProperty('restart')) {
-    require('./commands/stop').run(opts.options.restart, function() {
-        require('./commands/start').run(opts.options.restart);
+    require('./commands/stop').run(opts.argv, function() {
+        require('./commands/start').run(opts.argv);
     });
 }
 
