@@ -36,7 +36,10 @@
     "tab": "~0.1.0",
     "daemon": "~1.1.0",
     "pty.js": "~0.2.3",
-    "screen-init": "~0.2.0"
+    "screen-init": "~0.2.0",
+    "mysql": "~2.0.0-alpha8",
+    "sequelize": "~2.0.0-alpha3",
+    "pretty-data": "~0.40.0"
   },
   "main": "./lib/greppy",
   "bin": {
