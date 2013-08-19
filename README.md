@@ -5,6 +5,9 @@ It extends the functionality of Express and increases the reuseability of
 common parts from your application. Further it standardizes a application
 directory structure which helps you to manage large code bases.
 
+For more details take a look at [greppy.org](http://greppy.org)
+or the [Greppy API](http://greppy.org/docs).
+
 ## Features
 
 * Well structured application hierarchy
