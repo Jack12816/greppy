@@ -1,10 +1,7 @@
-# Greppy Framework Documentation
+# Greppy Framework - Documentation
 
-Dieses Dokument stellt die Dokumentation Greppy Applikations Frameworks
-dar und geht detailiert auf Konzepte und Paradigmen in der Entwicklung
-mit dieser Software ein.
+The Greppy Framework's documentation explains how to use and maintain the cluster and the application itself.
 
-Autor dieses Dokumentes ist Hermann Mayer <hermann.mayer92@gmail.com>.
-Unklarheiten, Verbesserungsvorschläge und Feedback sollten an ihn gerichtet
-werden, da er der Maintainer und Core-Entwickler des Frameworks ist.
+The lead developer and maintainer of this project is Hermann Mayer (<hermann.mayer92@gmail.com>).
+For feedback or suggestions compose an issue on [Github](https://github.com/Jack12816/greppy).
 

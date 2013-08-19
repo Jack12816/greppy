@@ -2,85 +2,57 @@
 
 ## Server
 
-### Aufgaben
+### Tasks
 
-Der Server Prozess hat folgende Aufgaben:
+* IPC pool provisioning
+* Worker process management
+* managing the application logs
+* ability to register metrics (counter, stats)
 
-* Bereitstellung des IPC Pools
-* Management der Worker Prozesse
-* Verwaltung der Applikationslogs
-* Registerfunktionalität (Counter, Stats)
+### Description
 
-### Beschreibung
+The server is the starting point of the whole application. Deriving from other languages and systems, such as Ruby or Java, it represents the application server.
 
-Der Server ist der Startpunkt der gesamten Applikation. Hergeleitet von anderen
-Sprachen und Systemen stellt er den Applikationsserver dar. (Ruby, Java)
+The server implementation also represents the cluster master. It manages the whole IPC pool and starts and restarts the workers in case they crash. A crashing worker is called a worker crash.
 
-Die Server Implementierung stellt den Cluster-Master dar. Sie verwaltet den, vom
-gesamten Cluster genutzten, IPC Pool. Des Weiteren liegt es an ihr die Worker
-zu starten und im Fehlerfall neuzustarten. Dieses Szenario wird als Worker-Crash
-bezeichnet.
+The master takes care of an application's high availability to keep it operable even if the worker crash. To ensure that goal, the master's implementation is as easy and definitive as possible.
 
-Der Master sorgt für die Hochverfügbarkeit der Applikation, sodass sie selbst
-im Fehlerfall weiter operabel gehalten wird. Um dies zu gewährleisten ist die
-Implementierung des Masters so einfach und abgegrenzt wie möglich gestaltet.
-
-Sollte der Master durch einen Softwaredefekt sterben, wird dies als Master-Crash
-bezeichnet. In diesem Fall ist die Operabilität der Applikation nicht mehr
-gewährleistet.
+If the master crashes, the application's availability cannot be ensured anymore. This case is called a master crash.
 
 ## Worker
 
-### Aufgaben
+### Tasks
 
-* Bootstraping der Backend-Connections
-* Bootstraping der Express Applikation
-* Bootstraping der Model/Modul / Controller / View Schicht
-* Bereitstellung des HTTP-Servers
-* Bereitstellung der Applikation eines oder mehrerer Modules (Komponenten/Kontexte)
+* Bootstraping the backend connection
+* Bootstraping the Express application
+* Bootstraping the module/model/view/controler layer
+* Providing the HTTP servers
+* Providing the a module's application
 
-### Beschreibung
+### Description
 
-Der Worker wird vom Cluster-Master (Server Prozess) gestartet und verwaltet.
+The worker is started and managed by the cluster master.
 
-Nachdem der Worker Prozess geforket wurde, wird anhand der konkreten
-Worker-Implementierung die Backend-Konfiguration geladen und alle Verbindungen,
-die für die spezifizierten Module (Komponenten/Kontexte) der konkreten
-Worker-Implementierung notwendig sind, aufgebaut.
+After forking the worker process, the backend configuration is loaded and all connections for the specific modules are established.
 
-Nachdem dieser Schritt abgeschlossen wurde, wird die Express Applikation
-initalisiert und allgemeingültige Middleware wird in den Request-Stack der
-Applikation eingefügt. Anschließend werden die spezifizierten Module der
-konkreten Worker-Implementierung nach Controllern durchsucht - und für
-die Applikation eingespielt.
+Once completed, the Express application is initialized and middleware is loaded into the application's request stack. Subsequently, the specific modules are searched for controllers and integrated into the application.
 
-Des Weiteren wird nun die ``configure`` Methode der konkreten Worker-Implementierung
-aufgerufen, um für den Worker spezifische Middleware zu laden oder weitere
-Bootstraping Prozesse anzustoßen.
+Furthermore, the ``configure`` method is called to load worker specific middleware or to start other bootstrapping processes.
 
-Im letzten Schritt wird der HTTP-Server mit der konfigurierten Express
-Applikation bestückt und zum lauschen auf den konfigurierten TCP-Port
-gebracht.
+Finally, the HTTP server is provided with the configured Express application and starts listening to the configured TCP port.
 
-Anschließend ist die Applikation betriebsbereit und nimmt Requests entgegen.
+The application is ready by this point.
 
-## Konkrete Worker-Implementierung
+## Worker Context
 
-### Aufgaben
+### Tasks
 
-* Spezifische Konfiguration des Applikationskontextes
-* Spezifizierung welche Backend-Connections und Applikationsmodule geladen werden
+* Specific configurating the application's context
+* Specifying which backend connections and modules are loaded
 
-### Beschreibung
+### Description
 
-Die konkrete Worker-Implementierung unterscheidet sich zur generischen
-Worker-Implementierung in dem Punkt, dass sie erst das Ausführen eines Workers
-möglich macht. Zwar würde die generische Worker-Implementierung ausreichen einen
-Worker lauffähig zu machen, jedoch würde dieser Worker kein
-applikationsspezifisches Profil abbilden.
+The worker context is different from the generic worker as it provides the worker with additional information. Theoretically, the generic worker would suffice to run an application, it wouldn't describe an application specific profile, though.
 
-Um einen neuen Worker im Projekt aufzusetzen bedarf es lediglich einer konkreten
-Worker-Implementierung, auch wenn diese anfänglich nicht viel spezialisiertes
-verrichtet. Aus diesem Gedanken erwächst die Feststellung, dass die generische
-Worker-Implementierung lediglich abstrakt funktioniert.
+To add another worker to the project, only a new context is needed, even if it isn't specialised in anything.
 

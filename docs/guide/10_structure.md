@@ -1,110 +1,88 @@
-# Applikationsstruktur
+# Structure
 
-Die Applikationsstruktur setzt sich aus einer logischen Kapselung
-der Zuständigkeiten und Namensräume einer Applikation zusammen.
-Ein gekürzter Auszug der Applikationsstruktur veranschaulicht
-die folgenden Erklärungen zur Struktur.
-
+The structure results from an application's logical encapsulation of namespaces and responsibilities.
+A brief overview can be described as the following:
     .
     ├── app
-    │   ├── config
-    │   │   ├── certs
-    │   │   ├── application.js
-    │   ├── worker
-    │   │   ├── admin.js
-    │   │   └── service.js
-    │   ├── server.js
-    │   └── worker.js
+    │   ├── config
+    │   │   └── application.js
+    │   ├── context
+    │   │   └── acme.js
+    │   ├── master.js
+    │   └── worker.js
     ├── bin
     ├── database
-    │   ├── fixtures
-    │   └── migrations
+    │   ├── fixtures
+    │   └── migrations
     ├── docs
     ├── modules
-    │   ├── admin
-    │   │   ├── controllers
-    │   │   ├── helpers
-    │   │   ├── models
-    │   │   └── resources
-    │   └── service
-    │       ├── controllers
-    │       ├── helpers
-    │       └── services
+    │   └── acme
+    │       ├── controllers
+    │       │   └── index.js
+    │       ├── helpers
+    │       ├── models
+    │       └── resources
+    │           └── views
+    │               ├── app
+    │               │   └── home.jade
+    │               └── layout.jade
+    ├── node_modules
     ├── public
-    │   ├── css
-    │   ├── font
-    │   ├── img
-    │   ├── js
-    │   └── favicon.ico
+    │   ├── components
+    │   ├── css
+    │   ├── img
+    │   └── js
     ├── tests
     ├── var
-    │   ├── cache
-    │   ├── logs
+    │   ├── cache
+    │   ├── log
+    │   └── run
+    ├── bower.json
     ├── package.json
     └── README.md
 
-## Aufschlüsselung der Verzeichnisse
+## Directory Breakdown
 
+* ``package.json`` Package meta data - gives a short description of the package including dependencies.
+    See: [http://package.json.nodejitsu.com](http://package.json.nodejitsu.com)
 
-* ``package.json`` Package Metadata Beschreibung die u.a. auch
-Abhängigkeiten zu anderen Packages auflistet.
-Siehe: http://package.json.nodejitsu.com/
+* ``README.md`` A "Getting Started"-Dokument, describing the workflow and helping new developers to find a starting point.
 
-* ``README.md`` Ein "Getting Startet" Dokument, dass Workflows
-beschreibt und einem neuen Entwickler als Einstieg dient.
+* ``bin/`` The script directory in which scripts, such as start and stop scripts, are located.
 
-* ``bin/`` Das Scripts-Verzeichnis enthält Skripte zum Starten
-und Stoppen der Applikation oder Skripte für Maintenance Aufgaben.
+* ``app/`` The application directory.
 
-* ``app/`` Applikations-Verzeichnis.
+    * ``config/`` The config directory contains the application's configuration files.
 
-    * ``config/`` Config-Verzeichnis enthält Konfigurationen der Applikation.
+    * ``worker.js`` The worker provides the actual application with its own web server which waits for requests. The main task is to load and run the application with various settings.
 
-    * ``worker.js`` Der Worker stellt den eigentlichen Webserver und die
-Applikation bereit und erwartet Anfragen. Seine Aufgabe ist es, die Applikation
-zu laden und für sich funktionsfähig zu machen. Diverse Einstellungen zu
-Express können dort vorgenommen werden.
+    * ``server.js`` File which is passed to Node in order to start the cluster master, which forks the worker processes.
 
-    * ``server.js`` Startdatei die an Node übergeben wird. Hierbei
-handelt es sich um den Cluster-Master, der die Worker Prozesse fork.
+* ``node_modules/`` The node modules are managed by the node package manager (npm) and consist of all external libraries.
 
-    * ``console.js`` Startdatei für eine Node-basierte Konsolenapplikation.
-Die kann wie die server.js als Cluster-Master agieren.
+* ``modules/`` The actual application.
 
-* ``node_modules/`` Das Node_Modules-Verzeichnis wird von NPM bereut und
-enthält alle Vendor Packages. (Externe Bibliotheken)
+    * ``name`` This directory contains all components of the module "name", like controllers and resources. The name can be chosen freely and classes can be encapsulated in sensible namespaces.
 
-* ``modules/`` Source-Verzeichnis - die eigentliche Applikation.
+        * ``controllers/`` Every *.js file will be loaded and added to the application.
 
-    * ``default | name`` Das Default-Verzeichnis beschreibt den Namen des
-Modules. Dieser ist frei wählbar und enthält alle Bestandteile wie Controller
-oder Resourcen. Klassen können frei in sinnvolle Namespaces gekapselt werden.
+        * ``resources/`` The resources directory contains static files which belong to the module.
 
-        * ``controllers/`` Jede enthaltene JS-Datei wird beim Bootstraping
-geladen und der Applikation hinzugefügt .
+            * ``views/`` The views directory contains all views which are used by the module's controllers.
 
-        * ``resources/`` Das Resources-Verzeichnis enthält statische Inhalte
-die direkt zum Modul gehören. Auch ein eigenes Public-Verzeichnis kann sich
-hier befinden.
+* ``var/`` This directory contains variable files.
 
-        * ``views/`` Das Views-Verzeichnis enthält alle Views die, die
-Controller für ihre Ausgaben nutzen können.
+    * ``cache/`` The cache is located here.
 
-* ``var/`` Das Var-Verzeichnis enthält variable Daten.
+    * ``logs/`` Log files can be found here.
 
-    * ``cache/`` Cache-Verzeichnis für temporäre Dateien.
+* ``tests/`` The tests directory contains all test cases. The testing framework is [Nodeunit](https://github.com/caolan/nodeunit).
 
-    * ``logs/`` Log-Verzeichnis enthält Logs der Applikation.
+* ``docs/`` Documentations of the actual project and the API are located here.
 
-* ``tests/`` Das Tests-Verzeichnis enthält alle Testcases für die Applikation.
-Als Testing-Framework kommt Nodeunit zum einsatz.
-Siehe: https://github.com/caolan/nodeunit
+* ``public/`` The public directory provides all static content for the whole application. They're accessible over the web browser.
 
-* ``docs/`` Das Docs-Verzeichnis enthält die API- und Projekt-Dokumentation.
+* ``database/`` Migration and fixture files are located in the database directory.
 
-* ``public/`` Das Public-Verzeichnis stellt alle statischen Inhalte für
-die Applikation bereit. Alle Inhalte sind über den Webserver abrufbar.
-
-* ``database/`` Das Database-Verzeichnis enthält mögliche Migrationsdateien
-und/oder Fixtures
+* ``patches/`` All patches and bugfixes for third party software is located in this folder.
 
