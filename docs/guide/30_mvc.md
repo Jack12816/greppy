@@ -89,9 +89,9 @@ declared controller action could be this:
       | This would be a long paragraph.
       | Over many lines.
 
-## Helper
+## Helpers
 
-### Working with helper
+### Working with helpers
 
 Helper are a blessing for sharing code and functionality across multiple
 modules of your application. So you can use parts of your service rigth
@@ -121,7 +121,7 @@ To get an overview of all defined helpers the helper store got the
 
     var helperNames = greppy.helper.list();
 
-### Eigene Helper implementieren
+### Define own helpers
 
 A sample helper could look like this:
 

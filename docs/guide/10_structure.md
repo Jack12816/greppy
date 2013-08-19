@@ -48,13 +48,15 @@ as the following:
 * ``package.json`` Package meta data - gives a short description of the package including dependencies.
     See: [http://package.json.nodejitsu.com](http://package.json.nodejitsu.com)
 
-* ``README.md`` A "Getting Started"-Dokument, describing the workflow and helping new developers to find a starting point.
+* ``README.md`` An getting started document, describing the workflow and helping new developers to find a starting point.
 
-* ``bin/`` The script directory in which scripts, such as start and stop scripts, are located.
+* ``bin/`` The script directory in which scripts are located.
 
 * ``app/`` The application directory.
 
     * ``config/`` The config directory contains the application's configuration files.
+
+    * ``context/`` All worker contexts are located in here.
 
     * ``worker.js`` The worker provides the actual application with its own web server which waits for requests. The main task is to load and run the application with various settings.
 
@@ -68,6 +70,10 @@ as the following:
 
         * ``controllers/`` Every *.js file will be loaded and added to the application.
 
+        * ``models/`` All models of the module are located in here.
+
+            * ``name/`` Name of the connection for the models.
+
         * ``resources/`` The resources directory contains static files which belong to the module.
 
             * ``views/`` The views directory contains all views which are used by the module's controllers.
@@ -76,15 +82,15 @@ as the following:
 
     * ``cache/`` The cache is located here.
 
-    * ``logs/`` Log files can be found here.
+    * ``log/`` Log files can be found here.
 
-* ``tests/`` The tests directory contains all test cases. The testing framework is [Nodeunit](https://github.com/caolan/nodeunit).
+    * ``run/`` Greppy puts all pid files in here.
+
+* ``tests/`` The tests directory contains all test cases.
 
 * ``docs/`` Documentations of the actual project and the API are located here.
 
 * ``public/`` The public directory provides all static content for the whole application. They're accessible over the web browser.
 
 * ``database/`` Migration and fixture files are located in the database directory.
-
-* ``patches/`` All patches and bugfixes for third party software is located in this folder.
 

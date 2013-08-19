@@ -1,7 +1,7 @@
 ### MySQL
 
-The dbReg MySQL adapter is based on the npm package ``mysql`` and on the ORM
-``sequelize``. Sequelize offers the possibility to describe and manage models,
+The dbReg MySQL adapter is based on the npm package ``mysql`` and on the
+``sequelize`` ORM. Sequelize offers the possibility to describe and manage models,
 migrations, fixtures and associations between the models.
 
 Next we will describe the features of this backend adapter.
@@ -113,7 +113,7 @@ an example:
     {
         chainer = new Sequelize.Utils.QueryChainer;
 
-        dbReg.backend('mysql').get('CONNECTION').getORM(function(orm, models) {
+        greppy.db.get('mysql.demo').getORM(function(orm, models) {
 
             var dataSources = [
                 {
@@ -151,12 +151,11 @@ group would be higher than that of the user.
 
 Fixtures need to be deployed under ``database/fixtures/CONNECTION``.
 
-
 #### ORM
 
 The access to Sequelize as MySQL ORM is pretty easy with the dbReg.
 
-    dbReg.backend('mysql').get('CONNECTION').getORM(function(orm, models) {
+    greppy.db.get('mysql.demo').getORM(function(orm, models) {
 
         models.DataSource.find(1).success(function(record) {
 
