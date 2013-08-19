@@ -1,63 +1,46 @@
-# Vendor Bibliotheken
+# Vendor libraries
 
-Durch die große Anzahl an extern verfügbaren Bibliotheken lassen sich
-große Themengebiete einfach nutzen, ohne entsprechende Eigenimplementierungen
-zu entwickeln. Der Vorteil liegt auch hier klar auf der Hand. Im folgenden
-werde ich einige essentielle Bibliotheken beschreiben die im Zusammenhang
-mit dem Framework immer wieder zur Sprache kommen. Zur Einarbeitung sollten
-die weiterführenden Dokumentationen der Bibliotheken studiert werden.
+Due the great amount of vendor libraries many features and functionalities
+are easy to use without reinventing the wheel. The advantage of this is fact
+is a lesser time-consuming development of applications. Learning to write
+enterprise applications will mean learning how to use these vendor libraries.
 
-## Allgemein
+## Commons
 
 ### Async.js
 
-Async.js ist eine Bibliothek zur vereinfachten Anwendung von Asynchronen und
-parallelen Operationen. Besonders interessant für den täglichen Gebrauch
-sind die Methoden ``map``, ``each``, ``parallel``. In modernen Projekten
-die auf Leistung getrimmt sind, ist Async.js unerlässlich.
+Async is a utility module which provides straight-forward, powerful functions
+for working with asynchronous JavaScript. Async provides around 20 functions
+that include the usual 'functional' suspects (map, reduce, filter, each) as
+well as some common patterns for asynchronous control flow (parallel, series,
+waterfall). All these functions assume you follow the node.js convention of
+providing a single callback as the last argument of your async function.
 
-Siehe: https://github.com/caolan/async
+Source: https://github.com/caolan/async
 
 ### Moment.js
 
-Moment.js ist eine Bibliothek die, die Manipulation von Daten und Zeitangaben
-unterstützt. Konvertierungen, Formatierungen und viele nützliche Funktionen wie
-das Berechnen von Differenzen machen diese Bibliothek besonders interessant.
-Des Weiteren unterstützt Moment.js Lokalisierung.
+A javascript date library for parsing, validating, manipulating, and formatting dates.
+Moment was designed to work both in the browser and in Node.JS. All code will work in
+both environments.
 
-Siehe: http://momentjs.com/docs/
+Source: http://momentjs.com/docs/
 
-###memory-cache
+### memory-cache
 
-memory-cache ist eine Bibliothek die das temporäre verwalten von Daten (Caches)
-im Arbeitsspeicher ermöglicht. Die Daten werden innerhalb des Node.js Prozesses
-gehalten, was keine externe Lösung wie memcached oder redis erforderlich macht.
+A simple in-memory cache for node.js. Which gives you the ability to cache your objects
+or data-structures easily in RAM.
 
-Siehe: https://github.com/ptarjan/node-cache
+Source: https://github.com/ptarjan/node-cache
 
 ## Testing
 
-### Nodeunit
-
-Nodeunit ist ein Testing-Framework das sehr einfach zu nutzen ist und dennoch
-sehr leistungsfähig ist.
-
-Siehe: https://github.com/caolan/nodeunit
-
-### Jasmine
-
-Jasmine ist ein BDD Testing-Framework welches für neue Projekte eingesetzt werden
-sollte, da es äußerst einfach und klar ist Unittests für Applikationskomponenten
-zu verfassen.
-
-Siehe: http://pivotal.github.io/jasmine/
-
 ### mocha
 
-mocha ist ein weiteres Testing-Framework welches als namenhaften Entwickler
-visionmedia hat. Unter anderem entwickelt visionmedia das Express Framework,
-sowie die Templating-Engine Jade. mocha unterstützt verschiedene Ansätze wie
-BDD oder TDD.
+Mocha is a feature-rich JavaScript test framework running on node and the browser,
+making asynchronous testing simple and fun. Mocha tests run serially, allowing for
+flexible and accurate reporting, while mapping uncaught exceptions to the correct
+test cases.
 
-Siehe: http://visionmedia.github.io/mocha/
+Source: http://visionmedia.github.io/mocha/
 
