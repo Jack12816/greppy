@@ -1,7 +1,9 @@
 # Structure
 
-The structure results from an application's logical encapsulation of namespaces and responsibilities.
-A brief overview can be described as the following:
+The structure results from an application's logical encapsulation of
+namespaces and responsibilities. A brief overview can be described
+as the following:
+
     .
     ├── app
     │   ├── config
