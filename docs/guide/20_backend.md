@@ -6,7 +6,7 @@ To manage the framework's backend connections, a special backend
 layer was implemented. The db-Store now acts as the layer's head.
 It processes the backend configuration and intializes all backends
 with their corresponding connections. Furthermore, it provides the
-possibility to integrate different a different ORM for each backend.
+possibility to integrate a different ORM for each backend.
 db-Store works absolutely asynchronous, which results in the layer's
 high performance. Additionally, db-Store includes and defines a set
 of methods for every backend interface. A purposeful and easy workflow

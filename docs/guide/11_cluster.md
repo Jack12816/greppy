@@ -36,14 +36,13 @@ ensured anymore. This case is called a master crash.
 ### Description
 
 The worker is started and managed by the cluster master.
-
 After forking the worker process, the backend configuration is loaded
 and all connections for the specific modules are established.
 Once completed, the Express application is initialized and middleware
 is loaded into the application's request stack. Subsequently, the
 specific modules are searched for controllers and integrated into
-the application. Furthermore, the ``configure`` method is called
-to load worker specific middleware or to start other bootstrapping
+the application. Furthermore, the ``configure()`` method of the worker context
+is called to load worker specific middleware or to start other bootstrapping
 processes.
 
 Finally, the HTTP server is provided with the configured Express

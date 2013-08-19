@@ -37,7 +37,7 @@
 		duration:1000, // How long to animate.
 		axis:'y', // Which of top and left should be modified.
 		event:'click', // On which event to react.
-		stop:true, // Avoid queuing animations 
+		stop:true, // Avoid queuing animations
 		target: window, // What to scroll (selector or element). The whole window by default.
 		reset: true // Used by $.localScroll.hash. If true, elements' scroll is resetted before actual scrolling
 		/*
@@ -53,7 +53,7 @@
 		if( location.hash ){
 			settings = $.extend( {}, $localScroll.defaults, settings );
 			settings.hash = false; // can't be true
-			
+
 			if( settings.reset ){
 				var d = settings.duration;
 				delete settings.duration;
@@ -68,7 +68,7 @@
 		settings = $.extend( {}, $localScroll.defaults, settings );
 
 		return settings.lazy ?
-			// use event delegation, more links can be added later.		
+			// use event delegation, more links can be added later.
 			this.bind( settings.event, function( e ){
 				// Could use closest(), but that would leave out jQuery -1.3.x
 				var a = $([e.target, e.target.parentNode]).filter(filter)[0];
@@ -101,7 +101,7 @@
 		var $target = $( settings.target );
 
 		if( settings.lock && $target.is(':animated') ||
-			settings.onBefore && settings.onBefore(e, elem, $target) === false ) 
+			settings.onBefore && settings.onBefore(e, elem, $target) === false )
 			return;
 
 		if( settings.stop )
@@ -121,7 +121,7 @@
 			$a.remove();
 			elem[attr] = id;
 		}
-			
+
 		$target
 			.scrollTo( elem, settings ) // do scroll
 			.trigger('notify.serialScroll',[elem]); // notify serialScroll about this change
