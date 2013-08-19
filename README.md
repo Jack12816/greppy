@@ -26,32 +26,51 @@ directory structure which helps you to manage large code bases.
 Open a terminal and go to your usual workspace. The next step
 will create a new Greppy project for you.
 
-    greppy --new=PROJECT_NAME
+    greppy --new PROJECT_NAME
+    cd PROJECT_NAME
+    greppy --start acme -d
 
-This will create a new directory in your current working
-directory which is named as your specified project name.
 The structure will be created and an initial vendor package
-installation will be done.
+installation will be done (npm and bower).
 
 ### Project Directory Structure
 
     .
     ├── app
-    │   └── config
+    │   ├── config
+    │   │   └── application.js
+    │   ├── context
+    │   │   └── acme.js
+    │   ├── master.js
+    │   └── worker.js
     ├── bin
     ├── database
-    │   ├── fixtures
-    │   └── migrations
+    │   ├── fixtures
+    │   └── migrations
     ├── docs
     ├── modules
+    │   └── acme
+    │       ├── controllers
+    │       │   └── index.js
+    │       ├── helpers
+    │       ├── models
+    │       └── resources
+    │           └── views
+    │               ├── app
+    │               │   └── home.jade
+    │               └── layout.jade
+    ├── node_modules
     ├── public
-    │   ├── css
-    │   ├── js
-    │   └── img
+    │   ├── components
+    │   ├── css
+    │   ├── img
+    │   └── js
     ├── tests
     ├── var
-    │   └── log
-    ├── CHANGELOG.md
+    │   ├── cache
+    │   ├── log
+    │   └── run
+    ├── bower.json
     ├── package.json
     └── README.md
 

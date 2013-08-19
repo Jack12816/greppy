@@ -10,6 +10,7 @@ var path         = require('path');
 var colors       = require('colors')
 var childProcess = require('child_process');
 var Table        = require('tab');
+var pathHelper   = new (require('../../lib/helper/path'))();
 
 exports.run = function(opts)
 {
@@ -17,97 +18,94 @@ exports.run = function(opts)
         process.cwd() + '/' + opts.options.new
     );
 
-    var directories = [
-        '',
-        'app',
-        'app/config',
-        'app/context',
-        'bin',
-        'database',
-        'database/fixtures',
-        'database/migrations',
-        'docs',
-        'modules',
-        'public',
-        'public/css',
-        'public/js',
-        'public/img',
-        'tests',
-        'var',
-        'var/log',
-        'var/run'
-    ];
+    var createProject = function()
+    {
+        var table = new Table.TableOutputStream({
+            omitHeader: true,
+            columns: [
+                {align: 'right', width: 32},
+                {align: 'left'}
+            ]
+        });
 
-    var table = new Table.TableOutputStream({
-        omitHeader: true,
-        columns: [
-            {align: 'right', width: 32},
-            {align: 'left'}
-        ]
-    });
+        var structure = pathHelper.list([__dirname + '/../../templates/project'], {
+            files       : false,
+            directories : true
+        });
 
-    directories.forEach(function(directory) {
-        table.writeRow(['create '.bold.green, directory]);
-        fs.mkdirSync(path.normalize(
-            appPath + '/' + directory
-        ));
-    });
+        structure.shift();
 
-    process.chdir(appPath);
+        var files = pathHelper.list([__dirname + '/../../templates/project'], {
+            files       : true,
+            directories : false
+        });
 
-    var files = [
-        {
-            path: 'CHANGELOG.md',
-            content: 'Version 0.1.0\n'
-                + '=============\n\n'
-        },
-        {
-            path: 'README.md',
-            content: '# Project\n\n'
-        },
-        {
-            path: 'package.json',
-            content: '{\n'
-                + '    "name"         : "project",\n'
-                + '    "description"  : "",\n'
-                + '    "version"      : "0.1.0",\n'
-                + '    "private"      : true,\n'
-                + '    "author"       : "Name <Mail> (Website)",\n'
-                + '    "contributors" : [\n'
-                + '        {\n'
-                + '            "name"  : "",\n'
-                + '            "email" : ""\n'
-                + '        }\n'
-                + '    ],\n'
-                + '    "dependencies" : {\n'
-                + '        "express"           : "3.x",\n'
-                + '        "greppy"            : "~0.1.0",\n'
-                + '        "jade"              : "~0.31.2",\n'
-                + '        "async"             : "~0.2.5",\n'
-                + '        "moment"            : "~2.0.0",\n'
-                + '        "validator"         : "~1.2.1",\n'
-                + '        "express-validator" : "~0.3.2",\n'
-                + '        "winston"           : "~0.7.2",\n'
-                + '        "express-winston"   : "~0.2.0"\n'
-                + '    }\n'
-                + '}\n'
+
+        // Create project path
+        fs.mkdirSync(appPath);
+
+        structure.forEach(function(directory) {
+            directory = appPath + directory.replace(path.normalize(__dirname + '/../../templates/project'), '');
+            table.writeRow(['create '.bold.green, directory.replace(appPath + '/', '')]);
+            fs.mkdirSync(directory);
+        });
+
+        files.forEach(function(file) {
+
+            if (file.match(/\.gitkeep$/gi)) {
+                return;
+            }
+
+            var fileDest = appPath + file.replace(path.normalize(__dirname + '/../../templates/project'), '');
+            table.writeRow(['create '.bold.green, fileDest.replace(appPath + '/', '')]);
+            fs.createReadStream(file).pipe(fs.createWriteStream(fileDest));
+        });
+
+        table.writeRow(['run '.bold.green, 'npm install']);
+        childProcess.exec('npm install', {cwd: appPath}, function(err, stdout, stderr) {
+
+            if (err) {
+                table.writeRow(['error '.bold.red, err]);
+            }
+        });
+
+        table.writeRow(['run '.bold.green, 'bower install']);
+        childProcess.exec('bower install', {cwd: appPath}, function(err, stdout, stderr) {
+
+            if (err) {
+                table.writeRow(['error '.bold.red, err]);
+            }
+        });
+    }
+
+    childProcess.exec('npm', function(err, stdout, stderr) {
+
+        if (err && 0 !== err.code) {
+            console.log('npm is not installed or dont work properly.'.red.bold);
+            process.exit(1);
+            return;
         }
-    ];
 
-    files.forEach(function(file) {
-        table.writeRow(['create '.bold.green, file.path]);
-        fs.writeFileSync(
-            path.normalize(appPath + '/' + file.path),
-            file.content
-        );
-    });
+        childProcess.exec('bower', function(err, stdout, stderr) {
 
-    table.writeRow(['run '.bold.green, 'npm install']);
-    childProcess.exec('npm install', function(err, stdout, stderr) {
+            if (err && 0 !== err.code) {
+                console.log('bower is not installed or dont work properly.'.red.bold);
+                console.log('\nTo install bower run: npm install -g bower');
+                process.exit(1);
+                return;
+            }
 
-        if (err) {
-            table.writeRow(['error '.bold.red, err]);
-        }
+            if (fs.existsSync(appPath)) {
+
+                if (0 !== fs.readdirSync(appPath).length) {
+                    console.log('\nThe application directory already exists and contains files.'.red.bold);
+                    process.exit(1);
+                    return;
+                }
+            }
+
+            createProject();
+        });
     });
 }
 
