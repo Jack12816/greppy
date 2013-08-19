@@ -1,68 +1,44 @@
-# Backend Verwaltung
+# Backend Management
 
-## Verwalten von Backends mit dbReg
+## Managing the backend with db-Store
 
-Für die Verwaltung von Backends ist schon in der ersten Version des Frameworks
-eine entsprechende Backend-Schicht entstanden, die im Laufe der Entwicklung immer
-mehr an Funktionalität und Umfang erreichte.
+To manage the framework's backend connections, a special backend layer was implemented.
 
-Heute stellt die Database-Registry, kurz dbReg, den Kopf dieser Schicht dar.
-dbReg kümmert sich um das Verarbeiten von Backend Konfigurationen, die korrekte
-Initalisierung von den einzelnen Backends und deren Connections und stellt darüber
-hinaus die Möglichkeit der Einbindung von ORM's pro Backend.
+The db-Store now acts as the layer's head. It processes the backend configuration and intializes all backends with their corresponding connections. Furthermore, it provides the possibility to integrate different a different ORM for each backend.
 
-Die Arbeitsweise von dbReg ist vollständig asynchron und in weiten Teilen parallel
-implementiert. Dieser Fakt macht die hohe Leistung dieser Schicht aus.
+db-Store works absolutely asynchronous, which results in the layer's high performance.
 
-Des Weiteren adaptiert dbReg ein fest definiertes Methoden-Set auf die variierenden
-Backend Interfaces, was die einfache und zielgerichtete Arbeit mit von dbReg
-verwalteten Backends/Connections erst möglich macht. Die spezifischen
-Backend Adapter umfassen Implementierungen für: MySQL, MongoDB und Memcached.
+Additionally, db-Store includes and defines a set of methods for every backend interface. A purposeful and easy workflow is etablished using these methods. The current backend adapters are currently limited to MySQL, MongoDB, and Memcached.
 
-Jeder Adapter bietet die Möglichkeit auf das native API des Backends zurückzugreifen,
-was für spezialisierte Zugriffe unerlässlich ist.
+Every adapter provides the possibility to use the backend's native implementation, making specialised accesses easy.
 
-## Arbeitsweise von dbReg
+## db-Store's methods
 
-dbReg sollte als erste große Initalisierung einer jeden Applikation erachtet
-werden, da ohne Backend jede Persistenz von Daten nicht gewährleistet ist
-und somit der Betrieb der Applikation keinen Sinn macht.
+db-Store should be the first big initialisation as it is of vital importance for persisting data.
 
-Sollte dbReg bei der Konfiguration und Initalisierung fehlschlagen, ist dies
-ein Grund die Applikation geregelt herrunterzufahren und somit den Worker zu
-beenden. Sofern der Worker nicht mehr lebt, wird der Master Prozess versuchen
-eine neue Worker Prozess Instanz zu erzeugen, was der Applikation erneut die
-Chance gewährt ihre Backends und Connections erfolgreich zu initalisieren.
+If the adapter's configuration fails, the worker has to be shut down by normal means. After shutting down the worker, the master tries to spawn a new worker to take the previous one's place which enables the worker to start a fresh backend connection.
 
-Dieser Workflow findet unendlich oft statt, sofern nicht manuell eingeriffen
-wird. Aus diesem Kontext herraus ergibt sich die autonome Regulierung der Software,
-denn somit können Datenbankaufälle oder ähnliche Probleme mit externen
-Abhängigkeiten überbrückt werden, ohne das ein Eingreifen oder Eskalation nötig ist.
+Unless interrupted manually, the server tries to spawn workers indefinitely until the designated amount of workers is reached. Database failures and other external failures can be bypassed by this measurement, without requiring manual interference.
 
-## dbReg im Einsatz
+## db-Store in action
 
-### Konfiguration
+### Configuration
 
-dbReg kann mit mehreren, unterschiedlich benannten, Connections
-eines Backends umgehen. Zur Konfiguration wird folgende Struktur genutzt:
+db-Store can handle multiple backend connections by using a structure like these:
 
     /**
      * Current Environment specific Database connections
      */
-    config.databases = {
+    config.database = {
 
         mysql: {
 
-            CONNECTION: {
+            eds: {
                 username    : 'root',
                 password    : '',
-                db          : 'greppy_demo',
-                connections : [
-                    {
-                        host : '127.0.0.1',
-                        port : 3306
-                    }
-                ]
+                db          : 'eds_development',
+                host        : '127.0.0.1',
+                port        : 3306
             },
 
             // Next connection
@@ -71,11 +47,11 @@ eines Backends umgehen. Zur Konfiguration wird folgende Struktur genutzt:
         // Next backend
     }
 
-### Initalisierung
+### Initialisation
 
-Innerhalb der generischen Worker-Implementierung wird dbReg folgendermaßen
-gestartet:
+Inside the generic worker, you can use db-Store like this:
 
+    // @TODO: Update example
     dbReg = require('../modules/default/worker/db/registry.js');
 
     dbReg.configure(/* { specific backends/connections config to load } */, function(err)
@@ -83,33 +59,20 @@ gestartet:
         // Your further application here
     });
 
-### Zurgiff auf Backends
+### Accessing a backend connection
 
-dbReg stellt für diesen Anwendungsfall die Methode ``backend`` zur Verfügung.
-Sie erwartet als erstes und einziges Argument den Namen des Backends. Diese können
-sein: ``mysql``, ``mongodb`` oder ``memcached``. Als Resultat erhält man synchron
-eine Backend Instanz zurück.
+The backend instance provides the method ``getConnection`` to get the instance's connection.
 
-    var backend = dbReg.backend('mysql');
+    greppy.db.get('mysql.demo').instance.getConnection(function(err, con) {
+        console.log(con);
+    });
 
-### Zurgiff auf Connections eines Backends
+### Methods
 
-Die Backend Instanz bietet nur eine für den Nutzer ausgelegte Methode, die
-``get`` Methode. Mit deren Hilfe lässt sich eine Connection Instanz bekommen.
-Auch dieser Aufruf ist synchron.
+Methods used by the backend are:
 
-    var connection = dbReg.backend('mysql').get('CONNECTION');
+    configure();
+    getORM();
+    close();
 
-### Methoden einer Connection Instanz
-
-Alle Methoden der Connection Instanz übergeben alle gegebenen Argumente
-an den tätsächlichen Adapter der Connection weiter.
-
-    ConnectionTemplate.process()
-    ConnectionTemplate.getORM()
-    ConnectionTemplate.close()
-    ConnectionTemplate.getErrors()
-    ConnectionTemplate.getInstance()
-
-## Arbeiten mit Backends
-
+## Working with backends
