@@ -1,89 +1,46 @@
 # Binaries
 
-Dem Framework stehen eine überschaubare Anzahl an nützlichen Binaries zur
-Verfügung, die atomar und in ihrem Kontext gekapselt ihren Dienst verrichten.
+The framework delivers a binary called ``greppy`` which is an equivalent to the
+Ruby on Rails binary ``rails``. With the help of this command you can initalize
+new projects, start or stop them and even list contexts or their statuses.
 
-Dabei unterscheiden wir in zwei Gruppen von Binaries. Zum einen die Binaries
-mit denen die Prozessverwaltung des Clusters gesteuert wird und zum anderen
-Binaries die während der Entwicklung zum tragen kommen.
-
-## Cluster Prozessverwaltung
+## Process management
 
 ### start
 
-**Synoptics:** ./bin/start [-d] [MODULE1 MODULE2 ...]
+**Synopsis:** greppy --start|-s [CONTEXT1 CONTEXT2 ...] [-d]
 
-Startet die angegebenen Module sofern angegeben, oder alle sofern
-keine Module angegeben sind. Sobald der ``-d`` Switch angegebenen
-wurde, werden alle Modulangaben verworfen und eine GNU Screen
-Sitzung mit allen Modulen wird für den Debug/Development Prozess
-gestartet.
+Starts all worker contexts of the application if no contexts were given
+or the given ones. You got the ability to start the contexts with the
+``--debug`` or ``-d`` switch, which starts the contexts as foreground
+processes which log all output to the terminal. If you specify more than
+one context, a GNU Screen session will be launched.
 
 ### stop
 
-**Synoptics:** ./bin/stop [MODULE1 MODULE2 ...]
+**Synopsis:** greppy --stop|-k [CONTEXT1 CONTEXT2 ...]
 
-Stoppt die angegebenen Module sofern angegeben, oder alle sofern
-keine Module angegeben sind.
+Stops all worker contexts if none were given or all given ones.
+
+### restart
+
+**Synopsis:** greppy --restart|-r [CONTEXT1 CONTEXT2 ...]
+
+Restart just stops and starts all worker contexts if none were given or
+all given ones.
 
 ### status
 
-**Synoptics:** ./bin/status
+**Synopsis:** greppy --status|-m
 
-Überprüft welche Prozesse des Clusters laufen und gibt
-deren PID's aus.
+The status command lists all worker contexts of the application and detects
+if the context is running. If so it shows how much memory the worker context uses.
 
-## Applikationsentwicklung
+## Application management
 
-### db
+### list
 
-**Synoptics:** ./bin/db [OPTION]
+**Synopsis:** greppy --list|-l
 
-    Integrated Operations:
-    ----------------------
-
-     --create         Create the database and run a full setup (creation, migration, fixtures)
-     --drop           Drop the database
-     --rebuild        Rebuild the database, run migrations and apply fixtures
-
-    Atomic Operations:
-    ------------------
-
-     --migrate        Run all migrations
-     --fixtures       Apply all fixtures
-
-Mit Hilfe der db Binary lassen sich alle notwendigen Datenbank Operationen
-ausführen.
-
-### maintenance
-
-**Synoptics:** ./bin/maintenance [OPTION]
-
-     --build-package                Tar + XZ the current vendor-modules packages
-     --update-package               Update the vendor-modules and build a new archive
-     --clear-logs                   Clear all log files
-     --generate-docs                Generate documentation files
-     --generate-framework-docs      Generate documentation files
-
-Die maintenance Binary dient der Wartung und Instandsetzung während der Entwicklung
-der Applikation.
-
-### generate
-
-**Synoptics:** ./bin/generate [OPTION]
-
-     --model          Generate a new model scaffold (migration, fixture, model)
-     --controller     Generate a new controller scaffold (controller, views)
-
-Mit Hilfe der generate Binary lässt sich das frameworkeigene Scaffolding nutzen.
-Mehr zu diesem Punkt finden Sie im Abschnitt "Scaffolding".
-
-### test
-
-**Synoptics:** ./bin/test [OPTION]
-
-     -h   Shows this help
-     -s   Run all service tests
-
-Die test Binary ermöglicht das einfache Ausführen von Unit- und Integrationstests.
+List all available worker contexts of the application.
 

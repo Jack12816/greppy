@@ -1,19 +1,17 @@
 # Model/Module-Controller-View
 
-Wie in jedem guten und durchdachten Framework, wurde auch im Unister
-Node.js Framework das MVC Design Pattern vollständig umgesetzt. Dies
-wurde durch die Verwendung des Express Frameworks erreicht.
+We designed our framework to implement the MVC (Model-View-Controler)
+pattern with the help of the Express framework and our application
+structure.
 
-Unser Framework bildet einen Top-Layer über Express und erweitert
-es so um ganz fundamentale Features, wie die Kapselung von Controllern
-in Namensräume (Module), das einheitliche Laden von Controllern aus
-einzelnen Dateien und das automatische Aufsetzen der Applikationsrouten
-anhand der Actions innerhalb der Controller.
+Greppy is a top-layer overlay of Express and extend the functionality
+of it. So we support encapsulation of controllers into namespaces, called
+modules and an uniform loading mechanism of them.
 
-## Strukturen innerhalb von Modulen
+## Structrues of modules
 
-Dem Arbeiten innerhalb von Modulen ist eine saubere Trennung der einzelnen
-Dateitypen geschuldet. Wodurch sich folgende Ausgangsstruktur definiert:
+We split the resources of modules into separate sub-directories to ensure
+a clean encapsulation of file types. A sample structrue follows:
 
     .
     ├── controllers
@@ -34,115 +32,130 @@ Dateitypen geschuldet. Wodurch sich folgende Ausgangsstruktur definiert:
             ├── layout.jade
             └── layout.json
 
-Strukturell sieht jedes Modul nach diesem Schema aus. In wie weit und
-in welchem Ausmaß Helper definiert und genutzt werden und wie viele
-Dateien tatsächlich in einem Modul verwendet werden ist völlig unabhängig.
+Any module of Greppy should look like this. You can define any kind of
+files in a module as long as it fits in this namespace.
 
-Genrell gilt: Alle Implementierungen, die maßgeblich zu einem gewissen
-Kontext gehören bilden ein Modul.
+## Working with controllern
 
-## Arbeiten mit Controllern
-
-Beleuchten wir nun einen einfachen Index Controller, der ausschließlich
-eine View rendert ohne weitere Daten in diese zu geben.
+Lets look at a simple index controller which will only render a view without
+pushing data to it.
 
     /**
-     *  Index Controller
+     * Index Controller
      *
-     *  Just for fun.
-     *
-     *  @author Hermann Mayer <hermann.mayer@unister.de>
-     *  @name   index.js
-     **/
-
-    /**
-     * Render the index page
+     * @module demo/controller/index
+     * @author Hermann Mayer <hermann.mayer92@gmail.com>
      */
-    exports.index = function(req, res)
+
+    /**
+     * @constructor
+     */
+    var IndexController = function()
     {
-        res.render(('json' == req.format) ? 'layout' : 'index/index', {
-            global: Helper.get('controller.globals').append(req)
-        });
-    }
+    };
 
-Die Mächtigkeit dieses Controller liegt nicht sofort auf der Hand,
-jedoch bietet er sogar die Möglichkeit einfach und sauber das Format
-der Ausgabe zwischen HTML und JSON zu wählen.
+    /**
+     * Extend Greppy framework base controller
+     */
+    util.inherits(IndexController, greppy.get('http.mvc.controller'));
 
-## Arbeiten mit Views
+    /**
+     * Deliver the home page.
+     *
+     * @type {ControllerAction}
+     * @public
+     */
+    IndexController.prototype.actions.index =
+    {
+        methods : ['GET'],
+        action  : function(req, res) {
 
-Eine passende View für den oben beschriebenen Controller wäre:
+            // Render the view
+            res.render('app/home');
+        }
+    };
+
+## Working with views
+
+A view can be defined as Jade or any templating engine you want. You just
+have to confugure it in the worker context. A simple example for the previous
+declared controller action could be this:
 
     h2 Hello World
       a.pull-right(onclick="history.back();", title="Zurück").btn
         i.icon-arrow-left
 
     p
-      | Dies wird ein langer, langer Paragraph.
-      | Sogar über mehrere Zeilen hinweg.
+      | This would be a long paragraph.
+      | Over many lines.
 
 ## Helper
 
-### Arbeiten mit Helpern
+### Working with helper
 
-Helper im Allgemeinen stellen für das Framework eine große Erleichterung
-dar, da sie wiederverwendbaren Code für die gesamte Applikation zugänglich
-machen. Der Vorteil der daraus resultiert, lässt sich insofern schon erahnen,
-wenn ein Controller in einem Admin Modul Funktionalität aus einem Service
-Modul nutzen kann.
+Helper are a blessing for sharing code and functionality across multiple
+modules of your application. So you can use parts of your service rigth
+inside of your admin module without reimplementing the functionality.
 
-Helper können frei in Namensräumen definiert werden und lassen sich genauso
-einfach an jeder Stelle innerhalb der Applikation nutzen.
+Helper can be encapsulation and separated into namespaces unter the helpers
+directory of your model. The previous shown module directory structrue got
+an ``github`` helper under a ``request`` namespace. To access this helper
+the following code will do the trick:
 
-Aus der oben beschriebenen Struktur ging ein Helper namens ``midoffice``, der
-im Namensraum ``requests`` liegt, hervor. Um diesen Helper anzusprechen bedarf
-es nur folgendes Codeschnippsels:
+    var helper = greppy.helper.get('admin.requests.github');
 
-    var helper = Helper.get('admin.requests.midoffice');
+If you plan to put helpers directly in the modules helpers directory you
+can access them this way:
 
-Würde man direkt im Verzeichnis ``modules/admin/helpers`` einen Helper definieren,
-so wäre dieser folgendermaßen anzusprechen:
+    var helper = greppy.helper.get('admin.helperName');
 
-    var helper = Helper.get('admin.global.helperName');
+Greppy ships with some predefined helper sets for many common needs.
+Accessing these is easily the same:
 
-Das Framework bringt schon eine beachtlichen Anzahl an Helpern mit. Diese
-lassen sich folgendermaßen anzusprechen:
+    var helper = greppy.helper.get('controller.error');
 
-    var helper = Helper.get('controller.form');
+You just don't specify the module name.
 
-Dabei wird der Modulname entsprechend weggelassen und somit ist es dem
-Helpersystem klar, dass es sich um einen Helper des Frameworks handelt.
+To get an overview of all defined helpers the helper store got the
+``list()`` method. Just cal it that way:
+
+    var helperNames = greppy.helper.list();
 
 ### Eigene Helper implementieren
 
-Eine Beispielimplementierung ist hier vollkommen ausreichend, da sich
-das Prinzip hinter dem Helpersystem sehr leicht erkennen lässt.
+A sample helper could look like this:
 
     /**
-     *  Dates View Helper
+     * Test Helper
      *
-     *  Adds dates helpers to all views.
-     *
-     *  @author      Hermann Mayer <hermann.mayer92@gmail.com>
-     *  @name        date.js
-     **/
+     * @module demo/helper/test
+     * @author Hermann Mayer <hermann.mayer92@gmail.com>
+     */
 
-    var date   = {};
-    var util   = require('util');
-    var Moment = require('moment');
-    Moment.lang('de');
-
-    date.format = function(date, format)
+    /**
+     * @constructor
+     */
+    var TestHelper = function()
     {
-        return Moment(date).format(format);
-    };
+    }
 
-    exports.date = date;
+    /**
+     * Just prefix the given string with a test tag.
+     *
+     * @param {String} str - String to prefix with test
+     * @return {String}
+     */
+    TestHelper.prototype.test = function(str)
+    {
+        return '[Test] ' + str;
+    }
 
-Der von uns definierte Helper ``date`` bietet eine Methode ``format``.
+    module.exports = TestHelper;
 
-## Weiterführende Dokumentationen
+The defined helper ``test`` got a method ``test(str)``.
 
-* Dokumentation zu ``express`` http://expressjs.com/api.html
-* Dokumentation zu ``jade`` http://jade-lang.com/tutorial/
+## Additional documentation
+
+* Documentation for ``express`` http://expressjs.com/api.html
+* Documentation for ``jade`` http://jade-lang.com/tutorial/
 

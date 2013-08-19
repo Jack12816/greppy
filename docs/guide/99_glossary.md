@@ -2,37 +2,32 @@
 
 ## Worker-Crashs
 
-Worker-Crashs deuten auf verschiedene Probleme im System hin. Zum einen können
-sie Hardwarenahe Probleme beleuchten, z.B. der Ausfall des Netzwerkes oder lange
-Packetlaufzeiten auf die nicht reagiert werden. Zum anderen kann einem Worker-Crash
-aber auch ein Softwaretechnisches Problem zugrunde liegen. Eine ungefangene Ausnahme
-oder fehlerhafte Syntax in spezifischen Ausführungspfaden der Applikation.
+Worker crashs indicate various problems of the system. It could show a problem
+with the used hardware or external resources like the network or timeouted packets.
+On the other hand the cause of worker crashs could be bugs in your application.
+An uncatched exception or faulty syntax on specific execution paths can lead to
+worker crashs.
 
-Worker-Crashs sind nicht zu ignorieren, bedürfen aber keiner Eskalation. Durch
-die autonome Selbstregulierung des Systems können die Probleme auf eine gewisse
-Dauer kaschiert werden und der normale Entwicklungsprozess zur Fehlerbehebung kann
-vollzogen werden. Dieser Prozess ist auf jeden Fall immer anzustoßen, sobald
-Worker-Crashs vorliegen.
+Nerver ignore these crashs, however they are not system breaking. The autonomous
+regulation of the system can bypass those errors for a while, so the normal development
+cycle can fix those problems. You should always perform this error handling strategy
+if errors occur.
 
 ## Master-Crashs
 
-Master-Crashs sind von höchster Dringlichkeit, da sie zum Ausfall eines Slaves
-für eine Komponente (Kontext/Modul) führen. Sobald ein Master-Crash stattfindet,
-was im Normalfall ausgeschlossen ist, muss sofort eskaliert und der Server
-Prozess neugestartet werden. Dieser Schritt ist nicht automatisiert und lässt
-sich nur mittels Cronjob oder Watchdog lösen. Diese zusätzliche Sicherheit
-ist nicht Bestandteil des Frameworks.
+Master crashs got the highest priority and need a immediately operation by a human.
+They lead to a breakdown of whole cluster slaves and/or application contexts. So your
+application or parts of it won't work anymore. A master crash should in normal production
+cases never occur, because the master implementation is rock-solid and well tested.
+If such an error occurs though you need to restart the master. This step could be automated
+by a watchdog solution with a cronjob daemon.
 
 ## Middleware
 
-Middleware bezeichnet in der Informatik anwendungsneutrale Programme, die so
-zwischen Anwendungen vermitteln, dass die Komplexität dieser Applikationen und
-ihre Infrastruktur verborgen werden. Man kann Middleware auch als eine
-Verteilungsplattform, d. h. als ein Protokoll (oder Protokollbündel) auf einer
-höheren Schicht als die der gewöhnlichen Rechnerkommunikation auffassen. Im
-Gegensatz zu niveautieferen Netzwerkdiensten, welche die einfache Kommunikation
-zwischen Rechnern handhaben, unterstützt Middleware die Kommunikation zwischen
-Prozessen.
+Middleware is computer software that provides services to software applications
+beyond those available from the operating system. It can be described as "software glue".
+Middleware makes it easier for software developers to perform communication and
+input/output, so they can focus on the specific purpose of their application.
 
-Siehe Wikipedia: http://de.wikipedia.org/wiki/Middleware
+Source: http://en.wikipedia.org/wiki/Middleware
 
