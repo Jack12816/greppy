@@ -1,14 +1,14 @@
 ### MySQL
 
-Der dbReg MySQL Adapter basiert zum einen auf dem npm Package ``mysql`` und
-auf dem ORM ``sequelize``. Sequelize bietet die Möglichkeiten Modelle, Migrationen,
-Fixtures und Assoziationen zwischen den Modelle abzubilden bzw. zu verwalteten.
+The dbReg MySQL adapter is based on the npm package ``mysql`` and on the ORM
+``sequelize``. Sequelize offers the possibility to describe and manage models,
+migrations, fixtures and associations between the models.
 
-Im Weiteren wird auf die Besonderheiten dieses Backend Adapters eingegangen.
+Next we will describe the features of this backend adapter.
 
 #### Models
 
-Die Struktur einer Modeldefiniton sieht folgendermaßen aus:
+The structure of a model definition looks like the following:
 
     /**
      * Lease Model
@@ -43,12 +43,12 @@ Die Struktur einer Modeldefiniton sieht folgendermaßen aus:
         );
     }
 
-Jedes Model erhält eine eigene Datei, die den Namen des Models trägt.
+Every model is represented by it's own file, which is named after the model.
 
 #### Migrations
 
-Um bei dem vorangegangenen Beispiel des ``Lease`` Models zu bleiben, stelle
-ich nun die Migration für diesen Fall vor:
+To stick with our previous example of the ``Lease`` model, let's take a look at
+the migrations for this case:
 
     /**
      * Leases Migration
@@ -95,16 +95,16 @@ ich nun die Migration für diesen Fall vor:
         }
     }
 
-Der Dateiname von Migrationen muss in folgendem Format sein:
+The filename of migrations must be in the following format:
 
     YYYYMMDDhhmmss-OPERATION_TABLE_DETAILED_OPERATION.js
 
-Migrationen sind unter ``database/migrations/CONNECTION`` abzulegen.
+Migrations are deployed under the path ``database/migrations/CONNECTION``.
 
 #### Fixtures
 
-Da Fixtures für Leases keinen Sinn machen, stelle ich als Beispiel für
-Fixtures die des ``DataSource`` Models vor:
+Because fixtures don't make sense for Leases, we use the ``DataSource`` model as
+an example:
 
     /**
      * Fixtures for DataSources
@@ -137,25 +137,24 @@ Fixtures die des ``DataSource`` Models vor:
         });
     }
 
-Der Dateiname von Fixtures ist in folgendem Format zu spezifizieren:
+The filename of fixtures needs to be in the following format:
 
     GROUP-modelName.js
 
-Die ``group`` ist ein numerischer Wert, der Auskunft über die Abhängigkeiten
-des Models gibt. Desto kleiner dieser Wert, desto eher wird die Fixture in
-der Warteschlange ausgeführt. Beruht das Model ``DataSource`` also auf dem
-``User`` Model, so wäre seine Gruppe höher als die vom User.
+The ``GROUP`` is a numeric value, which shows the dependencies of the model.
+The smaller this value, the earlier will the fixture be queued.
+If for example the model ``DataSource`` is based on the ``User`` model, it's
+group would be higher than that of the user.
 
     00_user.js
     10_dataSource.js
 
-Fixtures sind unter ``database/fixtures/CONNECTION`` abzulegen.
+Fixtures need to be deployed under ``database/fixtures/CONNECTION``.
 
 
 #### ORM
 
-Der Zurgiff auf Sequelize als MySQL ORM gestaltet sich denkbar einfach
-über die dbReg.
+The access to Sequelize as MySQL ORM is pretty easy with the dbReg.
 
     dbReg.backend('mysql').get('CONNECTION').getORM(function(orm, models) {
 
@@ -170,8 +169,8 @@ Der Zurgiff auf Sequelize als MySQL ORM gestaltet sich denkbar einfach
         });
     });
 
-#### Weiterführende Dokumentationen
+#### Further documentation
 
-* Dokumentation zu ``mysql`` https://github.com/felixge/node-mysql/blob/master/Readme.md
-* Dokumentation zu ``sequelize`` http://sequelizejs.com/documentation
+* Documentation of ``mysql`` https://github.com/felixge/node-mysql/blob/master/Readme.md
+* Documentation of ``sequelize`` http://sequelizejs.com/documentation
 
