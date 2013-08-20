@@ -39,8 +39,16 @@ getopt.setHelp(
 var opts = getopt.parseSystem();
 
 // Without args print the help
-if (0 == Object.keys(opts.options).length) {
+if (0 == Object.keys(opts.options).length || opts.options.hasOwnProperty('help')) {
     getopt.showHelp();
+    return;
+}
+
+/**
+ * Version command
+ */
+if (opts.options.hasOwnProperty('version')) {
+    console.log('Greppy version: ' + require(__dirname + '/../package').version.green.bold);
     return;
 }
 

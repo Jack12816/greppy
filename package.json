@@ -45,7 +45,8 @@
         "screen-init": "~0.2.0",
         "mysql": "~2.0.0-alpha8",
         "sequelize": "~2.0.0-alpha3",
-        "pretty-data": "~0.40.0"
+        "pretty-data": "~0.40.0",
+        "ldapjs": "~0.6.3"
     },
     "main": "./lib/greppy",
     "bin": {

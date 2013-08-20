@@ -40,9 +40,12 @@ exports.run = function(opts)
             directories : false
         });
 
+        try {
 
-        // Create project path
-        fs.mkdirSync(appPath);
+            // Create project path
+            fs.mkdirSync(appPath);
+
+        } catch (e) {}
 
         structure.forEach(function(directory) {
             directory = appPath + directory.replace(path.normalize(__dirname + '/../../templates/project'), '');
