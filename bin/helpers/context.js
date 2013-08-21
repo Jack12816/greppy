@@ -15,7 +15,13 @@ helper.getContextsByArgs = function(contexts)
     var registeredContexts = [];
 
     // Find all contexts
-    fs.readdirSync(appPath + 'app/context/').forEach(function(file) {
+    var contextPath = appPath + 'app/context/';
+
+    if (!fs.existsSync(contextPath)) {
+        return false;
+    }
+
+    fs.readdirSync(contextPath).forEach(function(file) {
 
         if (!file.match(/\.js$/gi)) {
             return;

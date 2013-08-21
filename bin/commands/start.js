@@ -16,6 +16,12 @@ exports.run = function(contexts, debug)
     contexts    = require('../helpers/context').getContextsByArgs(contexts);
     var appPath = path.normalize(process.cwd() + '/');
 
+    if (!contexts) {
+        console.log(appPath.green.bold + ' is not a Greppy project.');
+        process.exit(1);
+        return;
+    }
+
     var table = new Table.TableOutputStream({
         omitHeader: true,
         columns: [
@@ -89,13 +95,10 @@ exports.run = function(contexts, debug)
             console.log(data.toString().replace(/\n$/, ''));
         };
 
-        // process.stdin.on('data', function(data) {
-        //     process.stdout.write(data);
-        // });
         process.stdin.resume();
 
         var child = require('child_process').spawn(process.execPath, [
-            startScript, '--context', contexts[0]
+            startScript, '--context', contexts[0], '--debug'
         ], {
             stdio: ['pipe', 'pipe', 'pipe']
         });
