@@ -75,17 +75,38 @@ exports.run = function(contexts, debug)
 
     if (1 === contexts.length) {
 
+        var contextState = helper.getContextState(contexts[0]);
+
+        if (contextState.running) {
+            table.writeRow([
+                'start '.bold.green,
+                new String(contexts[0] + ' -- already running (' + contextState.pid + ')').white
+            ]);
+            return;
+        }
+
+        var print = function (data) {
+            console.log(data.toString().replace(/\n$/, ''));
+        };
+
+        // process.stdin.on('data', function(data) {
+        //     process.stdout.write(data);
+        // });
         process.stdin.resume();
 
         var child = require('child_process').spawn(process.execPath, [
             startScript, '--context', contexts[0]
         ], {
-            stdio: [process.stdin, 'pipe', 'pipe']
+            stdio: ['pipe', 'pipe', 'pipe']
         });
 
-        var print = function (data) {
-            console.log(data.toString().replace(/\n$/, ''));
-        };
+        var emitExitToChild = function() {
+            console.log();
+            child.kill('SIGINT');
+        }
+
+        process.on('SIGINT', emitExitToChild);
+        process.on('SIGTERM ', emitExitToChild);
 
         child.stdout.on('data', print);
         child.stderr.on('data', print);
@@ -93,6 +114,9 @@ exports.run = function(contexts, debug)
         child.on('close', function() {
             process.stdin.pause();
         });
+
+        // Write its pid
+        fs.writeFileSync(contextState.pidFile, child.pid);
 
         return;
     }
@@ -120,7 +144,7 @@ exports.run = function(contexts, debug)
         "select 1",
         "",
         "# Tabbar",
-        "# hardstatus alwayslastline",
+        "hardstatus alwayslastline",
         "hardstatus string '%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<'"
     ].join('\n');
 
