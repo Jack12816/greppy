@@ -84,7 +84,7 @@ exports.run = function(opts)
     childProcess.exec('npm', function(err, stdout, stderr) {
 
         if (err && 0 !== err.code) {
-            console.log('npm is not installed or dont work properly.'.red.bold);
+            console.log('npm is not installed or doesn\'t work properly.'.red.bold);
             process.exit(1);
             return;
         }
@@ -92,7 +92,7 @@ exports.run = function(opts)
         childProcess.exec('bower', function(err, stdout, stderr) {
 
             if (err && 0 !== err.code) {
-                console.log('bower is not installed or dont work properly.'.red.bold);
+                console.log('bower is not installed or doesn\'t work properly.'.red.bold);
                 console.log('\nTo install bower run: npm install -g bower');
                 process.exit(1);
                 return;
