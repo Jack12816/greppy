@@ -44,7 +44,8 @@ function generate-docs()
     # prepare-docs-chaper "examples"
 
     print_todo "Generate documentation"
-    jsdoc -c ./docs/jsdoc.conf.json -u ./docs/examples ./lib ./README.md
+    # jsdoc -c ./docs/jsdoc.conf.json -u ./docs/examples ./lib ./README.md
+    jsdoc -c ./docs/jsdoc.conf.json ./lib ./README.md
 }
 
 function usage()

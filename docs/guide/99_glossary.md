@@ -15,7 +15,7 @@ if errors occur.
 
 ## Master-Crashs
 
-Master crashs got the highest priority and need a immediately operation by a human.
+Master crashs got the highest priority and need an immediately operation by an human.
 They lead to a breakdown of whole cluster slaves and/or application contexts. So your
 application or parts of it won't work anymore. A master crash should in normal production
 cases never occur, because the master implementation is rock-solid and well tested.

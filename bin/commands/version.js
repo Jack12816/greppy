@@ -19,7 +19,7 @@ exports.run = function()
         ]
     });
 
-    var gitCommand = 'git log --pretty="%h by %cn ' + '<%ce>'.grey + '" -n1 HEAD';
+    var gitCommand = 'git log --pretty="%h by %cn ' + '<%ce>'.grey + ' %ci (%cr)'.white + '" -n1 HEAD';
 
     var greppyInfo = function(callback)
     {

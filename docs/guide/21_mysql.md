@@ -56,8 +56,8 @@ the migrations for this case:
     module.exports = {
 
         // Forward-migration method
-        up: function(migration, DataTypes, done) {
-
+        up: function(migration, DataTypes, done)
+        {
             migration.createTable(
 
                 // Define name of the table
@@ -70,10 +70,9 @@ the migrations for this case:
                         autoIncrement : false,
                         primaryKey    : true
                     },
-
                     expires_at: {
-                        type         : DataTypes.DATE,
-                        allowNull    : false
+                        type      : DataTypes.DATE,
+                        allowNull : false
                     }
                 },
 
@@ -89,8 +88,8 @@ the migrations for this case:
         },
 
         // Backward-migration method
-        down: function(migration, DataTypes, done) {
-
+        down: function(migration, DataTypes, done)
+        {
             migration.dropTable('Leases').complete(done);
         }
     }
@@ -109,31 +108,27 @@ an example:
     /**
      * Fixtures for DataSources
      */
-    module.exports = function(callback, payload)
+    module.exports = function(orm, models, share, utils, callback)
     {
-        chainer = new Sequelize.Utils.QueryChainer;
+        chainer = new utils.QueryChainer;
 
-        greppy.db.get('mysql.demo').getORM(function(orm, models) {
+        var dataSources = [
+            {
+                source_id  : 'b7bfa6bb-b121-4e4b-b97f-2de78655e5f2',
+                url        : 'http://google.com/robots.txt',
+                creator_id : share.users[0].id
+            }
+        ];
 
-            var dataSources = [
-                {
-                    source_id: 'b7bfa6bb-b121-4e4b-b97f-2de78655e5f2',
-                    url: 'http://google.com/robots.txt',
-                    creator_id: payload.users[0].id
-                }
-            ];
+        dataSources.forEach(function(item) {
+            chainer.add(models.DataSource.create(item));
+        });
 
-            dataSources.forEach(function(item) {
-                chainer.add(models.DataSource.create(item));
-            });
-
-            chainer
-                .run()
-                .success(function(results) {
-                    payload.dataSources = results;
-                    callback && callback();
-                })
-                .error(function(err){callback && callback(err)});
+        chainer.run().success(function(results) {
+            share.dataSources = results;
+            callback && callback();
+        }).error(function(err) {
+            callback && callback(err);
         });
     }
 

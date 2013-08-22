@@ -23,7 +23,7 @@ var template = require( 'jsdoc/template' ),
 
 var globalUrl = helper.getUniqueFilename( 'global' );
 var indexUrl = helper.getUniqueFilename( 'index' );
-var gettingStartedUrl = helper.getUniqueFilename( 'getting-started' );
+var docsUrl = helper.getUniqueFilename( 'guide' );
 
 var navOptions = {
     systemName      : conf.systemName || "Documentation",
@@ -43,9 +43,9 @@ var navigationMaster = {
         members : []
     },
     gettingStarted     : {
-        title   : "Getting Started",
-        icon    : 'icon-rocket',
-        link    : gettingStartedUrl,
+        title   : "Documentation",
+        icon    : 'icon-book',
+        link    : docsUrl,
         members : []
     },
     namespace : {
@@ -603,10 +603,10 @@ exports.publish = function ( taffyData, opts, tutorials ) {
     generate( 'gettingStarted', 'Index',
         packages.concat(
             [
-                {kind : 'mainpage', readme : fs.readFileSync('./docs/chaper_guide.html', 'utf8'), longname : (opts.mainpagetitle) ? opts.mainpagetitle : 'Getting Started'}
+                {kind : 'mainpage', readme : fs.readFileSync('./docs/chaper_guide.html', 'utf8'), longname : (opts.mainpagetitle) ? opts.mainpagetitle : 'Documentation'}
             ]
         ).concat( files ),
-        gettingStartedUrl );
+        docsUrl );
 
 
 

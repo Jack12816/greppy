@@ -44,18 +44,20 @@ using a structure like these:
 
         mysql: {
 
-            eds: {
+            demo: {
                 username    : 'root',
                 password    : '',
-                db          : 'eds_development',
+                db          : 'demo_development',
                 host        : '127.0.0.1',
                 port        : 3306
             },
 
             // Next connection
+            connection: {...}
         },
 
         // Next backend
+        backend: {...}
     }
 
 ### Initialisation
