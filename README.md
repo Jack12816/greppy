@@ -3,7 +3,7 @@
 Greppy is a top layer framework which builds upon the Express framework.
 It extends the functionality of Express and increases the reuseability of
 common parts from your application. Further it standardizes a application
-directory structure which helps you to manage large code bases.
+directory structure, which helps you to manage large code bases.
 
 For more details take a look at [greppy.org](http://greppy.org)
 or the [Greppy API](http://greppy.org/docs).
@@ -12,7 +12,7 @@ or the [Greppy API](http://greppy.org/docs).
 
 * Well structured application hierarchy
 * Split your application into specific modules
-    * Can be started individually or bundled by an worker
+    * Can be started individually or bundled by a worker
     * Enables you to build Cloud/Cluster software with multi- threading/server support
 * Easy integration of MongoDB/Maria|MySQL ORMs (mongoose, sequelize)
 * Configuration and extension support

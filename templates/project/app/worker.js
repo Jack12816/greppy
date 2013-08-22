@@ -32,7 +32,7 @@ var postSetup = function()
 {
     // Print simple notification
     logger.info('Greppy demo project started.');
-}
+};
 
 // Setup the application worker
 var worker = new Worker(app, server, {

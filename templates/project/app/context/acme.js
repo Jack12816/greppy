@@ -17,13 +17,13 @@ var ACMEContext = function()
     ACMEContext.super_.call(this, __filename);
 
     // Worker context description.
-    this.description = 'Website of ACME'
+    this.description = 'Website of ACME';
 
     // Worker context backends configuration.
-    this.backends = {}
+    this.backends = {};
 
     // Worker context modules configuration.
-    this.modules = ['acme']
+    this.modules = ['acme'];
 
     // Worker context controllers configuration.
     this.controllers = {
@@ -31,7 +31,7 @@ var ACMEContext = function()
             enabled: false
         }
     };
-}
+};
 
 /**
  * Extend the Greppy framework worker context
