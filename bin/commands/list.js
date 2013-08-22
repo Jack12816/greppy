@@ -26,6 +26,13 @@ exports.run = function(opts)
 
     // Find all contexts
     var contextsPath = appPath + 'app/context/';
+
+    if (!fs.existsSync(contextsPath)) {
+        console.log(appPath.green.bold + ' is not a Greppy project.');
+        process.exit(1);
+        return;
+    }
+
     fs.readdirSync(contextsPath).forEach(function(file) {
 
         if (!file.match(/\.js$/gi)) {

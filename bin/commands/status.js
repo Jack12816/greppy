@@ -24,6 +24,12 @@ exports.run = function(opts)
 
     var contexts = [];
 
+    if (!fs.existsSync(appPath + 'app/context/')) {
+        console.log(appPath.green.bold + ' is not a Greppy project.');
+        process.exit(1);
+        return;
+    }
+
     // Find all contexts
     fs.readdirSync(appPath + 'app/context/').forEach(function(file) {
 
