@@ -1,7 +1,7 @@
 /**
- * List command
+ * Database command
  *
- * @module greppy/cli/list
+ * @module greppy/cli/db
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
