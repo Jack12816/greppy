@@ -8,7 +8,7 @@ var config = {};
  */
 config.infrastructure = {
 
-    demo: {
+    acme: {
         slaves   : ['localhost'],
         host     : '0.0.0.0',
         port     : 3000,
@@ -23,12 +23,12 @@ config.database = {
 
     // mysql: {
 
-    //     demo: {
+    //     acme: {
     //         plain    : true,
     //         orm      : true,
     //         username : 'root',
     //         password : '',
-    //         db       : 'greppy_demo',
+    //         db       : 'acme_website',
     //         host     : '127.0.0.1',
     //         port     : 3306
     //     }

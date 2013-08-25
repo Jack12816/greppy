@@ -1,16 +1,9 @@
 /**
- * New command
+ * New Command
  *
  * @module greppy/cli/new
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
-
-var fs           = require('fs');
-var path         = require('path');
-var colors       = require('colors')
-var childProcess = require('child_process');
-var Table        = require('tab');
-var pathHelper   = new (require('../../lib/helper/path'))();
 
 exports.run = function(opts)
 {
@@ -20,14 +13,6 @@ exports.run = function(opts)
 
     var createProject = function()
     {
-        var table = new Table.TableOutputStream({
-            omitHeader: true,
-            columns: [
-                {align: 'right', width: 32},
-                {align: 'left'}
-            ]
-        });
-
         var structure = pathHelper.list([__dirname + '/../../templates/project'], {
             files       : false,
             directories : true
@@ -49,7 +34,7 @@ exports.run = function(opts)
 
         structure.forEach(function(directory) {
             directory = appPath + directory.replace(path.normalize(__dirname + '/../../templates/project'), '');
-            table.writeRow(['create '.bold.green, directory.replace(appPath + '/', '')]);
+            global.table.writeRow(['create '.bold.green, directory.replace(appPath + '/', '')]);
             fs.mkdirSync(directory);
         });
 
@@ -60,23 +45,31 @@ exports.run = function(opts)
             }
 
             var fileDest = appPath + file.replace(path.normalize(__dirname + '/../../templates/project'), '');
-            table.writeRow(['create '.bold.green, fileDest.replace(appPath + '/', '')]);
+            global.table.writeRow(['create '.bold.green, fileDest.replace(appPath + '/', '')]);
             fs.createReadStream(file).pipe(fs.createWriteStream(fileDest));
         });
 
-        table.writeRow(['run '.bold.green, 'npm install']);
+        global.table.writeRow(['run '.bold.green, 'npm install']);
         childProcess.exec('npm install', {cwd: appPath}, function(err, stdout, stderr) {
 
             if (err) {
-                table.writeRow(['error '.bold.red, err]);
+                global.table.writeRow(['error '.bold.red, err]);
             }
         });
 
-        table.writeRow(['run '.bold.green, 'bower install']);
-        childProcess.exec('bower install', {cwd: appPath}, function(err, stdout, stderr) {
+        global.table.writeRow(['run '.bold.green, 'bower install']);
+        childProcess.exec('bower install --allow-root', {cwd: appPath}, function(err, stdout, stderr) {
 
             if (err) {
-                table.writeRow(['error '.bold.red, err]);
+                global.table.writeRow(['error '.bold.red, err]);
+            }
+        });
+
+        global.table.writeRow(['run '.bold.green, 'greppy --assets install']);
+        childProcess.exec('greppy --assets install', {cwd: appPath}, function(err, stdout, stderr) {
+
+            if (err) {
+                global.table.writeRow(['error '.bold.red, err]);
             }
         });
     }
@@ -89,7 +82,7 @@ exports.run = function(opts)
             return;
         }
 
-        childProcess.exec('bower', function(err, stdout, stderr) {
+        childProcess.exec('bower --allow-root', function(err, stdout, stderr) {
 
             if (err && 0 !== err.code) {
                 console.log('bower is not installed or doesn\'t work properly.'.red.bold);

@@ -20,7 +20,7 @@ var ACMEContext = function()
     this.description = 'Website of ACME';
 
     // Worker context backends configuration.
-    this.backends = {};
+    this.backends = null;
 
     // Worker context modules configuration.
     this.modules = ['acme'];
@@ -51,6 +51,7 @@ ACMEContext.prototype.configure = function(app, server, callback)
     // Common Middleware
     app.use(express.compress());
     app.use(express.static(process.cwd() + '/public'));
+    app.use(express.bodyParser());
 
     // Start listening for connections
     server.listen(3000);

@@ -7,11 +7,27 @@
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
-var fs           = require('fs');
-var path         = require('path');
-var colors       = require('colors')
-var childProcess = require('child_process');
-var Table        = require('tab');
+fs             = require('fs');
+path           = require('path');
+async          = require('async');
+colors         = require('colors')
+childProcess   = require('child_process');
+daemon         = require('daemon');
+Table          = require('tab');
+commandHelper  = require('./helper/command');
+projectHelper  = new (require('../lib/helper/project'))();
+processHelper  = new (require('../lib/helper/process'))();
+pathHelper     = new (require('../lib/helper/path'))();
+argumentHelper = new (require('../lib/helper/argument'))();
+
+// Create a default table
+table = new Table.TableOutputStream({
+    omitHeader: true,
+    columns: [
+        {align: 'right', width: 32},
+        {align: 'left'}
+    ]
+});
 
 var getopt = require('node-getopt').create([
     ['n', 'new=APP_PATH', 'Create the application directory structure'],
@@ -44,7 +60,7 @@ var opts = getopt.parseSystem();
  * db namespace command
  */
 if (opts.options.hasOwnProperty('db')) {
-    require('./commands/db').run(opts);
+    require('./command/db').run(opts);
     return;
 }
 
@@ -52,7 +68,7 @@ if (opts.options.hasOwnProperty('db')) {
  * assets namespace command
  */
 if (opts.options.hasOwnProperty('assets')) {
-    require('./commands/assets').run(opts);
+    require('./command/assets').run(opts);
     return;
 }
 
@@ -66,7 +82,7 @@ if (0 == Object.keys(opts.options).length || opts.options.hasOwnProperty('help')
  * version command
  */
 if (opts.options.hasOwnProperty('version')) {
-    require('./commands/version').run(opts);
+    require('./command/version').run(opts);
     return;
 }
 
@@ -74,29 +90,29 @@ if (opts.options.hasOwnProperty('version')) {
  * new command
  */
 if (opts.options.hasOwnProperty('new')) {
-    require('./commands/new').run(opts);
+    require('./command/new').run(opts);
 }
 
 /**
  * start command
  */
 if (opts.options.hasOwnProperty('start')) {
-    require('./commands/start').run(opts.argv, (opts.options.hasOwnProperty('debug')) ? true : false);
+    require('./command/start').run(opts.argv, (opts.options.hasOwnProperty('debug')) ? true : false);
 }
 
 /**
  * stop command
  */
 if (opts.options.hasOwnProperty('stop')) {
-    require('./commands/stop').run(opts.argv);
+    require('./command/stop').run(opts.argv);
 }
 
 /**
  * restart command
  */
 if (opts.options.hasOwnProperty('restart')) {
-    require('./commands/stop').run(opts.argv, function() {
-        require('./commands/start').run(opts.argv);
+    require('./command/stop').run(opts.argv, function() {
+        require('./command/start').run(opts.argv);
     });
 }
 
@@ -104,13 +120,13 @@ if (opts.options.hasOwnProperty('restart')) {
  * status command
  */
 if (opts.options.hasOwnProperty('status')) {
-    require('./commands/status').run();
+    require('./command/status').run();
 }
 
 /**
  * list command
  */
 if (opts.options.hasOwnProperty('list')) {
-    require('./commands/list').run();
+    require('./command/list').run();
 }
 

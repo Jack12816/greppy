@@ -1,0 +1,24 @@
+# Greppy generated screen config
+# Do not edit.
+
+# Custom screen config
+startup_message off
+msgminwait 0
+defscrollback 50000
+
+# Initial tabs
+{{tabs}}
+sessionname {{projectName}}
+
+# Custom keybindings
+bindkey -k kl prev
+bindkey -k kr next
+bindkey -k k9 quit
+bindkey -k ku copy
+
+# Focus on the first window
+select 1
+
+# Tabbar
+hardstatus alwayslastline
+hardstatus string '%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<'

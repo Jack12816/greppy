@@ -1,15 +1,15 @@
 {
-  "name": "acme",
-  "version": "0.1.0",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {
-     "bootstrap": "3.0.0-rc.2",
-     "font-awesome": "3.2.1"
-  }
+    "name": "acme",
+    "version": "0.1.0",
+    "dependencies": {
+        "bootstrap": "3.0.0",
+        "font-awesome": "3.2.1"
+    },
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
 }

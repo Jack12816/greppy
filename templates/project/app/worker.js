@@ -31,7 +31,7 @@ var server = http.createServer(app);
 var postSetup = function()
 {
     // Print simple notification
-    logger.info('Greppy demo project started.');
+    logger.info('ACME application started.');
 };
 
 // Setup the application worker
