@@ -302,5 +302,22 @@ helper.checkForStoppedContextState = function(state)
     return false;
 }
 
+/**
+ * Formatting a given dialog based result array.
+ *
+ * @param {Array} results - Dialog generated results
+ * @return {Object}
+ */
+helper.dialogResultsFormat = function(results)
+{
+    var res = {};
+
+    results.forEach(function(result) {
+        res[result.id] = result.result;
+    });
+
+    return res;
+}
+
 module.exports = helper;
 

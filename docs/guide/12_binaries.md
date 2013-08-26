@@ -4,6 +4,10 @@ The framework delivers a binary called ``greppy`` which is an equivalent to the
 Ruby on Rails binary ``rails``. With the help of this command you can initalize
 new projects, start or stop them and even list contexts or their statuses.
 
+**By the way:** With version 0.3.0 you can use the ``greppy`` binary in all
+paths of a Greppy project. It will automatically search for the project root
+recusivly. This will bring you even more comfort.
+
 ## Common tasks
 
 ### version
@@ -119,6 +123,7 @@ Fill all|the given connection(s) with it's fixture data.
 **Synopsis:** greppy --db fill [adapter.connection ...]
 
 Run these operation for all|the given connection(s):
+
 * create
 * migrate
 * fill
@@ -128,8 +133,28 @@ Run these operation for all|the given connection(s):
 **Synopsis:** greppy --db fill [adapter.connection ...]
 
 Run these operation for all|the given connection(s):
+
 * drop
 * create
 * migrate
 * fill
+
+## Asset management
+
+### assets
+
+**Synopsis:** greppy --assets
+
+The ``greppy`` binary supports asset management by the ``--assets`` switch.
+If you specify no operation or any other flag this command will show a help
+for all available operations.
+
+#### install
+
+**Synopsis:** greppy --assets install [module ...]
+
+With the help of the ``install`` operation you can install all assets for
+all|the given module into /public. This will link up the ``resources/public``
+directory of a module to ``public/modules/NAME_OF_MODULE``, so they are
+accessable from the outsite.
 

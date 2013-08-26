@@ -11,6 +11,7 @@ Just run these commands to setup all dependencies:
 
     npm install
     bower install
+    greppy --assets install
 
 ## Usage
 

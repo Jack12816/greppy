@@ -38,6 +38,7 @@ var getopt = require('node-getopt').create([
     ['l', 'list', 'List all application worker contexts'],
     ['d', 'debug', 'Debug flag'],
     ['', 'db', 'Database operations namespace'],
+    ['', 'generate', 'Scaffolding operations namespace'],
     ['', 'assets', 'Assets operations namespace'],
 
     ['h', 'help', 'Display this help'],
@@ -61,6 +62,14 @@ var opts = getopt.parseSystem();
  */
 if (opts.options.hasOwnProperty('db')) {
     require('./command/db').run(opts);
+    return;
+}
+
+/**
+ * generate namespace command
+ */
+if (opts.options.hasOwnProperty('generate')) {
+    require('./command/generate').run(opts);
     return;
 }
 
