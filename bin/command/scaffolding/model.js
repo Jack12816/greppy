@@ -5,6 +5,8 @@
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
+var mustache = require('mustache');
+
 exports.run = function(options, printHints, callback)
 {
     // Print the general header
@@ -65,12 +67,20 @@ exports.run = function(options, printHints, callback)
                 prompt   : 'Type',
                 default  : 'string',
                 values   : ['string', 'text', 'integer', 'float', 'date', 'boolean']
+            }),
+            question({
+                id       : 'nullable',
+                question : 'Is this property nullable?',
+                prompt   : 'Nullable',
+                default  : 'n',
+                values   : ['y', 'n']
             })
         ])
 
     ];
 
-    var result = {};
+    var result     = {};
+    var propsCache = [];
 
     // Run the dialog
     async.mapSeries(dialog, function(question, callback) {
@@ -100,6 +110,50 @@ exports.run = function(options, printHints, callback)
             };
         }
 
+        if ('properties' === question.id) {
+
+            question.preAsk = function(question, callback)
+            {
+                if (0 === propsCache.length) {
+                    question.options.hint += ' and dont use one of the following names:';
+                }
+
+                if (0 !== propsCache.length && 'name' === question.id) {
+
+                    var last = propsCache.pop();
+                    question.options.hint += '\n     * '.red + last;
+                    propsCache.push(last);
+
+                    question.options.validator = function(input)
+                    {
+                        if (-1 === propsCache.indexOf(input)) {
+                            if (null !== input.match(/^[a-z_][a-z0-9_]*$/gi)) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    };
+                }
+
+                callback && callback();
+            }
+
+            question.postAsk = function(results, callback)
+            {
+                results.forEach(function(item) {
+
+                    if ('name' !== item.id) {
+                        return;
+                    }
+
+                    propsCache.push(item.value.result);
+                });
+
+                callback && callback();
+            }
+        }
+
         question.ask(function(err, data) {
 
             result[data.id] = data.result;
@@ -109,9 +163,88 @@ exports.run = function(options, printHints, callback)
 
     }, function(err, results) {
 
+        if (4 >= Object.keys(results).length) {
+
+            console.log('[Error] '.red + 'Not all required questions were answered.');
+            console.log('        Skip further generation.')
+            return;
+        }
+
         // Reformat the resultset
         results = commandHelper.dialogResultsFormat(results);
         results.namePlural = (require('inflection')).pluralize(results.name);
+
+        // Result cleanup
+        if ('y' == results.softdelete) {
+            results.softdelete = true;
+        } else {
+            results.softdelete = false;
+        }
+
+        if (results.properties) {
+
+            results.properties.forEach(function(item, idx) {
+
+                if ('y' == item.nullable) {
+                    results.properties[idx].nullable = 'true';
+                } else {
+                    results.properties[idx].nullable = 'false';
+                }
+
+                if ('string' == item.type || 'text' == item.type) {
+                    results.properties[idx].fixture = "'test'";
+                }
+
+                if ('integer' == item.type) {
+                    results.properties[idx].fixture = 1337;
+                }
+
+                if ('float' == item.type) {
+                    results.properties[idx].fixture = 13.37;
+                }
+
+                if ('date' == item.type) {
+                    results.properties[idx].fixture = "new Date()";
+                }
+
+                if ('boolean' == item.type) {
+                    results.properties[idx].fixture = 'true';
+                }
+
+                results.properties[idx].type = item.type.toUpperCase();
+            });
+
+        } else {
+            results.properties = false;
+        }
+
+        // Load templates
+        var modelTemplate = fs.readFileSync(
+            __dirname + '/../../../templates/scaffolds/db/model.js.mustache', 'utf8'
+        );
+
+        var migrationTemplate = fs.readFileSync(
+            __dirname + '/../../../templates/scaffolds/db/migration.js.mustache', 'utf8'
+        );
+
+        var fixtureTemplate = fs.readFileSync(
+            __dirname + '/../../../templates/scaffolds/db/fixture.js.mustache', 'utf8'
+        );
+
+        fs.writeFileSync(
+            '/tmp/' + results.name + '-model.js',
+            mustache.render(modelTemplate, results)
+        );
+
+        fs.writeFileSync(
+            '/tmp/' + results.name + '-migration.js',
+            mustache.render(migrationTemplate, results)
+        );
+
+        fs.writeFileSync(
+            '/tmp/' + results.name + '-fixture.js',
+            mustache.render(fixtureTemplate, results)
+        );
 
         console.log(
             JSON.stringify(results, null, '    ')

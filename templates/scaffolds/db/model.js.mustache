@@ -1,0 +1,51 @@
+/**
+ * {{{name}}} Model
+ */
+module.exports = function(sequelize, DataTypes)
+{
+    var model = sequelize.define(
+
+        // Define name of the model
+        '{{{name}}}',
+
+        // Define all properties for the model
+        {
+            id: {
+                type          : DataTypes.INTEGER,
+                primaryKey    : true,
+                autoIncrement : true
+            },
+            {{#properties}}
+
+            {{{name}}}: {
+                type     : DataTypes.{{{type}}},
+                validate : {
+                    notEmpty: {{{nullable}}}
+                }
+            },
+            {{/properties}}
+            {{#softdelete}}
+
+            deleted_at: {
+                type: DataTypes.DATE
+            }
+            {{/softdelete}}
+        },
+
+        // Specific Options for the model
+        {
+            underscored : true,
+            charset     : 'utf8',
+            collate     : 'utf8_general_ci',
+            timestamps  : true
+        }
+    );
+
+    model.info = {
+        singular : '{{{name}}}',
+        plural   : '{{{namePlural}}}'
+    };
+
+    return model;
+}
+
