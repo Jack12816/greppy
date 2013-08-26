@@ -5,8 +5,6 @@
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
-var mustache = require('mustache');
-
 exports.run = function(options, printHints, callback)
 {
     // Print the general header
@@ -43,7 +41,7 @@ exports.run = function(options, printHints, callback)
 
         question({
             id        : 'softdelete',
-            question  : 'Should we mark entries as deleted or delete them really?',
+            question  : 'Enable soft-deletion (entity will be marked instead of deletion)?',
             prompt    : 'Module',
             values    : ['y', 'n'],
             default   : 'y'
@@ -218,37 +216,38 @@ exports.run = function(options, printHints, callback)
             results.properties = false;
         }
 
-        // Load templates
-        var modelTemplate = fs.readFileSync(
-            __dirname + '/../../../templates/scaffolds/db/model.js.mustache', 'utf8'
-        );
+        var backend = results.connection.split('.')[0];
 
-        var migrationTemplate = fs.readFileSync(
-            __dirname + '/../../../templates/scaffolds/db/migration.js.mustache', 'utf8'
-        );
+        commandHelper.generateScaffoldsByConfig([
+            {
+                name     : results.name + '.js',
 
-        var fixtureTemplate = fs.readFileSync(
-            __dirname + '/../../../templates/scaffolds/db/fixture.js.mustache', 'utf8'
-        );
+                template : __dirname + '/../../../templates/scaffolds/db/'
+                            + backend + '/model.js.mustache',
 
-        fs.writeFileSync(
-            '/tmp/' + results.name + '-model.js',
-            mustache.render(modelTemplate, results)
-        );
+                path     : process.cwd() + '/modules/' + results.module
+                            + '/models/' + results.connection + '/'
+            },
+            {
+                name     : (require('moment'))().format('YYYYMMDDHHmmss')
+                            + '-add_' + results.name.toLowerCase() + '_table.js',
 
-        fs.writeFileSync(
-            '/tmp/' + results.name + '-migration.js',
-            mustache.render(migrationTemplate, results)
-        );
+                template : __dirname + '/../../../templates/scaffolds/db/'
+                            + backend + '/migration.js.mustache',
 
-        fs.writeFileSync(
-            '/tmp/' + results.name + '-fixture.js',
-            mustache.render(fixtureTemplate, results)
-        );
+                path     : process.cwd() + '/database/migrations/'
+                            + results.connection + '/'
+            },
+            {
+                name     : '00-' + results.name.toLowerCase() + '.js',
 
-        console.log(
-            JSON.stringify(results, null, '    ')
-        );
+                template : __dirname + '/../../../templates/scaffolds/db/'
+                            + backend + '/fixture.js.mustache',
+
+                path     : process.cwd() + '/database/fixtures/'
+                            + results.connection + '/'
+            }
+        ], results);
     });
 }
 

@@ -319,5 +319,38 @@ helper.dialogResultsFormat = function(results)
     return res;
 }
 
+/**
+ * Generate files by configuration.
+ *
+ * @param {Object} fileConfigs - Configuration for all file generations
+ * @param {Object} results - Results to use with mustache
+ * @return void
+ */
+helper.generateScaffoldsByConfig = function(fileConfigs, results)
+{
+    consoleApp.clear();
+    console.log();
+
+    // Generate the files
+    fileConfigs.forEach(function(config) {
+
+        // Try to build the path, on error it just exists
+        try {
+            (require('node-fs')).mkdirSync(config.path, '0744', true);
+        } catch (e) {
+        }
+
+        fs.writeFileSync(
+            config.path + config.name,
+            (require('mustache')).render(fs.readFileSync(config.template, 'utf8'), results)
+        );
+
+        global.table.writeRow([
+            'generate'.bold.green,
+            new String(config.path + config.name).replace(process.cwd() + '/', '').white
+        ]);
+    });
+}
+
 module.exports = helper;
 
