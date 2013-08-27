@@ -1,0 +1,56 @@
+/**
+ * {{{name}}} Worker Context
+ *
+ * @module {{{projectName}}}/app/worker/context/{{{nameLower}}}
+ * @author {{{creator}}}{{{creatorMail}}}
+ */
+
+var util    = require('util');
+var express = require('express');
+
+/**
+ * @constructor
+ */
+var {{{name}}}Context = function()
+{
+    // Call the super constructor
+    {{{name}}}Context.super_.call(this, __filename);
+
+    // Worker context description.
+    this.description = ''
+
+    // Worker context backends configuration.
+    this.backends = {{{backends}}}
+
+    // Worker context modules configuration.
+    this.modules = ['{{{modules}}}']
+}
+
+/**
+ * Extend the Greppy framework worker context
+ */
+util.inherits({{{name}}}Context, greppy.get('app.worker.context'));
+
+/**
+ * Worker context configure method.
+ */
+{{{name}}}Context.prototype.configure = function(app, server, callback)
+{
+    // Templating Engine
+    app.set('views', process.cwd() + '/modules/{{{nameLower}}}/resources/views');
+    app.set('view engine', 'jade');
+    app.locals.pretty = {{{pretty}}};
+
+    // Common Middleware
+    app.use(express.compress());
+    app.use(express.static(process.cwd() + '/public'));
+
+    // Start listening for connections
+    server.listen({{{port}}});
+
+    callback && callback();
+};
+
+module.exports = {{{name}}}Context;
+
+
