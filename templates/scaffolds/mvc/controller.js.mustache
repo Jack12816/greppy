@@ -1,0 +1,335 @@
+/**
+ * {{{headline}}} Controller
+ *
+ * @module {{{module}}}/controller/{{{namePlural}}}
+ * @author Hermann Mayer <hermann.mayer92@gmail.com>
+ */
+
+/**
+ * @constructor
+ */
+var {{{headlinePlural}}}Controller = function()
+{
+};
+
+/**
+ * Extend Greppy framework base controller
+ */
+util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'));
+
+/**
+ * Deliver the {{{namePlural}}} overview page.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.prototype.actions.index =
+{
+    methods : ['GET'],
+    action  : function(req, res) {
+
+        var connection     = '{{{connection}}}';
+        var entity         = '{{{model}}}';
+        var criteriaHelper = greppy.helper.get('controller.data-grid');
+
+        var criteria = criteriaHelper.buildCriteria(req, res, {
+            limit        : 10,
+            properties   : ['fullname', 'email', 'created_at'],
+            fuzzySearch  : true,
+            softDeletion : true
+        });
+
+        if (!criteria) {
+            return;
+        }
+
+        var count = function(callback) {
+
+            criteriaHelper.buildPagination(criteria, {
+                connection : connection,
+                entity     : entity
+            }, function(err, pagination) {
+
+                if (err) {
+                    console.log(err);
+                    return res.end();
+                }
+
+                callback && callback(pagination);
+            });
+        };
+
+        var fetch = function(callback) {
+
+            greppy.db.get(connection).getORM(function(orm, models) {
+
+                models[entity].findAll(criteria).success(function(records) {
+
+                    callback && callback(undefined, records);
+
+                }).error(function(err) {
+                    console.log(err);
+                });
+            });
+        };
+
+        var render = function(pagination, records) {
+
+            // Render the view
+            res.render('{{{namePlural}}}/' + criteria.view, {
+                {{{namePlural}}}: records,
+                pagination: pagination
+            });
+        };
+
+        if ('_index_rows' === criteria.view) {
+            return fetch(render);
+        }
+
+        if ('_pagination' === criteria.view) {
+            return count(render);
+        }
+
+        fetch(function(err, records) {
+            count(function(pagination) {
+                render(pagination, records);
+            });
+        });
+    }
+};
+
+/**
+ * Deliver the {{{name}}} details page.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.prototype.actions.show =
+{
+    path    : '/:id',
+    methods : ['GET'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            models.{{{model}}}.find(req.params.id).success(function(record) {
+
+                // Render the view
+                res.render('{{{namePlural}}}/show', {
+                    {{{name}}}: record
+                });
+
+            }).error(function(err) {
+                console.log();
+            });
+        });
+    }
+};
+
+/**
+ * Deliver the new {{{name}}} page.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.prototype.actions.new =
+{
+    methods : ['GET'],
+    action  : function(req, res) {
+
+        // Render the view
+        res.render('{{{namePlural}}}/new', {
+            response: {
+                action : 'create',
+                path   : '/{{{namePlural}}}'
+            }
+        });
+    }
+};
+
+/**
+ * Deliver the edit {{{name}}} page.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.prototype.actions.edit =
+{
+    path    : '/:id/edit',
+    methods : ['GET'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            models.{{{model}}}.find(req.params.id).success(function(record) {
+
+                // Render the view
+                res.render('{{{namePlural}}}/edit', {
+                    response: {
+                        action : 'update',
+                        path   : '/{{{namePlural}}}/' + req.params.id
+                    },
+                    {{{name}}}: record
+                });
+
+            }).error(function(err) {
+                Helper.get('controller.error').logAndForwardToErrorPage(req, res, err);
+            });
+        });
+    }
+};
+
+/**
+ * Backend action to persist a new {{{name}}}.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.prototype.actions.create =
+{
+    path    : '/',
+    methods : ['POST'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            var record = models.{{{model}}}.build({
+                // Form details
+            });
+
+            var validErr = record.validate();
+
+            if (validErr) {
+
+                console.log(validErr);
+                return res.redirect('/{{{namePlural}}}/new');
+
+            } else {
+
+                record.save().success(function(record) {
+                    res.redirect('/{{{namePlural}}}/' + record.id);
+                }).error(function(err) {
+                    console.log(err);
+                });
+            }
+        });
+    }
+};
+
+/**
+ * Backend action to persist the changed {{{name}}} details.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.prototype.actions.update =
+{
+    path    : '/:id',
+    methods : ['POST'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            models.{{{model}}}.find(req.params.id).success(function(record) {
+
+                if (!record) {
+                    return res.redirect('/{{{namePlural}}}');
+                }
+
+                // Form details
+
+                var validErr = record.validate();
+
+                if (validErr) {
+
+                    console.log(validErr);
+                    return res.redirect('/{{{namePlural}}}/' + record.id + '/edit');
+
+                } else {
+
+                    record.save().success(function(record) {
+                        res.redirect('/{{{namePlural}}}/' + record.id);
+                    }).error(function(err) {
+                        console.log(err);
+                    });
+                }
+
+            }).error(function(err) {
+                console.log(err);
+            });
+        });
+    }
+};
+
+/**
+ * Backend action to delete a {{{name}}}.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.prototype.actions.destroy =
+{
+    path    : '/:id',
+    methods : ['DELETE'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            models.{{{model}}}.find(req.params.id).success(function(record) {
+
+                if (!record) {
+                    return res.end();
+                }
+
+                record.deleted_at = new Date();
+
+                record.save().success(function(record) {
+                    res.end();
+                }).error(function(err) {
+                    console.log(err);
+                });
+
+            }).error(function(err) {
+                console.log(err);
+            });
+        });
+    }
+};
+
+/**
+ * Backend action to restore a {{{name}}}.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.prototype.actions.restore =
+{
+    path    : '/:id/restore',
+    methods : ['POST'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            models.{{{model}}}.find(req.params.id).success(function(record) {
+
+                if (!record) {
+                    return res.end();
+                }
+
+                record.deleted_at = undefined;
+
+                record.save().success(function(record) {
+                    res.end();
+                }).error(function(err) {
+                    console.log(err);
+                });
+
+            }).error(function(err) {
+                console.log(err);
+            });
+        });
+    }
+};
+
+module.exports = {{{headlinePlural}}}Controller;
+

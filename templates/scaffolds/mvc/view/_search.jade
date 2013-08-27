@@ -1,0 +1,20 @@
+.col-lg-5.pull-right
+  .row
+    .col-lg-4.small-gutter.text-right
+      include _operations
+
+      .btn-group#search-trash(data-toggle="buttons")
+        label.btn.btn-danger
+          i.icon-trash
+          input(type="checkbox", title="Search in the bin")
+
+    .col-lg-8.small-gutter.text-right
+
+      .input-group
+        input.form-control#search-input(type='text', placeholder="Search fuzzy..", data-property="fuzzy")
+        .input-group-btn
+          button.btn.btn-info#search-btn(tabindex='-1', type='button', title="Search for the input")
+            i.icon-search
+          button.btn.btn-info#search-clear(tabindex='-1', type='button', title="Reset filters")
+            i.icon-remove-sign
+

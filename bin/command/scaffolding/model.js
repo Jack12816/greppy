@@ -25,18 +25,18 @@ exports.run = function(options, printHints, callback)
         }),
 
         question({
-            id        : 'name',
-            question  : 'Enter the model name.',
-            prompt    : 'Name',
-            hint      : 'Singular, PascalCase, Normal variable name declaration'
-        }),
-
-        question({
             id        : 'module',
             question  : 'Choose the Module for which we generate the model.',
             prompt    : 'Module',
             values    : modules.modules,
             default   : modules.modules[0]
+        }),
+
+        question({
+            id        : 'name',
+            question  : 'Enter the model name.',
+            prompt    : 'Name',
+            hint      : 'Singular, PascalCase, Normal variable name declaration'
         }),
 
         question({
@@ -86,26 +86,36 @@ exports.run = function(options, printHints, callback)
         if ('name' === question.id) {
 
             // Search all models for the choosen connection
-            var models = projectHelper.listModels(process.cwd());
-            var matched = [];
+            var modulesModels = projectHelper.listModelsForAllModules(process.cwd());
+            var matched       = [];
 
-            if (models.hasOwnProperty(result.connection)) {
-                matched = models[result.connection];
-            }
+            Object.keys(modulesModels).forEach(function(module) {
 
-            question.options.hint += ' and dont use one of the following names:\n';
-            question.options.hint += '     * '.red + matched.join('\n     * '.red)
-
-            question.options.validator = function(input)
-            {
-                if (-1 === matched.indexOf(input)) {
-                    if (null !== input.match(/^[a-z_][a-z0-9_]*$/gi)) {
-                        return true;
-                    }
+                if (module !== result.module) {
+                    return;
                 }
 
-                return false;
-            };
+                if (modulesModels[result.module].hasOwnProperty(result.connection)) {
+                    matched = matched.concat(modulesModels[result.module][result.connection]);
+                }
+            });
+
+            if (0 !== matched.length) {
+
+                question.options.hint += ' and dont use one of the following names:\n';
+                question.options.hint += '     * '.red + matched.join('\n     * '.red)
+
+                question.options.validator = function(input)
+                {
+                    if (-1 === matched.indexOf(input)) {
+                        if (null !== input.match(/^[a-z_][a-z0-9_]*$/gi)) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                };
+            }
         }
 
         if ('properties' === question.id) {

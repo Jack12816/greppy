@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+
+  h2.page-headline {{{headlinePlural}}}
+    include _search
+
+  - if ('undefined' !== typeof {{{namePlural}}} && {{{namePlural}}}.length > 0)
+
+    table.table.table-bordered.table-striped.datagrid.small-bottom-margin
+      thead
+        tr
+          th Status
+          th(data-property="fullname") Name
+          th.no-wrap(data-property="created_at") Created at
+          th Operations
+      tbody
+        include _index_rows
+
+    include _pagination
+
+  - else
+
+    p No {{{namePlural}}} present.
+
+  include _scripts
+

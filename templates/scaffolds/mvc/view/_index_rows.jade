@@ -1,0 +1,10 @@
+- each {{{name}}} in {{{namePlural}}}
+  tr(class="#{{{{name}}}.deleted_at ? 'danger' : ''}")
+    td.min.text-center
+      i(title="User is #{{{{name}}}.deleted_at ? '' : 'not'} deleted",
+        data-toggle="tooltip", class="#{{{{name}}}.deleted_at ? 'icon-remove' : 'icon-ok'}")
+    td #{{{{name}}}.name}
+    td.min #{helper.date.format({{{name}}}.created_at, 'L')}
+    td.min.no-wrap
+      include _operations
+

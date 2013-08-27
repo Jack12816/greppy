@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+
+  - if (null !== {{{name}}})
+
+    h2.page-headline {{{model}}} details
+      .pull-right
+        include _operations
+
+    table.table.table-bordered.table-striped
+      tbody
+        tr
+          th Name
+          td #{{{{name}}}.name}
+        tr
+          th Created at
+          td #{helper.date.format({{{name}}}.created_at, 'LLLL')}
+        tr(class="#{{{{name}}}.deleted_at ? 'danger' : 'success'}")
+          th Deleted
+          td #{{{{name}}}.deleted_at ? 'Yes' : 'No'}
+
+  - else
+
+    - var entity = '{{{model}}}'
+    include ../error/notfound
+
+  include _scripts
+

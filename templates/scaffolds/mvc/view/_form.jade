@@ -1,0 +1,22 @@
+form.form-horizontal(role="form", method="POST", action="#{response.path}")
+
+  .form-group
+    label.col-lg-2.control-label Name
+    .col-lg-10
+      input.form-control(
+        type="text",
+        name="{{{name}}}_name"
+        placeholder="Name of the {{{name}}}",
+        required="required",
+        value="#{(typeof {{{name}}} !== 'undefined') ? {{{name}}}.name : ''}")
+      span.help-block.
+        Some help tests for the {{{name}}}
+
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      button.btn.btn-primary
+        i.icon-ok
+        &nbsp;
+        | #{response.action === 'create' ? 'Create' : 'Save'}
+
+
