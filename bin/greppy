@@ -20,6 +20,11 @@ processHelper  = new (require('../lib/helper/process'))();
 pathHelper     = new (require('../lib/helper/path'))();
 argumentHelper = new (require('../lib/helper/argument'))();
 
+// Load greppy datatype extensions
+require('./../lib/extension/datatype/array');
+require('./../lib/extension/datatype/number');
+require('./../lib/extension/datatype/string');
+
 // Create a default table
 table = new Table.TableOutputStream({
     omitHeader: true,
