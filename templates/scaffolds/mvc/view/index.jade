@@ -27,5 +27,17 @@ block content
 
     p No {{{namePlural}}} present.
 
-  include _scripts
+  script.
+
+    /**
+     * Build DataGrid instances for the whole index page
+     */
+    var datagrid = new greppy.DataGrid($('table.datagrid'), {
+      {{#softDeletion}}
+      softDeletion: true
+      {{/softDeletion}}
+      {{^softDeletion}}
+      softDeletion: false
+      {{/softDeletion}}
+    });
 

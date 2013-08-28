@@ -8,7 +8,7 @@
     ul.pagination.small-bottom-margin
       - if (1 == page)
         li.disabled
-          a
+          a(data-page="1")
             i.icon-double-angle-left
       - else
         li
@@ -24,7 +24,7 @@
               a(data-page="#{i}").pointer #{i}
       - if (pagesCount == page)
         li.disabled
-          a
+          a(data-page="#{page}")
             i.icon-double-angle-right
       - else
         li

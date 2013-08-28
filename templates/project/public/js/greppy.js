@@ -178,7 +178,7 @@ greppy.DataGrid.prototype.loadAndRebuild = function(params)
  */
 greppy.DataGrid.prototype.reset = function()
 {
-    this.loadAndRebuild([]);
+    this.loadAndRebuild(this.paginate.getParameters());
     this.paginate.load(1);
 }
 
@@ -390,9 +390,7 @@ greppy.Paginator = function(datagrid, datagridElement)
 
     // Page limit changed
     $(document).on('change', '#pagination-limit', function() {
-        self.page = $(this).attr('data-page');
         self.datagrid.load();
-        self.load();
     });
 
     // Keyboard usage events

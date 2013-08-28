@@ -28,6 +28,7 @@
 
     &nbsp;
 
+    {{#softDeletion}}
     - if (!{{{name}}}.deleted_at)
 
       a.btn.btn-danger.delete(title="Delete", data-id="#{ {{{name}}}.id }")
@@ -37,4 +38,61 @@
 
       a.btn.btn-success.restore(title="Restore", data-id="#{ {{{name}}}.id }")
         i.icon-refresh
+    {{/softDeletion}}
+    {{^softDeletion}}
+    a.btn.btn-danger.delete(title="Delete", data-id="#{ {{{name}}}.id }")
+      i.icon-trash
+    {{/softDeletion}}
+
+script.
+
+  /**
+   * Delete popup bindings
+   */
+  $(document).on('click', '.datagrid .delete', function() {
+
+    var id = $(this).attr('data-id');
+    greppy.app.dialog(
+      'Do you really want to delete this {{{name}}}?',
+      {
+        ok: function(callback) {
+
+          $.ajax({
+              type: "DELETE",
+              url: "/{{{namePlural}}}/" + id
+          }).done(function(data) {
+              window.location.reload();
+          });
+
+          callback && callback();
+        }
+      }
+    );
+  });
+  {{#softDeletion}}
+
+  /**
+   * Restore popup bindings
+   */
+  $(document).on('click', '.datagrid .restore', function() {
+
+    var id = $(this).attr('data-id');
+    greppy.app.dialog(
+      'Do you really want to restore this {{{name}}}?',
+      {
+        ok: function(callback) {
+
+          $.ajax({
+              type: "POST",
+              url: "/{{{namePlural}}}/" + id + '/restore'
+          }).done(function(data) {
+              window.location.reload();
+          });
+
+          callback && callback();
+        }
+      }
+    );
+  });
+  {{/softDeletion}}
 
