@@ -352,5 +352,50 @@ helper.generateScaffoldsByConfig = function(fileConfigs, results)
     });
 }
 
+/**
+ * Get the identity of the current user.
+ *
+ * @param {Function} callback - Function to call on finish
+ * @return void
+ */
+helper.getCurrentUser = function(callback)
+{
+    var gitHelper  = new (require('../../lib/helper/vcs/git'))();
+    var getUserStr = undefined;
+
+    if (gitHelper.isRepository(process.cwd())) {
+
+        getUserStr = function(callback) {
+
+            gitHelper.getGlobalUser(function(err, identity) {
+
+                var str = undefined;
+
+                if (identity.name) {
+                    str = identity.name;
+                }
+
+                if (identity.email) {
+                    if (!str) {
+                        str = identity.email;
+                    } else {
+                        str += ' <' + identity.email + '>';
+                    }
+                }
+
+                callback && callback(undefined, str);
+            });
+        };
+
+    } else {
+
+        getUserStr = function(callback) {
+            callback && callback(undefined, process.env.USER);
+        }
+    }
+
+    getUserStr(callback);
+}
+
 module.exports = helper;
 

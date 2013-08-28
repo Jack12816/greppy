@@ -87,49 +87,54 @@ exports.run = function(options, printHints, callback)
 
         var inf = require('inflection');
 
-        // Reformat the resultset
-        results            = commandHelper.dialogResultsFormat(results);
-        results.namePlural = inf.pluralize(results.name);
+        commandHelper.getCurrentUser(function(err, user) {
 
-        results.headline       = results.name.capitalize();
-        results.headlinePlural = results.namePlural.capitalize();
+            // Reformat the resultset
+            results            = commandHelper.dialogResultsFormat(results);
+            results.namePlural = inf.pluralize(results.name);
 
-        var backend        = results.model.split('.');
-        results.model      = backend[2];
-        results.connection = backend[0] + '.' + backend[1];
+            results.author = user;
 
-        var controllerHelper = require('./helper/controller');
-        var modelPath = modules.path + results.module + '/models/'
-                        + results.connection + '/' + results.model;
+            results.headline       = results.name.capitalize();
+            results.headlinePlural = results.namePlural.capitalize();
 
-        var attributes = controllerHelper.getModelAttributes(backend[0], modelPath);
-        results.attributes = controllerHelper.mapDetails(results, attributes);
+            var backend        = results.model.split('.');
+            results.model      = backend[2];
+            results.connection = backend[0] + '.' + backend[1];
 
-        // Setup files to generate
-        var generationConfig = [
-            {
-                name     : results.namePlural + '.js',
+            var controllerHelper = require('./helper/controller');
+            var modelPath = modules.path + results.module + '/models/'
+                            + results.connection + '/' + results.model;
 
-                template : __dirname + '/../../../templates/scaffolds/mvc/'
-                            + 'controller.js.mustache',
+            var attributes = controllerHelper.getModelAttributes(backend[0], modelPath);
+            results.attributes = controllerHelper.mapDetails(results, attributes);
 
-                path     : process.cwd() + '/modules/' + results.module
-                            + '/controllers/'
-            }
-        ];
+            // Setup files to generate
+            var generationConfig = [
+                {
+                    name     : results.namePlural + '.js',
 
-        var viewsPath = __dirname + '/../../../templates/scaffolds/mvc/view/';
-        fs.readdirSync(viewsPath).forEach(function(file) {
+                    template : __dirname + '/../../../templates/scaffolds/mvc/'
+                                + 'controller.js.mustache',
 
-            generationConfig.push({
-                name: file,
-                template: viewsPath + file,
-                path: process.cwd() + '/modules/' + results.module
-                        + '/resources/views/' + results.namePlural + '/'
+                    path     : process.cwd() + '/modules/' + results.module
+                                + '/controllers/'
+                }
+            ];
+
+            var viewsPath = __dirname + '/../../../templates/scaffolds/mvc/view/';
+            fs.readdirSync(viewsPath).forEach(function(file) {
+
+                generationConfig.push({
+                    name: file,
+                    template: viewsPath + file,
+                    path: process.cwd() + '/modules/' + results.module
+                            + '/resources/views/' + results.namePlural + '/'
+                });
             });
-        });
 
-        commandHelper.generateScaffoldsByConfig(generationConfig, results);
+            commandHelper.generateScaffoldsByConfig(generationConfig, results);
+        });
     });
 }
 

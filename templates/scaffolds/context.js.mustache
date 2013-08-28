@@ -2,7 +2,7 @@
  * {{{name}}} Worker Context
  *
  * @module {{{projectName}}}/app/worker/context/{{{nameLower}}}
- * @author {{{creator}}}{{{creatorMail}}}
+ * @author {{{author}}}
  */
 
 var util    = require('util');
@@ -17,13 +17,13 @@ var {{{name}}}Context = function()
     {{{name}}}Context.super_.call(this, __filename);
 
     // Worker context description.
-    this.description = ''
+    this.description = '{{{description}}}';
 
     // Worker context backends configuration.
-    this.backends = {{{backends}}}
+    this.backends = null;
 
     // Worker context modules configuration.
-    this.modules = ['{{{modules}}}']
+    this.modules = [{{{modules}}}];
 }
 
 /**
@@ -39,7 +39,7 @@ util.inherits({{{name}}}Context, greppy.get('app.worker.context'));
     // Templating Engine
     app.set('views', process.cwd() + '/modules/{{{nameLower}}}/resources/views');
     app.set('view engine', 'jade');
-    app.locals.pretty = {{{pretty}}};
+    app.locals.pretty = true;
 
     // Common Middleware
     app.use(express.compress());
