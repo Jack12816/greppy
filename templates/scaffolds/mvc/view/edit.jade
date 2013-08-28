@@ -2,11 +2,19 @@ extends ../layout
 
 block content
 
-  h2.page-headline Edit {{{name}}} details
-    .pull-right
-      include _operations
+  - if (null !== {{{name}}})
 
-  br
-  include _form
+    h2.page-headline Edit {{{name}}} details
+      .pull-right
+        include _operations
+
+    br
+    include _form
+
+  - else
+
+    - var entity = '{{{model}}}'
+    include ../error/notfound
+
   include _scripts
 

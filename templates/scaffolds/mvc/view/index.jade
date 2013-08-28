@@ -10,8 +10,12 @@ block content
     table.table.table-bordered.table-striped.datagrid.small-bottom-margin
       thead
         tr
+          {{#softDeletion}}
           th Status
-          th(data-property="fullname") Name
+          {{/softDeletion}}
+          {{#attributes}}
+          th(data-property="{{{name}}}") {{{humanized}}}
+          {{/attributes}}
           th.no-wrap(data-property="created_at") Created at
           th Operations
       tbody

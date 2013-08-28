@@ -1,32 +1,38 @@
-- var page  = pagination.page
-- var count = pagination.count
-- var limit = pagination.limit
+- var page       = pagination.page
+- var count      = pagination.count
+- var limit      = pagination.limit
 - var pagesCount = Math.ceil(count / limit)
 
-.pull-right
-  ul.pagination.small-bottom-margin
-    - if (1 == page)
-      li.disabled
-        a
-          i.icon-double-angle-left
-    - else
-      li
-        a(data-page="#{page - 1}").pointer
-          i.icon-double-angle-left
-    - for (var i = (page - 5); i <= (((page + 5) > pagesCount) ? pagesCount : (page + 5)); i++)
-      - if (0 < i)
-        - if (i == page)
-          li.active
-            a #{i}
-        - else
-          li
-            a(data-page="#{i}").pointer #{i}
-    - if (pagesCount == page)
-      li.disabled
-        a
-          i.icon-double-angle-right
-    - else
-      li
-        a(data-page="#{page + 1}").pointer
-          i.icon-double-angle-right
+.paginator
+  .pull-right.medium-left-margin
+    ul.pagination.small-bottom-margin
+      - if (1 == page)
+        li.disabled
+          a
+            i.icon-double-angle-left
+      - else
+        li
+          a(data-page="#{page - 1}").pointer
+            i.icon-double-angle-left
+      - for (var i = (page - 5); i <= (((page + 5) > pagesCount) ? pagesCount : (page + 5)); i++)
+        - if (0 < i)
+          - if (i == page)
+            li.active
+              a #{i}
+          - else
+            li
+              a(data-page="#{i}").pointer #{i}
+      - if (pagesCount == page)
+        li.disabled
+          a
+            i.icon-double-angle-right
+      - else
+        li
+          a(data-page="#{page + 1}").pointer
+            i.icon-double-angle-right
+
+  .pull-right
+    select#pagination-limit.form-control
+      - each size in pagination.pageSizes
+        option(selected=(size == limit)) #{size}
 

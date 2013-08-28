@@ -5,6 +5,11 @@
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
+// Define default helper set
+var error    = greppy.helper.get('controller.error');
+var form     = greppy.helper.get('controller.form');
+var dataGrid = greppy.helper.get('controller.data-grid');
+
 /**
  * @constructor
  */
@@ -28,15 +33,14 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
     methods : ['GET'],
     action  : function(req, res) {
 
-        var connection     = '{{{connection}}}';
-        var entity         = '{{{model}}}';
-        var criteriaHelper = greppy.helper.get('controller.data-grid');
+        var connection = '{{{connection}}}';
+        var entity     = '{{{model}}}';
 
-        var criteria = criteriaHelper.buildCriteria(req, res, {
+        var criteria = dataGrid.buildCriteria(req, res, {
             limit        : 10,
-            properties   : ['fullname', 'email', 'created_at'],
+            properties   : [{{{searchableAttributes}}}'created_at'],
             fuzzySearch  : true,
-            softDeletion : true
+            softDeletion : {{{softDeletion}}}
         });
 
         if (!criteria) {
@@ -45,13 +49,13 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
 
         var count = function(callback) {
 
-            criteriaHelper.buildPagination(criteria, {
+            dataGrid.buildPagination(criteria, {
                 connection : connection,
                 entity     : entity
             }, function(err, pagination) {
 
                 if (err) {
-                    console.log(err);
+                    error.showErrorPage(req, res, err);
                     return res.end();
                 }
 
@@ -64,11 +68,9 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
             greppy.db.get(connection).getORM(function(orm, models) {
 
                 models[entity].findAll(criteria).success(function(records) {
-
                     callback && callback(undefined, records);
-
                 }).error(function(err) {
-                    console.log(err);
+                    error.showErrorPage(req, res, err);
                 });
             });
         };
@@ -120,7 +122,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
                 });
 
             }).error(function(err) {
-                console.log();
+                error.showErrorPage(req, res, err);
             });
         });
     }
@@ -173,7 +175,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
                 });
 
             }).error(function(err) {
-                Helper.get('controller.error').logAndForwardToErrorPage(req, res, err);
+                error.showErrorPage(req, res, err);
             });
         });
     }
@@ -194,14 +196,16 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
         greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
 
             var record = models.{{{model}}}.build({
-                // Form details
+                {{#attributes}}
+                {{{name}}}: {{{parsing}}},
+                {{/attributes}}
             });
 
             var validErr = record.validate();
 
             if (validErr) {
 
-                console.log(validErr);
+                form.logAndFlash(req, validErr);
                 return res.redirect('/{{{namePlural}}}/new');
 
             } else {
@@ -209,7 +213,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
                 record.save().success(function(record) {
                     res.redirect('/{{{namePlural}}}/' + record.id);
                 }).error(function(err) {
-                    console.log(err);
+                    error.showErrorPage(req, res, err);
                 });
             }
         });
@@ -236,13 +240,15 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
                     return res.redirect('/{{{namePlural}}}');
                 }
 
-                // Form details
+                {{#attributes}}
+                record.{{{name}}} = {{{parsing}}};
+                {{/attributes}}
 
                 var validErr = record.validate();
 
                 if (validErr) {
 
-                    console.log(validErr);
+                    form.logAndFlash(req, validErr);
                     return res.redirect('/{{{namePlural}}}/' + record.id + '/edit');
 
                 } else {
@@ -250,12 +256,12 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
                     record.save().success(function(record) {
                         res.redirect('/{{{namePlural}}}/' + record.id);
                     }).error(function(err) {
-                        console.log(err);
+                        error.showErrorPage(req, res, err);
                     });
                 }
 
             }).error(function(err) {
-                console.log(err);
+                error.showErrorPage(req, res, err);
             });
         });
     }
@@ -281,20 +287,26 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
                     return res.end();
                 }
 
+                {{#softDeletion}}
                 record.deleted_at = new Date();
 
                 record.save().success(function(record) {
+                {{/softDeletion}}
+                {{^softDeletion}}
+                record.destroy().success(function(record) {
+                {{/softDeletion}}
                     res.end();
                 }).error(function(err) {
-                    console.log(err);
+                    error.showErrorPage(req, res, err);
                 });
 
             }).error(function(err) {
-                console.log(err);
+                error.showErrorPage(req, res, err);
             });
         });
     }
 };
+{{#softDeletion}}
 
 /**
  * Backend action to restore a {{{name}}}.
@@ -321,15 +333,16 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
                 record.save().success(function(record) {
                     res.end();
                 }).error(function(err) {
-                    console.log(err);
+                    error.showErrorPage(req, res, err);
                 });
 
             }).error(function(err) {
-                console.log(err);
+                error.showErrorPage(req, res, err);
             });
         });
     }
 };
+{{/softDeletion}}
 
 module.exports = {{{headlinePlural}}}Controller;
 

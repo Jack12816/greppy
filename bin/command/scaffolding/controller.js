@@ -98,93 +98,38 @@ exports.run = function(options, printHints, callback)
         results.model      = backend[2];
         results.connection = backend[0] + '.' + backend[1];
 
-        console.log();
-        console.log(results);
+        var controllerHelper = require('./helper/controller');
+        var modelPath = modules.path + results.module + '/models/'
+                        + results.connection + '/' + results.model;
 
-// controller name -> plural/lowercase default
-//
-// softdelete <-- model settings
-//
-// headlines will be model name
-//
-//
+        var attributes = controllerHelper.getModelAttributes(backend[0], modelPath);
+        results.attributes = controllerHelper.mapDetails(results, attributes);
 
-        // // Result cleanup
-        // if ('y' == results.softdelete) {
-        //     results.softdelete = true;
-        // } else {
-        //     results.softdelete = false;
-        // }
+        // Setup files to generate
+        var generationConfig = [
+            {
+                name     : results.namePlural + '.js',
 
-        // if (results.properties) {
+                template : __dirname + '/../../../templates/scaffolds/mvc/'
+                            + 'controller.js.mustache',
 
-        //     results.properties.forEach(function(item, idx) {
+                path     : process.cwd() + '/modules/' + results.module
+                            + '/controllers/'
+            }
+        ];
 
-        //         if ('y' == item.nullable) {
-        //             results.properties[idx].nullable = 'true';
-        //         } else {
-        //             results.properties[idx].nullable = 'false';
-        //         }
+        var viewsPath = __dirname + '/../../../templates/scaffolds/mvc/view/';
+        fs.readdirSync(viewsPath).forEach(function(file) {
 
-        //         if ('string' == item.type || 'text' == item.type) {
-        //             results.properties[idx].fixture = "'test'";
-        //         }
+            generationConfig.push({
+                name: file,
+                template: viewsPath + file,
+                path: process.cwd() + '/modules/' + results.module
+                        + '/resources/views/' + results.namePlural + '/'
+            });
+        });
 
-        //         if ('integer' == item.type) {
-        //             results.properties[idx].fixture = 1337;
-        //         }
-
-        //         if ('float' == item.type) {
-        //             results.properties[idx].fixture = 13.37;
-        //         }
-
-        //         if ('date' == item.type) {
-        //             results.properties[idx].fixture = "new Date()";
-        //         }
-
-        //         if ('boolean' == item.type) {
-        //             results.properties[idx].fixture = 'true';
-        //         }
-
-        //         results.properties[idx].type = item.type.toUpperCase();
-        //     });
-
-        // } else {
-        //     results.properties = false;
-        // }
-
-        // var backend = results.connection.split('.')[0];
-
-        // commandHelper.generateScaffoldsByConfig([
-        //     {
-        //         name     : results.name + '.js',
-
-        //         template : __dirname + '/../../../templates/scaffolds/db/'
-        //                     + backend + '/model.js.mustache',
-
-        //         path     : process.cwd() + '/modules/' + results.module
-        //                     + '/models/' + results.connection + '/'
-        //     },
-        //     {
-        //         name     : (require('moment'))().format('YYYYMMDDHHmmss')
-        //                     + '-add_' + results.name.toLowerCase() + '_table.js',
-
-        //         template : __dirname + '/../../../templates/scaffolds/db/'
-        //                     + backend + '/migration.js.mustache',
-
-        //         path     : process.cwd() + '/database/migrations/'
-        //                     + results.connection + '/'
-        //     },
-        //     {
-        //         name     : '00-' + results.name.toLowerCase() + '.js',
-
-        //         template : __dirname + '/../../../templates/scaffolds/db/'
-        //                     + backend + '/fixture.js.mustache',
-
-        //         path     : process.cwd() + '/database/fixtures/'
-        //                     + results.connection + '/'
-        //     }
-        // ], results);
+        commandHelper.generateScaffoldsByConfig(generationConfig, results);
     });
 }
 

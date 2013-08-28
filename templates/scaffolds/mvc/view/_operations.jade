@@ -19,22 +19,22 @@
     - if ('show' != req.greppy.route.action)
 
       &nbsp;
-      a.btn.btn-default(href="/{{{namePlural}}}/#{{{{name}}}.id}", title="Show {{{name}}} details")
+      a.btn.btn-default(href="/{{{namePlural}}}/#{ {{{name}}}.id }", title="Show {{{name}}} details")
         i.icon-search
 
     &nbsp;
-    a.btn.btn-warning(href="/{{{namePlural}}}/#{{{{name}}}.id}/edit", title="Edit this {{{name}}}")
+    a.btn.btn-warning(href="/{{{namePlural}}}/#{ {{{name}}}.id }/edit", title="Edit this {{{name}}}")
       i.icon-pencil
 
     &nbsp;
 
     - if (!{{{name}}}.deleted_at)
 
-      a.btn.btn-danger.delete(title="Delete", data-id="#{{{{name}}}.id}")
+      a.btn.btn-danger.delete(title="Delete", data-id="#{ {{{name}}}.id }")
         i.icon-trash
 
     - else
 
-      a.btn.btn-success.restore(title="Restore", data-id="#{{{{name}}}.id}")
+      a.btn.btn-success.restore(title="Restore", data-id="#{ {{{name}}}.id }")
         i.icon-refresh
 

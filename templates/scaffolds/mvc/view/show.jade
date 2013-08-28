@@ -10,15 +10,22 @@ block content
 
     table.table.table-bordered.table-striped
       tbody
+
+        {{#attributes}}
         tr
-          th Name
-          td #{{{{name}}}.name}
+          th {{{humanized}}}
+          td #{ {{{entity}}}.{{{name}}} }
+
+        {{/attributes}}
         tr
           th Created at
           td #{helper.date.format({{{name}}}.created_at, 'LLLL')}
-        tr(class="#{{{{name}}}.deleted_at ? 'danger' : 'success'}")
+
+        {{#softDeletion}}
+        tr(class="#{ {{{name}}}.deleted_at ? 'danger' : 'success' }")
           th Deleted
-          td #{{{{name}}}.deleted_at ? 'Yes' : 'No'}
+          td #{ {{{name}}}.deleted_at ? 'Yes' : 'No' }
+        {{/softDeletion}}
 
   - else
 

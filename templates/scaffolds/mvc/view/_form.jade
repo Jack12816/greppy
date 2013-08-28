@@ -1,22 +1,27 @@
 form.form-horizontal(role="form", method="POST", action="#{response.path}")
 
+  {{#attributes}}
   .form-group
-    label.col-lg-2.control-label Name
+    label.col-lg-2.control-label {{{humanized}}}
     .col-lg-10
-      input.form-control(
-        type="text",
-        name="{{{name}}}_name"
-        placeholder="Name of the {{{name}}}",
+      {{{element}}}.form-control(
+        {{#elementType}}
+        type="{{{elementType}}}",
+        {{/elementType}}
+        name="{{{formProperty}}}"
+        placeholder="Just type the {{{humanizedLowercase}}} ..",
+        {{#required}}
         required="required",
-        value="#{(typeof {{{name}}} !== 'undefined') ? {{{name}}}.name : ''}")
+        {{/required}}
+        value="#{('undefined' !== typeof {{{entity}}} && null !== {{{entity}}}) ? {{{entity}}}.{{{name}}} : ''}")
       span.help-block.
-        Some help tests for the {{{name}}}
+        Some useful hints for the {{{humanizedLowercase}}} input
 
+  {{/attributes}}
   .form-group
     .col-lg-offset-2.col-lg-10
       button.btn.btn-primary
         i.icon-ok
         &nbsp;
         | #{response.action === 'create' ? 'Create' : 'Save'}
-
 
