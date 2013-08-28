@@ -1,6 +1,6 @@
 ### MySQL
 
-The dbReg MySQL adapter is based on the npm package ``mysql`` and on the
+The db-Store MySQL adapter is based on the npm package ``mysql`` and on the
 ``sequelize`` ORM. Sequelize offers the possibility to describe and manage models,
 migrations, fixtures and associations between the models.
 
@@ -23,9 +23,9 @@ The structure of a model definition looks like the following:
             // Define all properties for the model
             {
                 id: {
-                    type: DataTypes.STRING,
-                    primaryKey: true,
-                    autoIncrement: false
+                    type          : DataTypes.STRING,
+                    primaryKey    : true,
+                    autoIncrement : false
                 },
 
                 expires_at: {
@@ -70,6 +70,7 @@ the migrations for this case:
                         autoIncrement : false,
                         primaryKey    : true
                     },
+
                     expires_at: {
                         type      : DataTypes.DATE,
                         allowNull : false

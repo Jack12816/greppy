@@ -8,10 +8,10 @@ Greppy is a top-layer overlay of Express and extend the functionality
 of it. So we support encapsulation of controllers into namespaces, called
 modules and an uniform loading mechanism of them.
 
-## Structrues of modules
+## Structures of modules
 
 We split the resources of modules into separate sub-directories to ensure
-a clean encapsulation of file types. A sample structrue follows:
+a clean encapsulation of file types. A sample structure follows:
 
     .
     ├── controllers
@@ -35,7 +35,7 @@ a clean encapsulation of file types. A sample structrue follows:
 Any module of Greppy should look like this. You can define any kind of
 files in a module as long as it fits in this namespace.
 
-## Working with controllern
+## Working with controllers
 
 Lets look at a simple index controller which will only render a view without
 pushing data to it.
@@ -78,7 +78,7 @@ pushing data to it.
 ## Working with views
 
 A view can be defined as Jade or any templating engine you want. You just
-have to confugure it in the worker context. A simple example for the previous
+have to configure it in the worker context. A simple example for the previous
 declared controller action could be this:
 
     h2 Hello World
@@ -94,11 +94,11 @@ declared controller action could be this:
 ### Working with helpers
 
 Helper are a blessing for sharing code and functionality across multiple
-modules of your application. So you can use parts of your service rigth
+modules of your application. So you can use parts of your service right
 inside of your admin module without reimplementing the functionality.
 
 Helper can be encapsulation and separated into namespaces unter the helpers
-directory of your model. The previous shown module directory structrue got
+directory of your model. The previous shown module directory structure got
 an ``github`` helper under a ``request`` namespace. To access this helper
 the following code will do the trick:
 

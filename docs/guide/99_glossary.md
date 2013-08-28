@@ -5,7 +5,7 @@
 Worker crashs indicate various problems of the system. It could show a problem
 with the used hardware or external resources like the network or timeouted packets.
 On the other hand the cause of worker crashs could be bugs in your application.
-An uncatched exception or faulty syntax on specific execution paths can lead to
+An uncaught exception or faulty syntax on specific execution paths can lead to
 worker crashs.
 
 Nerver ignore these crashs, however they are not system breaking. The autonomous

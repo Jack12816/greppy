@@ -53,7 +53,7 @@ The application is ready by this point.
 
 ### Tasks
 
-* Configurating the specific application context
+* Configuring the specific application context
 * Specifying which backend connections and modules are loaded
 
 ### Description

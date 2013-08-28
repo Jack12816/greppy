@@ -4,13 +4,13 @@
 
 To manage the framework's backend connections, a special backend
 layer was implemented. The db-Store now acts as the layer's head.
-It processes the backend configuration and intializes all backends
+It processes the backend configuration and initializes all backends
 with their corresponding connections. Furthermore, it provides the
 possibility to integrate a different ORM for each backend.
 db-Store works absolutely asynchronous, which results in the layer's
 high performance. Additionally, db-Store includes and defines a set
 of methods for every backend interface. A purposeful and easy workflow
-is etablished using these methods. The current backend adapters are
+is established using these methods. The current backend adapters are
 currently limited to MySQL, MongoDB, and Memcached.
 Every adapter provides the possibility to use the backend's
 native implementation, making specialised accesses easy.
@@ -85,7 +85,7 @@ Methods wrapped by the backend adapters are:
 #### Properties of a backend connection
 
 A backend connection also ships with some public
-accessable properties:
+accessible properties:
 
     errors // All errors which came from the backend adapter
     instance // The plain backend connection instance

@@ -6,7 +6,7 @@ new projects, start or stop them and even list contexts or their statuses.
 
 **By the way:** With version 0.3.0 you can use the ``greppy`` binary in all
 paths of a Greppy project. It will automatically search for the project root
-recusivly. This will bring you even more comfort.
+recursively. This will bring you even more comfort.
 
 ## Common tasks
 
@@ -52,7 +52,7 @@ if the context is running. If so it shows how much memory the worker context use
 
 ### debug
 
-**Synopsis:** greppy --debug|-d [-s|--start|-k|--stop|-r|--rebstart]
+**Synopsis:** greppy --debug|-d [-s|--start|-k|--stop|-r|--restart]
 
 The debug switch can be used in combination with start, stop and restart.
 It puts the application into the debugging mode which contains the following
@@ -156,5 +156,41 @@ for all available operations.
 With the help of the ``install`` operation you can install all assets for
 all|the given module into /public. This will link up the ``resources/public``
 directory of a module to ``public/modules/NAME_OF_MODULE``, so they are
-accessable from the outsite.
+accessible from the outsite.
+
+## Scaffolding
+
+### generate
+
+**Synopsis:** greppy --generate
+
+The ``greppy`` binary supports the generating of wide parts of the application
+by the ``--generate`` switch. If you specify no operation or any other flag this
+command will show a help for all available operations. For more details of the
+scaffolding concept take a look at the ``Scaffolding`` section.
+
+#### context
+
+**Synopsis:** greppy --generate context
+
+The context generation of an working application context is just some
+keystrokes away. This operation will ask you some questions to setup the
+new application context.
+
+#### model
+
+**Synopsis:** greppy --generate model
+
+With the help of the ``model`` operation you can generate all necessary files
+for a complete database backend equipment. A model, it's migration and a fixture
+for it will be generated. The generated files will be placed at the right paths
+of the application structure, so you can easily test the results.
+
+#### controller
+
+**Synopsis:** greppy --generate controller
+
+The ``controller`` operation will generate an complete CRUD (Create-Read-Update-Delete)
+controller based on the given model so you can just restart the application and
+will find an working controller experience with all views and resources.
 
