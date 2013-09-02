@@ -13,7 +13,7 @@ form.form-horizontal(role="form", method="POST", action="#{response.path}")
         {{#required}}
         required="required",
         {{/required}}
-        value="#{('undefined' !== typeof {{{entity}}} && null !== {{{entity}}}) ? {{{entity}}}.{{{name}}} : ''}")
+        value="#{('undefined' !== typeof {{{entity}}} && null !== {{{entity}}}) ? {{{entity}}}.{{{name}}} : '{{#default}}{{{default}}}{{/default}}'}")
       span.help-block.
         Some useful hints for the {{{humanizedLowercase}}} input
 

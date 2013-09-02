@@ -3,13 +3,19 @@
  */
 module.exports = function(orm, models, share, utils, callback)
 {
-    var records = [
-        {
+    var records = [];
+
+    for (var i = 0; i < 100; i++) {
+
+        records.push({
         {{#properties}}
-            '{{{name}}}': {{{fixture}}},
+            {{{name}}}: {{{fixture}}},
         {{/properties}}
-        }
-    ];
+        {{#softdelete}}
+            deleted_at: utils.content.optional(utils.content.date())
+        {{/softdelete}}
+        });
+    }
 
     async.map(records, function(record, callback) {
 

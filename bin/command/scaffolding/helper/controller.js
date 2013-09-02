@@ -24,6 +24,8 @@ helper.getModelAttributes = function(backend, modelPath)
         var orm = new (require('sequelize'))();
         model = orm.import(modelPath);
 
+        console.log(model.rawAttributes);
+
         Object.keys(model.rawAttributes).forEach(function(attr) {
 
             var attrObj  = model.rawAttributes[attr];
@@ -47,10 +49,15 @@ helper.getModelAttributes = function(backend, modelPath)
                 type = 'BOOLEAN';
             }
 
+            if (-1 !== type.indexOf('DATETIME')) {
+                type = 'DATE';
+            }
+
             attributes.push({
                 name     : attr,
                 type     : type.toLowerCase(),
-                nullable : nullable
+                nullable : nullable,
+                default  : attrObj.defaultValue || undefined
             });
         });
 
@@ -103,6 +110,10 @@ helper.mapDetails = function(results, attributes)
             attr.elementType = 'text';
         }
 
+        if ('string' == attr.type || 'text' == attr.type) {
+            attr.parsing = '(' + attr.parsing + ').trim()';
+        }
+
         if ('text' == attr.type) {
             attr.element = 'textarea';
         }
@@ -121,14 +132,14 @@ helper.mapDetails = function(results, attributes)
         }
 
         if ('date' == attr.type) {
-            attr.parsing = 'new Date(Date.parse((' + attr.parsing + '))';
+            attr.parsing = '(new Date(Date.parse(' + attr.parsing + '))).toISOString()';
         }
 
         attr.formProperty       = results.name + '_' + attr.name;
         attr.humanized          = inf.humanize(attr.name);
         attr.humanizedLowercase = inf.humanize(attr.name, true);
         attr.entity             = results.name;
-        attr.required           = !attr.nullable;
+        attr.required           = attr.nullable;
 
         attrs.push(attr);
     });

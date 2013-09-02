@@ -31,16 +31,16 @@
     {{#softDeletion}}
     - if (!{{{name}}}.deleted_at)
 
-      a.btn.btn-danger.delete(title="Delete", data-id="#{ {{{name}}}.id }")
+      a.btn.btn-danger.delete-operation(title="Delete", data-id="#{ {{{name}}}.id }")
         i.icon-trash
 
     - else
 
-      a.btn.btn-success.restore(title="Restore", data-id="#{ {{{name}}}.id }")
+      a.btn.btn-success.restore-operation(title="Restore", data-id="#{ {{{name}}}.id }")
         i.icon-refresh
     {{/softDeletion}}
     {{^softDeletion}}
-    a.btn.btn-danger.delete(title="Delete", data-id="#{ {{{name}}}.id }")
+    a.btn.btn-danger.delete-operation(title="Delete", data-id="#{ {{{name}}}.id }")
       i.icon-trash
     {{/softDeletion}}
 
@@ -49,7 +49,7 @@ script.
   /**
    * Delete popup bindings
    */
-  $(document).on('click', '.datagrid .delete', function() {
+  $(document).on('click', '.delete-operation', function() {
 
     var id = $(this).attr('data-id');
     greppy.app.dialog(
@@ -74,7 +74,7 @@ script.
   /**
    * Restore popup bindings
    */
-  $(document).on('click', '.datagrid .restore', function() {
+  $(document).on('click', '.restore-operation', function() {
 
     var id = $(this).attr('data-id');
     greppy.app.dialog(

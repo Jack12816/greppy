@@ -362,12 +362,17 @@ helper.getCurrentUser = function(callback)
 {
     var gitHelper  = new (require('../../lib/helper/vcs/git'))();
     var getUserStr = undefined;
+    var defaultStr = process.env.USER + '@' + process.env.HOSTNAME;
 
     if (gitHelper.isRepository(process.cwd())) {
 
         getUserStr = function(callback) {
 
             gitHelper.getGlobalUser(function(err, identity) {
+
+                if (err || !identity) {
+                    return callback && callback(undefined, defaultStr);
+                }
 
                 var str = undefined;
 
@@ -390,7 +395,7 @@ helper.getCurrentUser = function(callback)
     } else {
 
         getUserStr = function(callback) {
-            callback && callback(undefined, process.env.USER);
+            callback && callback(undefined, defaultStr);
         }
     }
 

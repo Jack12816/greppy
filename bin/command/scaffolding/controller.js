@@ -78,7 +78,16 @@ exports.run = function(options, printHints, callback)
 
     }, function(err, results) {
 
-        if (2 >= Object.keys(results).length) {
+        var valid = true;
+
+        results.forEach(function(item) {
+
+            if (!item.result) {
+                valid = false;
+            }
+        });
+
+        if (3 > Object.keys(results).length || !valid) {
 
             console.log('[Error] '.red + 'Not all required questions were answered.');
             console.log('        Skip further generation.')
@@ -132,6 +141,8 @@ exports.run = function(options, printHints, callback)
                             + '/resources/views/' + results.namePlural + '/'
                 });
             });
+
+            console.log(results);
 
             commandHelper.generateScaffoldsByConfig(generationConfig, results);
         });

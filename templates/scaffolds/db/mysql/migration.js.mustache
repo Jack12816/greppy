@@ -13,33 +13,36 @@ module.exports = {
 
             // Define all columns for the table
             {
-                id:   {
-                    type          : DataTypes.INTEGER,
-                    autoIncrement : true,
-                    primaryKey    : true
+                id: {
+                    type: DataTypes.INTEGER,
+                    autoIncrement: true,
+                    primaryKey: true
                 },
 
                 {{#properties}}
                 {{{name}}}: {
-                    type      : DataTypes.{{{type}}},
-                    allowNull : {{{nullable}}}
+                    type: DataTypes.{{{type}}},
+                    {{#default}}
+                    defaultValue: {{{default}}},
+                    {{/default}}
+                    allowNull: {{{nullable}}}
                 },
 
                 {{/properties}}
                 created_at: {
-                    type      : DataTypes.DATE,
-                    allowNull : true
+                    type: DataTypes.DATE,
+                    allowNull: true
                 },
 
                 updated_at: {
-                    type      : DataTypes.DATE,
-                    allowNull : true
+                    type: DataTypes.DATE,
+                    allowNull: true
                 },
                 {{#softdelete}}
 
                 deleted_at: {
-                    type      : DataTypes.DATE,
-                    allowNull : true
+                    type: DataTypes.DATE,
+                    allowNull: true
                 }
                 {{/softdelete}}
             },

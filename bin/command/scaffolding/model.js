@@ -64,7 +64,28 @@ exports.run = function(options, printHints, callback)
                 question : 'Choose type of the model property.',
                 prompt   : 'Type',
                 default  : 'string',
-                values   : ['string', 'text', 'integer', 'float', 'date', 'boolean']
+                values   : [
+                    'string',
+                    'string/fullname',
+                    'string/email',
+                    'string/phone',
+                    'string/wordgroup',
+                    'string/domain',
+                    'string/tld',
+                    'string/md5',
+                    'string/sha512',
+                    'text',
+                    'integer',
+                    'float',
+                    'date',
+                    'boolean'
+                ]
+            }),
+            question({
+                id       : 'default',
+                question : 'Define a default value for the property.',
+                prompt   : 'Default',
+                validator : /.?/gi
             }),
             question({
                 id       : 'nullable',
@@ -122,11 +143,11 @@ exports.run = function(options, printHints, callback)
 
             question.preAsk = function(question, callback)
             {
-                if (0 === propsCache.length) {
-                    question.options.hint += ' and dont use one of the following names:';
-                }
-
                 if (0 !== propsCache.length && 'name' === question.id) {
+
+                    if (0 === propsCache.length) {
+                        question.options.hint += ' and dont use one of the following names:';
+                    }
 
                     var last = propsCache.pop();
                     question.options.hint += '\n     * '.red + last;
@@ -193,30 +214,101 @@ exports.run = function(options, printHints, callback)
 
             results.properties.forEach(function(item, idx) {
 
+                results.properties[idx].fixture = 'utils.content.';
+
+                if ('' == item.default) {
+                    item.default = false;
+                }
+
+                if ('string' == item.type) {
+                    results.properties[idx].fixture += 'word()';
+                }
+
+                if ('string/wordgroup' == item.type) {
+                    results.properties[idx].fixture += 'wordgroup()';
+                    item.type = 'string';
+                }
+
+                if ('string/fullname' == item.type) {
+                    results.properties[idx].fixture += 'fullname()';
+                    item.type = 'string';
+                }
+
+                if ('string/email' == item.type) {
+                    results.properties[idx].fixture += 'email()';
+                    item.type = 'string';
+                    results.properties[idx].typeValidation = 'isEmail: true,';
+                }
+
+                if ('string/phone' == item.type) {
+                    results.properties[idx].fixture += 'phone()';
+                    item.type = 'string';
+                }
+
+                if ('string/domain' == item.type) {
+                    results.properties[idx].fixture += 'domain()';
+                    item.type = 'string';
+                }
+
+                if ('string/tld' == item.type) {
+                    results.properties[idx].fixture += 'tld()';
+                    item.type = 'string';
+                }
+
+                if ('string/md5' == item.type) {
+                    results.properties[idx].fixture += 'md5()';
+                    item.type = 'string';
+                }
+
+                if ('string/sha512' == item.type) {
+                    results.properties[idx].fixture += 'sha512()';
+                    item.type = 'string';
+                }
+
+                if ('text' == item.type) {
+                    results.properties[idx].fixture += 'text()';
+                }
+
+                if ('integer' == item.type) {
+                    results.properties[idx].fixture += 'integer(1, 1000)';
+                    item.default = (item.default) ? parseInt(item.default) : false;
+                    results.properties[idx].typeValidation = 'isInt: true,';
+                }
+
+                if ('float' == item.type) {
+                    results.properties[idx].fixture += 'float(1, 1000)';
+                    item.default = (item.default) ? parseFloat(item.default) : false;
+                    results.properties[idx].typeValidation = 'isFloat: true,';
+                }
+
+                if ('date' == item.type) {
+                    results.properties[idx].fixture += 'date()';
+                    // results.properties[idx].typeValidation = 'isDate: true,';
+                }
+
+                if ('boolean' == item.type) {
+                    results.properties[idx].fixture += 'boolean()';
+                    item.default = (item.default) ? (('true' == item.default) ? 'true' : 'false') : false;
+                }
+
                 if ('y' == item.nullable) {
+
                     results.properties[idx].nullable = 'true';
+                    results.properties[idx].fixture = 'utils.content.optional('
+                        + results.properties[idx].fixture + ')';
+
                 } else {
                     results.properties[idx].nullable = 'false';
                 }
 
-                if ('string' == item.type || 'text' == item.type) {
-                    results.properties[idx].fixture = "'test'";
+                if ('float' != item.type &&
+                    'integer' != item.type &&
+                    'boolean' != item.type) {
+                    item.default = (item.default) ? ('\'' + item.default + '\'') : false;
                 }
 
-                if ('integer' == item.type) {
-                    results.properties[idx].fixture = 1337;
-                }
-
-                if ('float' == item.type) {
-                    results.properties[idx].fixture = 13.37;
-                }
-
-                if ('date' == item.type) {
-                    results.properties[idx].fixture = "new Date()";
-                }
-
-                if ('boolean' == item.type) {
-                    results.properties[idx].fixture = 'true';
+                if (item.default) {
+                    results.properties[idx].fixture = item.default;
                 }
 
                 results.properties[idx].type = item.type.toUpperCase();

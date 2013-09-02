@@ -12,7 +12,7 @@
   {{/softDeletion}}
 
   {{#attributes}}
-    td #{ {{{entity}}}.{{{name}}} }
+    td #{ new String({{{entity}}}.{{{name}}}).words(30) }
   {{/attributes}}
 
     td.min #{helper.date.format({{{name}}}.created_at, 'L')}

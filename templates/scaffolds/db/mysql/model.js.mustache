@@ -11,15 +11,22 @@ module.exports = function(sequelize, DataTypes)
         // Define all properties for the model
         {
             id: {
-                type          : DataTypes.INTEGER,
-                primaryKey    : true,
-                autoIncrement : true
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                autoIncrement: true
             },
             {{#properties}}
 
             {{{name}}}: {
-                type     : DataTypes.{{{type}}},
-                validate : {
+                type: DataTypes.{{{type}}},
+                allowNull: {{{nullable}}},
+                {{#default}}
+                defaultValue: {{{default}}},
+                {{/default}}
+                validate: {
+                    {{#typeValidation}}
+                    {{{typeValidation}}}
+                    {{/typeValidation}}
                     notEmpty: {{{nullable}}}
                 }
             },
