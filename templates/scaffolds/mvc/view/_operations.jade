@@ -5,12 +5,16 @@
 
 - if (!disableBackLink)
 
-  a.btn(onclick="history.back();", title="Back")
-    i.icon-arrow-left
+  - if ('index' != req.greppy.route.action)
 
-  &nbsp;
-  a.btn.btn-primary(href="/{{{namePlural}}}/new", title="Create a new {{{name}}}")
-    i.icon-plus
+    a.btn.btn-default(href="#{controller.link('index')}", title="Back to overview")
+      i.icon-th-list
+
+  - if ('new' != req.greppy.route.action)
+
+    &nbsp;
+    a.btn.btn-primary(href="#{controller.link('new')}", title="Create a new {{{name}}}")
+      i.icon-plus
 
 - if ('show' == req.greppy.route.action || 'index' == req.greppy.route.action)
 
@@ -18,12 +22,11 @@
 
     - if ('show' != req.greppy.route.action)
 
-      &nbsp;
-      a.btn.btn-default(href="/{{{namePlural}}}/#{ {{{name}}}.id }", title="Show {{{name}}} details")
+      a.btn.btn-default(href="#{controller.link('show', { id: {{{name}}}.id })}", title="Show {{{name}}} details")
         i.icon-search
 
     &nbsp;
-    a.btn.btn-warning(href="/{{{namePlural}}}/#{ {{{name}}}.id }/edit", title="Edit this {{{name}}}")
+    a.btn.btn-warning(href="#{controller.link('edit', { id: {{{name}}}.id })}", title="Edit this {{{name}}}")
       i.icon-pencil
 
     &nbsp;
@@ -44,55 +47,59 @@
       i.icon-trash
     {{/softDeletion}}
 
-script.
+- if ('undefined' === typeof {{{name}}} || 'show' == req.greppy.route.action)
 
-  /**
-   * Delete popup bindings
-   */
-  $(document).on('click', '.delete-operation', function() {
+  script.
 
-    var id = $(this).attr('data-id');
-    greppy.app.dialog(
-      'Do you really want to delete this {{{name}}}?',
-      {
-        ok: function(callback) {
+    greppy.controller = new greppy.Controller(!{JSON.stringify(controller)});
 
-          $.ajax({
-              type: "DELETE",
-              url: "/{{{namePlural}}}/" + id
-          }).done(function(data) {
-              window.location.reload();
-          });
+    /**
+     * Delete popup bindings
+     */
+    $(document).on('click', '.delete-operation', function() {
 
-          callback && callback();
+      var id = $(this).attr('data-id');
+      greppy.app.dialog(
+        'Do you really want to delete this {{{name}}}?',
+        {
+          ok: function(callback) {
+
+            $.ajax({
+                type: "DELETE",
+                url: greppy.controller.link('destroy', {id: id})
+            }).done(function(data) {
+                window.location.reload();
+            });
+
+            callback && callback();
+          }
         }
-      }
-    );
-  });
-  {{#softDeletion}}
+      );
+    });
+    {{#softDeletion}}
 
-  /**
-   * Restore popup bindings
-   */
-  $(document).on('click', '.restore-operation', function() {
+    /**
+     * Restore popup bindings
+     */
+    $(document).on('click', '.restore-operation', function() {
 
-    var id = $(this).attr('data-id');
-    greppy.app.dialog(
-      'Do you really want to restore this {{{name}}}?',
-      {
-        ok: function(callback) {
+      var id = $(this).attr('data-id');
+      greppy.app.dialog(
+        'Do you really want to restore this {{{name}}}?',
+        {
+          ok: function(callback) {
 
-          $.ajax({
-              type: "POST",
-              url: "/{{{namePlural}}}/" + id + '/restore'
-          }).done(function(data) {
-              window.location.reload();
-          });
+            $.ajax({
+                type: "POST",
+                url: greppy.controller.link('restore', {id: id})
+            }).done(function(data) {
+                window.location.reload();
+            });
 
-          callback && callback();
+            callback && callback();
+          }
         }
-      }
-    );
-  });
-  {{/softDeletion}}
+      );
+    });
+    {{/softDeletion}}
 

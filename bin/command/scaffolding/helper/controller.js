@@ -24,8 +24,6 @@ helper.getModelAttributes = function(backend, modelPath)
         var orm = new (require('sequelize'))();
         model = orm.import(modelPath);
 
-        console.log(model.rawAttributes);
-
         Object.keys(model.rawAttributes).forEach(function(attr) {
 
             var attrObj  = model.rawAttributes[attr];
@@ -108,6 +106,7 @@ helper.mapDetails = function(results, attributes)
             'date' == attr.type) {
             attr.element = 'input';
             attr.elementType = 'text';
+            attr.isTextarea = false;
         }
 
         if ('string' == attr.type || 'text' == attr.type) {
@@ -116,6 +115,7 @@ helper.mapDetails = function(results, attributes)
 
         if ('text' == attr.type) {
             attr.element = 'textarea';
+            attr.isTextarea = true;
         }
 
         if ('boolean' == attr.type) {

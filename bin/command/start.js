@@ -72,7 +72,26 @@ exports.run = function(contexts, debug)
             console.log(data.toString().replace(/\n$/, ''));
         };
 
-        process.stdin.resume();
+        if (process.stdin.setRawMode) {
+
+            process.stdin.resume();
+            process.stdin.setRawMode(true);
+
+            process.stdin.on('data', function (data) {
+
+                // Ctrl+C or Ctrl+D
+                if ('\3' == data || '\4' == data) {
+                    process.stdin.pause();
+                    emitExitToChild();
+                }
+
+                // F5 was pressed
+                if (String.fromCharCode(0x1b,0x5b,0x31,0x35,0x7e) == data) {
+                    console.log();
+                    child.kill('SIGHUP');
+                }
+            });
+        }
 
         var child = require('child_process').spawn(process.execPath, [
             startScript, '--context', context, '--debug'

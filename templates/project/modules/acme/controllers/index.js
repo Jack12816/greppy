@@ -10,6 +10,8 @@
  */
 var IndexController = function()
 {
+    // Call the super constructor
+    IndexController.super_.call(this);
 };
 
 /**
@@ -18,12 +20,17 @@ var IndexController = function()
 util.inherits(IndexController, greppy.get('http.mvc.controller'));
 
 /**
+ * Build the controller instance
+ */
+IndexController = new IndexController();
+
+/**
  * Deliver the home page.
  *
  * @type {ControllerAction}
  * @public
  */
-IndexController.prototype.actions.index =
+IndexController.actions.index =
 {
     methods : ['GET'],
     action  : function(req, res) {

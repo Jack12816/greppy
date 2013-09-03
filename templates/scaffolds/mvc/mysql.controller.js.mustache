@@ -5,11 +5,6 @@
  * @author {{{author}}}
  */
 
-// Define default helper set
-var error    = greppy.helper.get('controller.error');
-var form     = greppy.helper.get('controller.form');
-var dataGrid = greppy.helper.get('controller.data-grid');
-
 /**
  * @constructor
  */
@@ -17,6 +12,9 @@ var {{{headlinePlural}}}Controller = function()
 {
     // Call the super constructor
     {{{headlinePlural}}}Controller.super_.call(this);
+
+    // Define the path to look for views
+    this.viewPath = '{{{namePlural}}}/';
 };
 
 /**
@@ -25,22 +23,9 @@ var {{{headlinePlural}}}Controller = function()
 util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'));
 
 /**
- * Configure the controller.
- *
- * @param {Object} app - The application object
- * @param {Object} server - Server object
- * @param {Function} callback - Function to call on finish
- * @return void
- */
-{{{headlinePlural}}}Controller.prototype.configure = function(app, server, callback)
-{
-    callback && callback();
-}
-
-/**
  * Build the controller instance
  */
-module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Controller();
+{{{headlinePlural}}}Controller = new {{{headlinePlural}}}Controller();
 
 /**
  * Deliver the {{{namePlural}}} overview page.
@@ -56,7 +41,7 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
         var connection = '{{{connection}}}';
         var entity     = '{{{model}}}';
 
-        var criteria = dataGrid.buildCriteria(req, res, {
+        var criteria = self.dataGrid.buildSqlCriteria(req, res, {
             limit        : 10,
             properties   : [{{{searchableAttributes}}}'created_at'],
             fuzzySearch  : true,
@@ -69,14 +54,13 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
 
         var count = function(callback) {
 
-            dataGrid.buildPagination(criteria, {
+            self.dataGrid.buildSqlPagination(criteria, {
                 connection : connection,
                 entity     : entity
             }, function(err, pagination) {
 
                 if (err) {
-                    error.showErrorPage(req, res, err);
-                    return res.end();
+                    return self.error.showErrorPage(req, res, err);
                 }
 
                 callback && callback(pagination);
@@ -90,7 +74,7 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
                 models[entity].findAll(criteria).success(function(records) {
                     callback && callback(undefined, records);
                 }).error(function(err) {
-                    error.showErrorPage(req, res, err);
+                    self.error.showErrorPage(req, res, err);
                 });
             });
         };
@@ -98,7 +82,7 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
         var render = function(pagination, records) {
 
             // Render the view
-            res.render('{{{namePlural}}}/' + criteria.view, {
+            res.render(self.view(criteria.view), {
                 {{{namePlural}}}: records,
                 pagination: pagination
             });
@@ -137,12 +121,12 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
             models.{{{model}}}.find(req.params.id).success(function(record) {
 
                 // Render the view
-                res.render('{{{namePlural}}}/show', {
+                res.render(self.view('show'), {
                     {{{name}}}: record
                 });
 
             }).error(function(err) {
-                error.showErrorPage(req, res, err);
+                self.error.showErrorPage(req, res, err);
             });
         });
     }
@@ -160,10 +144,10 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
     action  : function(req, res) {
 
         // Render the view
-        res.render('{{{namePlural}}}/new', {
+        res.render(self.view('new'), {
             response: {
                 action : 'create',
-                path   : '/{{{namePlural}}}'
+                path   : self.link('create')
             }
         });
     }
@@ -186,16 +170,16 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
             models.{{{model}}}.find(req.params.id).success(function(record) {
 
                 // Render the view
-                res.render('{{{namePlural}}}/edit', {
+                res.render(self.view('edit'), {
                     response: {
                         action : 'update',
-                        path   : '/{{{namePlural}}}/' + req.params.id
+                        path   : self.link('update', {id: req.params.id})
                     },
                     {{{name}}}: record
                 });
 
             }).error(function(err) {
-                error.showErrorPage(req, res, err);
+                self.error.showErrorPage(req, res, err);
             });
         });
     }
@@ -225,15 +209,15 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
 
             if (validErr) {
 
-                form.logAndFlash(req, validErr);
-                return res.redirect('/{{{namePlural}}}/new');
+                self.form.logAndFlash(req, validErr);
+                return res.redirect(self.link('new'));
 
             } else {
 
                 record.save().success(function(record) {
-                    res.redirect('/{{{namePlural}}}/' + record.id);
+                    res.redirect(self.link('show', {id: record.id}));
                 }).error(function(err) {
-                    error.showErrorPage(req, res, err);
+                    self.error.showErrorPage(req, res, err);
                 });
             }
         });
@@ -257,7 +241,7 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
             models.{{{model}}}.find(req.params.id).success(function(record) {
 
                 if (!record) {
-                    return res.redirect('/{{{namePlural}}}');
+                    return res.redirect(self.link('index'));
                 }
 
                 {{#attributes}}
@@ -268,20 +252,20 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
 
                 if (validErr) {
 
-                    form.logAndFlash(req, validErr);
-                    return res.redirect('/{{{namePlural}}}/' + record.id + '/edit');
+                    self.form.logAndFlash(req, validErr);
+                    return res.redirect(self.link('edit', {id: record.id}));
 
                 } else {
 
                     record.save().success(function(record) {
-                        res.redirect('/{{{namePlural}}}/' + record.id);
+                      res.redirect(self.link('show', {id: record.id}));
                     }).error(function(err) {
-                        error.showErrorPage(req, res, err);
+                        self.error.showErrorPage(req, res, err);
                     });
                 }
 
             }).error(function(err) {
-                error.showErrorPage(req, res, err);
+                self.error.showErrorPage(req, res, err);
             });
         });
     }
@@ -317,11 +301,11 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
                 {{/softDeletion}}
                     res.end();
                 }).error(function(err) {
-                    error.showErrorPage(req, res, err);
+                    self.error.showErrorPage(req, res, err);
                 });
 
             }).error(function(err) {
-                error.showErrorPage(req, res, err);
+                self.error.showErrorPage(req, res, err);
             });
         });
     }
@@ -353,14 +337,16 @@ module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Contro
                 record.save().success(function(record) {
                     res.end();
                 }).error(function(err) {
-                    error.showErrorPage(req, res, err);
+                    self.error.showErrorPage(req, res, err);
                 });
 
             }).error(function(err) {
-                error.showErrorPage(req, res, err);
+                self.error.showErrorPage(req, res, err);
             });
         });
     }
 };
 {{/softDeletion}}
+
+module.exports = {{{headlinePlural}}}Controller;
 

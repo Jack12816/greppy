@@ -24,7 +24,7 @@ block content
         {{#softDeletion}}
         tr(class="#{ {{{name}}}.deleted_at ? 'danger' : 'success' }")
           th Deleted
-          td #{ {{{name}}}.deleted_at ? 'Yes' : 'No' }
+          td #{ {{{name}}}.deleted_at ? ('at ' + helper.date.format({{{name}}}.deleted_at, 'LLLL')) : 'No' }
         {{/softDeletion}}
 
   - else

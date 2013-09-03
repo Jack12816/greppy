@@ -11,6 +11,7 @@ module.exports = function(orm, models, share, utils, callback)
         {{#properties}}
             {{{name}}}: {{{fixture}}},
         {{/properties}}
+            created_at: utils.content.date(),
         {{#softdelete}}
             deleted_at: utils.content.optional(utils.content.date())
         {{/softdelete}}

@@ -124,7 +124,7 @@ exports.run = function(options, printHints, callback)
                     name     : results.namePlural + '.js',
 
                     template : __dirname + '/../../../templates/scaffolds/mvc/'
-                                + 'controller.js.mustache',
+                                + backend[0] + '.controller.js.mustache',
 
                     path     : process.cwd() + '/modules/' + results.module
                                 + '/controllers/'
@@ -141,8 +141,6 @@ exports.run = function(options, printHints, callback)
                             + '/resources/views/' + results.namePlural + '/'
                 });
             });
-
-            console.log(results);
 
             commandHelper.generateScaffoldsByConfig(generationConfig, results);
         });

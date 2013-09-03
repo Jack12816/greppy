@@ -10,7 +10,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${DIR}" && cd ../ && echo "Current working dir: `pwd`"
 
 # Set the Commandline Args
-TEMP=`getopt -o h --long generate-docs,cleanup-docs -- "$@"`
+TEMP=`getopt -o h --long docs,cleanup-docs -- "$@"`
 
 function print_todo()
 {
@@ -71,7 +71,7 @@ while true ; do
             shift
             usage
             break;;
-        --generate-docs)
+        --docs)
             shift
             generate-docs
             break;;

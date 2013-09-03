@@ -13,7 +13,14 @@ form.form-horizontal(role="form", method="POST", action="#{response.path}")
         {{#required}}
         required="required",
         {{/required}}
+        {{^isTextarea}}
         value="#{('undefined' !== typeof {{{entity}}} && null !== {{{entity}}}) ? {{{entity}}}.{{{name}}} : '{{#default}}{{{default}}}{{/default}}'}")
+        {{/isTextarea}}
+      {{#isTextarea}}
+        rows="10"
+      ) #{('undefined' !== typeof {{{entity}}} && null !== {{{entity}}}) ? {{{entity}}}.{{{name}}} : '{{#default}}{{{default}}}{{/default}}'}
+      {{/isTextarea}}
+
       span.help-block.
         Some useful hints for the {{{humanizedLowercase}}} input
 
