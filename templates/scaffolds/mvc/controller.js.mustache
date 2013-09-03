@@ -15,6 +15,8 @@ var dataGrid = greppy.helper.get('controller.data-grid');
  */
 var {{{headlinePlural}}}Controller = function()
 {
+    // Call the super constructor
+    {{{headlinePlural}}}Controller.super_.call(this);
 };
 
 /**
@@ -23,12 +25,30 @@ var {{{headlinePlural}}}Controller = function()
 util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'));
 
 /**
+ * Configure the controller.
+ *
+ * @param {Object} app - The application object
+ * @param {Object} server - Server object
+ * @param {Function} callback - Function to call on finish
+ * @return void
+ */
+{{{headlinePlural}}}Controller.prototype.configure = function(app, server, callback)
+{
+    callback && callback();
+}
+
+/**
+ * Build the controller instance
+ */
+module.exports = {{{headlinePlural}}}Controller = new {{{headlinePlural}}}Controller();
+
+/**
  * Deliver the {{{namePlural}}} overview page.
  *
  * @type {ControllerAction}
  * @public
  */
-{{{headlinePlural}}}Controller.prototype.actions.index =
+{{{headlinePlural}}}Controller.actions.index =
 {
     methods : ['GET'],
     action  : function(req, res) {
@@ -106,7 +126,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
  * @type {ControllerAction}
  * @public
  */
-{{{headlinePlural}}}Controller.prototype.actions.show =
+{{{headlinePlural}}}Controller.actions.show =
 {
     path    : '/:id',
     methods : ['GET'],
@@ -134,7 +154,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
  * @type {ControllerAction}
  * @public
  */
-{{{headlinePlural}}}Controller.prototype.actions.new =
+{{{headlinePlural}}}Controller.actions.new =
 {
     methods : ['GET'],
     action  : function(req, res) {
@@ -155,7 +175,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
  * @type {ControllerAction}
  * @public
  */
-{{{headlinePlural}}}Controller.prototype.actions.edit =
+{{{headlinePlural}}}Controller.actions.edit =
 {
     path    : '/:id/edit',
     methods : ['GET'],
@@ -187,7 +207,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
  * @type {ControllerAction}
  * @public
  */
-{{{headlinePlural}}}Controller.prototype.actions.create =
+{{{headlinePlural}}}Controller.actions.create =
 {
     path    : '/',
     methods : ['POST'],
@@ -226,7 +246,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
  * @type {ControllerAction}
  * @public
  */
-{{{headlinePlural}}}Controller.prototype.actions.update =
+{{{headlinePlural}}}Controller.actions.update =
 {
     path    : '/:id',
     methods : ['POST'],
@@ -273,7 +293,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
  * @type {ControllerAction}
  * @public
  */
-{{{headlinePlural}}}Controller.prototype.actions.destroy =
+{{{headlinePlural}}}Controller.actions.destroy =
 {
     path    : '/:id',
     methods : ['DELETE'],
@@ -314,7 +334,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
  * @type {ControllerAction}
  * @public
  */
-{{{headlinePlural}}}Controller.prototype.actions.restore =
+{{{headlinePlural}}}Controller.actions.restore =
 {
     path    : '/:id/restore',
     methods : ['POST'],
@@ -343,6 +363,4 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
     }
 };
 {{/softDeletion}}
-
-module.exports = {{{headlinePlural}}}Controller;
 
