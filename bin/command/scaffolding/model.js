@@ -294,11 +294,13 @@ exports.run = function(options, printHints, callback)
                 if ('y' == item.nullable) {
 
                     results.properties[idx].nullable = 'true';
+                    results.properties[idx].notEmpty = 'false';
                     results.properties[idx].fixture = 'utils.content.optional('
                         + results.properties[idx].fixture + ')';
 
                 } else {
                     results.properties[idx].nullable = 'false';
+                    results.properties[idx].notEmpty = 'true';
                 }
 
                 if ('float' != item.type &&
