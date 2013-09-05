@@ -1,20 +1,21 @@
 # Authentication
 
-Greppy provides adapters and handlers for authentication.
+Greppy provides an authentication system which is based on adapters and
+handlers. The authentication process is splitted into two parts, where the
+input (eg. username and password) which comes from the user will be handled
+by authentication handlers and the datasource on which this inputs will be
+verified by one or many adapters.
+
+## Adapters
 
 An adapter is a simple component that only performes authentication against a
 datasource and returns the result. The adapter is like an interface to a
 datasource and the datasource acts like a whitelist.
-
 Such an adapter can additionaly be stuck into a handler, giving the opportunity
 to do some processing around the authentication and to perform operations on
-error or success. The handler is like an interface to the data input.
-
-## Adapters
+error or success.
 
 ### Array
-
-#### Create an adapter
 
     var options = {
         users : [
@@ -28,6 +29,7 @@ error or success. The handler is like an interface to the data input.
             }
         ]
     };
+
     var arrayAuthAdapter = new (greppy.get('auth.adapter.array'))(options);
 
 * {Object} options - Options of the array authentication adapter
@@ -35,51 +37,18 @@ error or success. The handler is like an interface to the data input.
         * {String} username - Loginname of a user
         * {String} password - Password of a user
 
-#### Authenticate a user
-
-    arrayAuthAdapter.authentication(user, credentials, function(err, isAuthenticated) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(isAuthenticated);
-        }
-    });
-
-* {String} user - Username
-* {String} credentials - Password
-* {Object} err - Error, set if one occured
-* {Boolean} isAuthenticated - Has the user been authenticated?
-
 ### htpasswd
 
-#### Create an adapter
-
     var options = {
-        file : 'path/to/.htpasswd'
+        file : 'path/to/htpasswd'
     };
+
     var htpasswdAuthAdapter = new (greppy.get('auth.adapter.htpasswd'))(options);
 
 * {Object} options - Options of the htpasswd authentication adapter
     * {String} file - path to the .htpasswd file (generated with htpasswd)
 
-#### Authenticate a user
-
-    htpasswdAuthAdapter.authentication(user, credentials, function(err, isAuthenticated) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(isAuthenticated);
-        }
-    });
-
-* {String} user - Username
-* {String} credentials - Password
-* {Object} err - Error, set if one occured
-* {Boolean} isAuthenticated - Has the user been authenticated?
-
 ### LDAP
-
-#### Create an adapter
 
     var options = {
         ldap: {
@@ -90,37 +59,19 @@ error or success. The handler is like an interface to the data input.
             userBindDN : 'uid={{{username}}},ou=Users,dc=acme,dc=net'
         }
     };
+
     var ldapAuthAdapter = new (greppy.get('auth.adapter.ldap'))(options);
 
 * {Object} options - Options of the LDAP authentication adapter
     * {Object} ldap - Options of the LDAP client
-        * {String} userBindDN - The DN all user connections should be bound as,
-use the placeholder {{{username}}}
-        * {Mixed} other Parameters - Various options of the LDAP client
-according to [ldapjs](http://ldapjs.org/client.html)
-
-#### Authenticate a user
-
-    ldapAuthAdapter.authentication(user, credentials, function(err, isAuthenticated) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(isAuthenticated);
-        }
-    });
-
-* {String} user - Username
-* {String} credentials - Password
-* {Object} err - Error, set if one occured
-* {Boolean} isAuthenticated - Has the user been authenticated?
+        * {String} userBindDN - The DN all user connections should be bound as, use the placeholder {{{username}}}
+        * {Mixed} other Parameters - Various options of the LDAP client according to [ldapjs](http://ldapjs.org/client.html)
 
 ### Define own adapters
 
 The definition of own authentication adapters is very easy. Just create a class
-and implement the "authentication(user, credentials, callback)" method.
+and implement the ``authentication(user, credentials, callback)`` method.
 Everything else is up to you.
-
-** Sekeleton: **
 
     /**
      * Sekeleton Authentication Adapter
@@ -160,52 +111,33 @@ Everything else is up to you.
 
 ## Handlers
 
-### Base
+The handler provides an interface to the data input.
 
-#### Create a handler
+### HTTP
 
-    var options = {
-        adapter : customAuthAdapter,
-        success : function() {
-            console.log('--- SUCCESS ---');
+    var httpAuth = new (greppy.get('auth.handler.http'))({
+        adapter: [htpasswdSource, arraySource],
+        success: function() {
+            // The user inputs were verified against the adapters
+            // and are proofen to be valid
         },
-        error   : function() {
-            console.log('--- ERROR ---');
-        }
-    };
-    var baseAuthHandler = new (greppy.get('auth.handler.base'))(options);
-
-* {Object} options - Options of the base authentication handler
-    * {Object | Array} adapter - Reference to the authentication adapter(s) to
-be used
-    * {Function} success - Optional: Operation to perform when the
-authentication has succeeded
-    * {Function} error - Optional: Operation to perform when the authentication
-has failed
-
-#### Authenticate a user
-
-    baseAuthHandler.middleware(req, res, function(err, isAuthenticated) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(isAuthenticated);
+        error: function() {
+            // The user inputs couldn't be verified or
+            // the inputs are not valid on any adapter
         }
     });
 
-* {Object} req - The Request
-* {Object} res - The Response
-* {Object} err - Error, set if one occured
-* {Boolean} isAuthenticated - Has the user been authenticated?
+* {Object} options - Options of the base authentication handler
+    * {Object | Array} adapter - Reference to the authentication adapter(s) to be used
+    * {Function} success - Optional: Operation to perform when the authentication has succeeded
+    * {Function} error - Optional: Operation to perform when the authentication has failed
 
 ### Define own handlers
 
 The definition of own authentication handlers is very easy, too. Specialised
 authentication must inherit the base handler and overwrite the
-"middleware(req, res, callback)" and "post(isAuthenticated, callback)" methods.
-Everything else is up to you.
-
-** Sekeleton: **
+``middleware(req, res, callback)`` and can overwrite the ``post(isAuthenticated, callback)``
+methods. Everything else is up to you.
 
     /**
      * Skeleton Authentication Handler
@@ -241,8 +173,11 @@ Everything else is up to you.
      */
     SkeletonAuthHandler.prototype.middleware = function(req, res, next)
     {
+        // Do some mapping, cleaning and preparations like:
         var user        = req.body.user || '';
         var credentials = req.body.credentials || '';
+
+        // Call the base handler authentication processing method
         SkeletonAuthHandler.super_.prototype.process.call(self, user, credentials, next);
     }
 
@@ -255,10 +190,57 @@ Everything else is up to you.
      */
     SkeletonAuthHandler.prototype.post = function(isAuthenticated, callback)
     {
-        console.log(isAuthenticated);
+        // Do some post processing
+
         callback && callback();
     }
 
     module.exports = SkeletonAuthHandler;
 
+## Examples
+
+An usefull example for the Greppy authentication system is the usage on
+controllers which you want to protect against unauthenticated access. So you
+can setup an authentication handler with adapter for every controller you
+want to protect, but it's more clever to define all these configurations
+on the context configuration. So you would write something like this inside
+the ``configure()`` method of your context:
+
+    Context.prototype.configure = function(app, server, callback)
+    {
+        // Define some Auth stuff
+        var httpAuth = new (greppy.get('auth.handler.http'))({
+            adapter: [
+                new (greppy.get('auth.adapter.array'))({
+                    users: [
+                        {username: 'admin', password: 'admin'}
+                    ]
+                }),
+                new (greppy.get('auth.adapter.htpasswd'))({
+                    file: __dirname + '/../config/htpasswd'
+                })
+            ]
+        });
+
+        app.set('auth.http', httpAuth);
+
+        // ...
+    }
+
+So the ``auth.http`` setting of the application can be accessed by
+the controller specific ``configure()`` method like this:
+
+    Controller.prototype.configure = function(app, server, callback)
+    {
+        this.options.auth.handler = app.get('auth.http');
+        this.options.auth.routes  = [];
+
+        callback && callback();
+    };
+
+You can manage the protection very fine-grained to every route of the
+controller by an array of regular expressions. If this array is empty
+all routes of the controller will be protected by the given handler.
+If you sets ``options.auth.routes`` to ``null`` no route of the
+controller will be protected.
 
