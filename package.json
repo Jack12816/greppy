@@ -51,7 +51,8 @@
         "ldapjs": "~0.6.3",
         "mustache": "~0.7.2",
         "inflection": "~1.2.6",
-        "password": "~0.1.0"
+        "password": "~0.1.0",
+        "pass": "~0.1.3"
     },
     "main": "./lib/greppy",
     "bin": {
