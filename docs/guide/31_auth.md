@@ -7,8 +7,8 @@ datasource and returns the result. The adapter is like an interface to a
 datasource and the datasource acts like a whitelist.
 
 Such an adapter can additionaly be stuck into a handler, giving the opportunity
-to do some preparation, postprocessing and to perform operations on error or
-success. The handler is like an interface to the data input.
+to do some processing around the authentication and to perform operations on
+error or success. The handler is like an interface to the data input.
 
 ## Adapters
 
@@ -28,7 +28,7 @@ success. The handler is like an interface to the data input.
             }
         ]
     };
-    var arrayAuthAdapter = new (greppy.get('auth.adapters.array'))(options);
+    var arrayAuthAdapter = new (greppy.get('auth.adapter.array'))(options);
 
 * {Object} options - Options of the array authentication adapter
     * {Array} users - Whitelist of users
@@ -38,6 +38,33 @@ success. The handler is like an interface to the data input.
 #### Authenticate a user
 
     arrayAuthAdapter.authentication(user, credentials, function(err, isAuthenticated) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(isAuthenticated);
+        }
+    });
+
+* {String} user - Username
+* {String} credentials - Password
+* {Object} err - Error, set if one occured
+* {Boolean} isAuthenticated - Has the user been authenticated?
+
+### htpasswd
+
+#### Create an adapter
+
+    var options = {
+        file : 'path/to/.htpasswd'
+    };
+    var htpasswdAuthAdapter = new (greppy.get('auth.adapter.htpasswd'))(options);
+
+* {Object} options - Options of the htpasswd authentication adapter
+    * {String} file - path to the .htpasswd file (generated with htpasswd)
+
+#### Authenticate a user
+
+    htpasswdAuthAdapter.authentication(user, credentials, function(err, isAuthenticated) {
         if (err) {
             console.log(err);
         } else {
@@ -63,7 +90,7 @@ success. The handler is like an interface to the data input.
             userBindDN : 'uid={{{username}}},ou=Users,dc=acme,dc=net'
         }
     };
-    var ldapAuthAdapter = new (greppy.get('auth.adapters.ldap'))(options);
+    var ldapAuthAdapter = new (greppy.get('auth.adapter.ldap'))(options);
 
 * {Object} options - Options of the LDAP authentication adapter
     * {Object} ldap - Options of the LDAP client
@@ -100,7 +127,7 @@ Everything else is up to you.
      *
      * This authentication adapter authenticates users ... .
      *
-     * @module greppy/auth/adapters/skeleton
+     * @module greppy/auth/adapter/skeleton
      * @author Ralf Grawunder <r.grawunder@googlemail.com>
      */
 
@@ -146,12 +173,13 @@ Everything else is up to you.
             console.log('--- ERROR ---');
         }
     };
-    var baseAuthHandler = new (greppy.get('auth.handlers.base'))(options);
+    var baseAuthHandler = new (greppy.get('auth.handler.base'))(options);
 
 * {Object} options - Options of the base authentication handler
-    * {Object} handler - Reference to the authentication adapter to be used
-    * {Function} success - Optional: Operation to perform when the authentication
-has succeeded
+    * {Object | Array} adapter - Reference to the authentication adapter(s) to
+be used
+    * {Function} success - Optional: Operation to perform when the
+authentication has succeeded
     * {Function} error - Optional: Operation to perform when the authentication
 has failed
 
@@ -173,17 +201,16 @@ has failed
 ### Define own handlers
 
 The definition of own authentication handlers is very easy, too. Specialised
-authentication handlers must inherit the base handler and overwrite the
-"preAuthentication(req, res, callback)" and
-"postAuthentication(req, res, callback)" methods. Do not overwrite the
-"middleware(req, res, next)" method! Everything else is up to you.
+authentication must inherit the base handler and overwrite the
+"middleware(req, res, callback)" and "post(isAuthenticated, callback)" methods.
+Everything else is up to you.
 
 ** Sekeleton: **
 
     /**
      * Skeleton Authentication Handler
      *
-     * @module greppy/auth/handlers/skeleton
+     * @module greppy/auth/handler/skeleton
      * @author Ralf Grawunder <r.grawunder@googlemail.com>
      */
 
@@ -193,7 +220,8 @@ authentication handlers must inherit the base handler and overwrite the
      */
     var SkeletonAuthHandler = function(options)
     {
-        this.options = options || null;
+        // Call the super constructor
+        SkeletonAuthHandler.super_.apply(this, arguments);
     };
 
     /**
@@ -202,34 +230,33 @@ authentication handlers must inherit the base handler and overwrite the
     util.inherits(SkeletonAuthHandler, greppy.get('auth.handlers.base'));
 
     /**
-     * Do some preparation before the authentication and fetch the representations
-     * of the user and credentials according to the authentication adapter.
+     * Do some preparation before the authentication and fetch the
+     * representations of the user and credentials according to the
+     * authentication adapter(s).
      *
      * @param {Object} req - The Request
      * @param {Object} res - The Response
-     * @param {Function} callback - Function to call when finished
+     * @param {Function} next - Function to call when finished
      * @return void
      */
-    SkeletonAuthHandler.prototype.preAuthentication = function(req, res, callback)
+    SkeletonAuthHandler.prototype.middleware = function(req, res, next)
     {
-        var err         = undefined;
         var user        = req.body.user || '';
         var credentials = req.body.credentials || '';
-        callback && callback(err, user, credentials);
+        SkeletonAuthHandler.super_.prototype.process.call(self, user, credentials, next);
     }
 
     /**
      * Do some postprocessing after the authentication.
      *
-     * @param {Object} req - The Request
-     * @param {Object} res - The Response
+     * @param {Boolean} isAuthenticated - AHas the user been authenticated?
      * @param {Function} callback - Function to call when finished
      * @return void
      */
-    SkeletonAuthHandler.prototype.postAuthentication = function(req, res, callback)
+    SkeletonAuthHandler.prototype.post = function(isAuthenticated, callback)
     {
-        var err = undefined;
-        callback && callback(err);
+        console.log(isAuthenticated);
+        callback && callback();
     }
 
     module.exports = SkeletonAuthHandler;
