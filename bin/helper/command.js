@@ -230,9 +230,9 @@ helper.checkDatabaseNamespace = function(namespaces)
 helper.getDatabaseConfigByNamespace = function(namespace, configs)
 {
     var path       = namespace.split('.');
-    var backend    = path[0];
-    var connection = path[1];
-    var result = false;
+    var backend    = path.shift();
+    var connection = path.join('.');
+    var result     = false;
 
     if (!backend || !connection) {
         return result;

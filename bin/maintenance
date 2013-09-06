@@ -54,7 +54,7 @@ function usage()
     echo
     echo " -h, --help                     Print this Help";
     echo
-    echo " --generate-docs                Generate documentation";
+    echo " --docs                         Generate documentation";
     echo " --cleanup-docs                 Cleanup documentation";
     exit 1;
 }
