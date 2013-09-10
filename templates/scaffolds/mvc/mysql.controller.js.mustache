@@ -258,7 +258,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
                 } else {
 
                     record.save().success(function(record) {
-                      res.redirect(self.link('show', {id: record.id}));
+                        res.redirect(self.link('show', {id: record.id}));
                     }).error(function(err) {
                         self.error.showErrorPage(req, res, err);
                     });

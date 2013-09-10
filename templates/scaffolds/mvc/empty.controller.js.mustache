@@ -1,0 +1,47 @@
+/**
+ * {{{headline}}} Controller
+ *
+ * @module {{{module}}}/controller/{{{namePlural}}}
+ * @author {{{author}}}
+ */
+
+/**
+ * @constructor
+ */
+var {{{headlinePlural}}}Controller = function()
+{
+    // Call the super constructor
+    {{{headlinePlural}}}Controller.super_.call(this);
+
+    // Define the path to look for views
+    this.viewPath = '{{{namePlural}}}/';
+};
+
+/**
+ * Extend Greppy framework base controller
+ */
+util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'));
+
+/**
+ * Build the controller instance
+ */
+{{{headlinePlural}}}Controller = new {{{headlinePlural}}}Controller();
+
+/**
+ * Deliver the index page.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.actions.index =
+{
+    methods : ['GET'],
+    action  : function(req, res) {
+
+        // Render the view
+        res.render(self.view('index'), {});
+    }
+};
+
+module.exports = {{{headlinePlural}}}Controller;
+
