@@ -13,17 +13,17 @@ block content
 
         {{#attributes}}
         tr
-          th {{{humanized}}}
+          th.min {{{humanized}}}
           td #{ {{{entity}}}.{{{name}}} }
 
         {{/attributes}}
         tr
-          th Created at
+          th.min Created at
           td #{helper.date.format({{{name}}}.created_at, 'LLLL')}
 
         {{#softDeletion}}
         tr(class="#{ {{{name}}}.deleted_at ? 'danger' : 'success' }")
-          th Deleted
+          th.min Deleted
           td #{ {{{name}}}.deleted_at ? ('at ' + helper.date.format({{{name}}}.deleted_at, 'LLLL')) : 'No' }
         {{/softDeletion}}
 
