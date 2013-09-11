@@ -27,7 +27,7 @@ exports.run = function(options, printHints, callback)
         question({
             id        : 'model',
             question  : 'Choose the model.',
-            prompt    : 'Module'
+            prompt    : 'Model'
         }),
 
         question({
@@ -39,34 +39,45 @@ exports.run = function(options, printHints, callback)
     ];
 
     var result = {};
+    var modelsCache = {};
 
     // Run the dialog
     async.mapSeries(dialog, function(question, callback) {
 
         if ('model' === question.id) {
 
-            if (models.hasOwnProperty(result.module)) {
+            var allModels = [];
 
-                var allModels = [];
+            Object.keys(models).forEach(function(module) {
 
-                Object.keys(models[result.module]).forEach(function(backend) {
+                Object.keys(models[module]).forEach(function(backend) {
 
-                    if (0 === models[result.module][backend].length) {
+                    if (0 === models[module][backend].length) {
                         return;
                     }
 
-                    models[result.module][backend].forEach(function(model) {
-                        allModels.push(backend + '.' + model);
+                    models[module][backend].forEach(function(model) {
+
+                        var cannonicalName = backend + '.' + model;
+
+                        allModels.push(cannonicalName);
+                        modelsCache[cannonicalName] = {
+                            name    : model,
+                            module  : module,
+                            backend : backend,
+                            path    : modules.path + module + '/models/'
+                                        + backend + '/' + model
+                        }
                     });
                 });
+            });
 
-                question.options.default = allModels[0];
-                question.options.values  = allModels;
-            }
+            question.options.default = allModels[0];
+            question.options.values  = allModels;
         }
 
         if ('name' === question.id) {
-            question.options.default = result.model.split('.')[2].toLowerCase();
+            question.options.default = result.model.split('.').pop().toLowerCase();
         }
 
         question.ask(function(err, data) {
@@ -108,14 +119,16 @@ exports.run = function(options, printHints, callback)
             results.headlinePlural = results.namePlural.capitalize();
 
             var backend        = results.model.split('.');
-            results.model      = backend[2];
-            results.connection = backend[0] + '.' + backend[1];
+            results.modelInput = results.model;
+            results.backend    = backend.shift();
+            results.modelName  = backend.pop();
+            results.connection = results.backend + '.' + backend.join('.');
+            results.model      = results.modelName;
 
             var controllerHelper = require('./helper/controller');
-            var modelPath = modules.path + results.module + '/models/'
-                            + results.connection + '/' + results.model;
+            var modelPath        = modelsCache[results.modelInput].path;
 
-            var attributes = controllerHelper.getModelAttributes(backend[0], modelPath);
+            var attributes     = controllerHelper.getModelAttributes(results.backend, modelPath);
             results.attributes = controllerHelper.mapDetails(results, attributes);
 
             // Setup files to generate
@@ -124,7 +137,7 @@ exports.run = function(options, printHints, callback)
                     name     : results.namePlural + '.js',
 
                     template : __dirname + '/../../../templates/scaffolds/mvc/'
-                                + backend[0] + '.controller.js.mustache',
+                                + results.backend + '.controller.js.mustache',
 
                     path     : process.cwd() + '/modules/' + results.module
                                 + '/controllers/'
