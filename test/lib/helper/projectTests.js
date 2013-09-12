@@ -2,7 +2,7 @@ var should = require('should');
 var path   = require('path');
 var root   = path.resolve('./');
 
-describe('tests for the project helper', function() {
+describe('project helper', function() {
     
     var validAppPath   = path.resolve('templates/project');
     var invalidAppPath = path.resolve('templates');
@@ -178,7 +178,7 @@ describe('tests for the project helper', function() {
             result.configs.should.be.an.instanceOf(Array);
             result.configs.should.be.empty;
             result.instance.should.be.a.object;
-            should.deepEqual(result.instance, {}, 'expected result.instance to be an empty object.');
+            result.instance.should.eql({});
         });
     });
     

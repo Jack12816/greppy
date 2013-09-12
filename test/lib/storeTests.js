@@ -2,7 +2,7 @@ var should = require('should');
 var path   = require('path');
 var root   = path.resolve('./');
 
-describe('tests for the store', function() {
+describe('store', function() {
     
     var Store   = null;
     var myStore = null;
@@ -63,10 +63,93 @@ describe('tests for the store', function() {
         });
         
         
-        //it('should return undefined when accessing an undefined namespace', function() {
+        it('should return null when accessing an undefined value of an undefined namespace', function() {
+            myStore = new Store();
             
-            // current version of store throws a typeerror, this should be fixed first
-        //});
+            var result = myStore.get('customSpace', 'foo');
+            
+            should.strictEqual(result, null);
+        });
+        
+        it('should return null when accessing an undefined value of a defined namespace', function() {
+            var namespaces = ['checkMe', 'lookAtThis', 'ohWow'];
+            
+            myStore = new Store(namespaces);
+            
+            var result = myStore.get('checkMe', 'bar');
+            
+            should.strictEqual(result, null);
+        });
     });
     
+    describe('setter', function() {
+        it('should throw an error if not enough arguments are provided', function() {
+            myStore = new Store();
+            
+            (function(){
+                myStore.set('foo');
+            }).should.throwError(/.*Arguments.*/);
+        });
+        
+        it('should throw an error when trying to set a value of an undefined namespace', function() {
+            myStore = new Store();
+            
+            (function(){
+                myStore.set('bar', 'foo', 'buz');
+            }).should.throwError(/.*Namespace.*/);
+        });
+        
+        it('should set a value without providing a namespace', function() {
+            myStore = new Store();
+            
+            (function(){
+                myStore.set('foo', 'bar');
+            }).should.not.throwError();
+        });
+        
+        it('should set a value within a provided namespace', function() {
+            myStore = new Store(['mySpace']);
+            
+            (function(){
+                myStore.set('mySpace', 'foo', 'bar');
+            }).should.not.throwError();
+        });
+    });
+    
+    describe('list', function() {
+        it('should list all keys in a provided namespace', function() {
+            myStore = new Store(['s1', 's2']);
+            
+            myStore.set('s1', 'myFirstKey', 'myFirstVal');
+            myStore.set('s1', 'mySecondKey', 'mySecondVal');
+            
+            myStore.set('s2', 'firstKey', 'firstVal');
+            myStore.set('s2', 'secondKey', 'secondVal');
+            
+            myStore.set('default', 'firstKeyInDefault', 'firstValInDefault');
+            myStore.set('default', 'secondKeyInDefault', 'secondValInDefault');
+            
+            myStore.list('s1').should.eql(['myFirstKey', 'mySecondKey']);
+            myStore.list('s2').should.eql(['firstKey', 'secondKey']);
+            myStore.list('default').should.eql(['firstKeyInDefault', 'secondKeyInDefault']);
+            
+        });
+        
+        it('should list all keys of the default namespace, if no namespace was provided', function() {
+            myStore = new Store();
+            
+            myStore.set('foo', 'bar');
+            myStore.set('fiz', 'buzz');
+            
+            myStore.list().should.eql(['foo', 'fiz']);
+        });
+        
+        it('should throw an error if a non-existent namespace was provided', function() {
+            myStore = new Store();
+            
+            (function() {
+                myStore.list('foo');
+            }).should.throwError(/.*Namespace.*/);
+        }); 
+    });
 });
