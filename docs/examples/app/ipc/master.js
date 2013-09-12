@@ -15,7 +15,7 @@ setTimeout(function() {
  */
 master.getIPC().addMethod('notify.request', function(msg, options, callback) {
 
-    callback && callback(undefined, {
+    callback && callback(null, {
         test: ++options.test
     });
 });

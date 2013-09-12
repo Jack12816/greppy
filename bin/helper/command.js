@@ -371,7 +371,7 @@ helper.getCurrentUser = function(callback)
             gitHelper.getGlobalUser(function(err, identity) {
 
                 if (err || !identity) {
-                    return callback && callback(undefined, defaultStr);
+                    return callback && callback(null, defaultStr);
                 }
 
                 var str = undefined;
@@ -388,14 +388,14 @@ helper.getCurrentUser = function(callback)
                     }
                 }
 
-                callback && callback(undefined, str);
+                callback && callback(null, str);
             });
         };
 
     } else {
 
         getUserStr = function(callback) {
-            callback && callback(undefined, defaultStr);
+            callback && callback(null, defaultStr);
         }
     }
 
