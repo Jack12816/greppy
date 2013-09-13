@@ -55,6 +55,12 @@ exports.run = function(opts)
     // configuration as a list for the current project
     if (0 === opts.argv.length) {
 
+        if (0 === configs.namespaces.length) {
+
+            console.log('No database configurations found.');
+            return;
+        }
+
         configs.namespaces.forEach(function(namespace) {
 
             var conf = commandHelper.getDatabaseConfigByNamespace(namespace, configs);

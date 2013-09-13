@@ -1,31 +1,31 @@
 /**
  * {{{headline}}} Controller
  *
- * @module {{{module}}}/controller/{{{namePlural}}}
+ * @module {{{module}}}/controller/{{{name}}}
  * @author {{{author}}}
  */
 
 /**
  * @constructor
  */
-var {{{headlinePlural}}}Controller = function()
+var {{{headline}}}Controller = function()
 {
     // Call the super constructor
-    {{{headlinePlural}}}Controller.super_.call(this);
+    {{{headline}}}Controller.super_.call(this);
 
     // Define the path to look for views
-    this.viewPath = '{{{namePlural}}}/';
+    this.viewPath = '{{{name}}}/';
 };
 
 /**
  * Extend Greppy framework base controller
  */
-util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'));
+util.inherits({{{headline}}}Controller, greppy.get('http.mvc.controller'));
 
 /**
  * Build the controller instance
  */
-{{{headlinePlural}}}Controller = new {{{headlinePlural}}}Controller();
+{{{headline}}}Controller = new {{{headline}}}Controller();
 
 /**
  * Deliver the index page.
@@ -33,7 +33,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
  * @type {ControllerAction}
  * @public
  */
-{{{headlinePlural}}}Controller.actions.index =
+{{{headline}}}Controller.actions.index =
 {
     methods : ['GET'],
     action  : function(req, res) {
@@ -43,5 +43,5 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
     }
 };
 
-module.exports = {{{headlinePlural}}}Controller;
+module.exports = {{{headline}}}Controller;
 

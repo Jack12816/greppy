@@ -10,10 +10,10 @@ block content
     table.table.table-bordered.table-striped.datagrid.small-bottom-margin
       thead
         tr
-          {{#softDeletion}}
+          {{#softDeletable}}
           th.text-center(title="Deletion status")
             i.icon-trash
-          {{/softDeletion}}
+          {{/softDeletable}}
           {{#attributes}}
           th(data-property="{{{name}}}") {{{humanized}}}
           {{/attributes}}
@@ -36,11 +36,6 @@ block content
      * Build DataGrid instances for the whole index page
      */
     var datagrid = new greppy.DataGrid($('table.datagrid'), {
-      {{#softDeletion}}
-      softDeletion: true
-      {{/softDeletion}}
-      {{^softDeletion}}
-      softDeletion: false
-      {{/softDeletion}}
+      softDeletion: {{softDeletion}}
     });
 

@@ -1,7 +1,7 @@
 /**
  * Scaffolding Command
  *
- * @module greppy/cli/scaffolding/controller
+ * @module greppy/cli/scaffolding/context
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
@@ -17,31 +17,31 @@ exports.run = function(options, printHints, callback)
     var dialog = [
 
         question({
-            id        : 'name',
-            question  : 'Enter the context name.',
-            prompt    : 'Name',
-            hint      : 'Singular, PascalCase'
+            id       : 'name',
+            question : 'Enter the context name.',
+            prompt   : 'Name',
+            hint     : 'Singular, PascalCase'
         }),
 
         question({
-            id        : 'description',
-            question  : 'Write a description for the context.',
-            prompt    : 'Description'
+            id       : 'description',
+            question : 'Write a description for the context.',
+            prompt   : 'Description'
         }),
 
         question({
-            id        : 'module',
-            question  : 'Choose the module(s).',
-            prompt    : 'Module',
-            values    : modules.modules,
-            default   : modules.modules[0]
+            id       : 'module',
+            question : 'Choose the module(s).',
+            prompt   : 'Module',
+            values   : modules.modules,
+            default  : modules.modules[0]
         }),
 
         question({
-            id        : 'port',
-            question  : 'Choose the default port.',
-            prompt    : 'Port',
-            default   : 3000
+            id       : 'port',
+            question : 'Choose the default port.',
+            prompt   : 'Port',
+            default  : 3000
         }),
     ];
 
@@ -71,7 +71,7 @@ exports.run = function(options, printHints, callback)
         commandHelper.getCurrentUser(function(err, user) {
 
             // Reformat the resultset
-            results            = commandHelper.dialogResultsFormat(results);
+            results = commandHelper.dialogResultsFormat(results);
 
             results.nameLower   = results.name.toLowerCase();
             results.author      = user;

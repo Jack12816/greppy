@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+
+  h2.page-headline An error occured
+    .pull-right
+      a.btn(onclick="history.back();", title="Back")
+        i.icon-arrow-left
+
+  .error-message
+    h1 The operation could not be performed
+    hr
+    p We apologize for any inconvenience.
+

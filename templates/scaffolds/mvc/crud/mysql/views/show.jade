@@ -20,12 +20,12 @@ block content
         tr
           th.min Created at
           td #{helper.date.format({{{name}}}.created_at, 'LLLL')}
+        {{#softDeletable}}
 
-        {{#softDeletion}}
         tr(class="#{ {{{name}}}.deleted_at ? 'danger' : 'success' }")
           th.min Deleted
           td #{ {{{name}}}.deleted_at ? ('at ' + helper.date.format({{{name}}}.deleted_at, 'LLLL')) : 'No' }
-        {{/softDeletion}}
+        {{/softDeletable}}
 
   - else
 

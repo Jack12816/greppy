@@ -31,7 +31,7 @@
 
     &nbsp;
 
-    {{#softDeletion}}
+    {{#softDeletable}}
     - if (!{{{name}}}.deleted_at)
 
       a.btn.btn-danger.delete-operation(title="Delete", data-id="#{ {{{name}}}.id }")
@@ -41,11 +41,11 @@
 
       a.btn.btn-success.restore-operation(title="Restore", data-id="#{ {{{name}}}.id }")
         i.icon-refresh
-    {{/softDeletion}}
-    {{^softDeletion}}
+    {{/softDeletable}}
+    {{^softDeletable}}
     a.btn.btn-danger.delete-operation(title="Delete", data-id="#{ {{{name}}}.id }")
       i.icon-trash
-    {{/softDeletion}}
+    {{/softDeletable}}
 
 - if ('undefined' === typeof {{{name}}} || 'show' == req.greppy.route.action)
 
@@ -68,7 +68,12 @@
                 type: "DELETE",
                 url: greppy.controller.link('destroy', {id: id})
             }).done(function(data) {
+                {{#softDeletable}}
                 window.location.reload();
+                {{/softDeletable}}
+                {{^softDeletable}}
+                window.location = greppy.controller.link('index');
+                {{/softDeletable}}
             });
 
             callback && callback();
@@ -76,7 +81,7 @@
         }
       );
     });
-    {{#softDeletion}}
+    {{#softDeletable}}
 
     /**
      * Restore popup bindings
@@ -101,5 +106,5 @@
         }
       );
     });
-    {{/softDeletion}}
+    {{/softDeletable}}
 

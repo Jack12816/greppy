@@ -2,11 +2,13 @@
   .row
     .col-lg-4.small-gutter.text-right
       include _operations
+      {{#softDeletable}}
 
       .btn-group#search-trash(data-toggle="buttons")
         label.btn.btn-danger
           i.icon-trash
           input(type="checkbox", title="Search in the bin")
+      {{/softDeletable}}
 
     .col-lg-8.small-gutter.text-right
 

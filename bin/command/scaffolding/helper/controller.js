@@ -76,6 +76,7 @@ helper.mapDetails = function(results, attributes)
     var inf                      = require('inflection');
     var attrs                    = [];
     results.softDeletion         = 'false';
+    results.softDeletable        = false;
     results.searchableAttributes = '';
 
     attributes.forEach(function(attr, idx) {
@@ -88,6 +89,7 @@ helper.mapDetails = function(results, attributes)
 
         if ('deleted_at' == attr.name) {
             results.softDeletion = 'true';
+            results.softDeletable = true;
             return;
         }
 

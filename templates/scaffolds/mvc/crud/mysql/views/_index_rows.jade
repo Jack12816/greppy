@@ -1,15 +1,15 @@
 - each {{{name}}} in {{{namePlural}}}
 
-  {{#softDeletion}}
+  {{#softDeletable}}
   tr(class="#{ {{{name}}}.deleted_at ? 'danger' : '' }")
 
     td.min.text-center
       i(title="{{{headline}}} is #{ {{{name}}}.deleted_at ? '' : 'not' } deleted",
         data-toggle="tooltip", class="#{ {{{name}}}.deleted_at ? 'icon-remove' : 'icon-ok' }")
-  {{/softDeletion}}
-  {{^softDeletion}}
+  {{/softDeletable}}
+  {{^softDeletable}}
   tr
-  {{/softDeletion}}
+  {{/softDeletable}}
 
   {{#attributes}}
     td #{ new String({{{entity}}}.{{{name}}}).words(30) }

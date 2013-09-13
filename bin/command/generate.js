@@ -16,15 +16,18 @@ exports.run = function(opts)
         var help = [
             ' Scaffolding'.green.bold,
             '',
+            '    ' + 'context'.yellow,
+            '        Create a context file with predefined settings.',
+            '',
+            '    ' + 'module'.yellow,
+            '        Create a new module structure.',
+            '',
             '    ' + 'model'.yellow,
             '        Create all necessary files for a complete database backend equipment.',
             '        A model, it\'s migration and a fixture for it will be generated.',
             '',
             '    ' + 'controller'.yellow,
-            '        Create a CRUD (Create-Read-Update-Delete) controller and it\'s views.',
-            '',
-            '    ' + 'context'.yellow,
-            '        Create a context file with predefined settings.'
+            '        Create a new controller and it\'s views.'
         ].join('\n');
 
         console.log(help);
@@ -41,7 +44,7 @@ exports.run = function(opts)
     var argument = argumentHelper.build(opts.argv);
 
     argument.setCommands({
-        atomic: ['model', 'controller', 'context'],
+        atomic: ['context', 'module', 'model', 'controller'],
     });
 
     // Build the operations chain

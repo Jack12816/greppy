@@ -324,12 +324,15 @@ helper.dialogResultsFormat = function(results)
  *
  * @param {Object} fileConfigs - Configuration for all file generations
  * @param {Object} results - Results to use with mustache
+ * @param {Boolean} [clear] - Clear the terminal - Default true
  * @return void
  */
-helper.generateScaffoldsByConfig = function(fileConfigs, results)
+helper.generateScaffoldsByConfig = function(fileConfigs, results, clear)
 {
-    consoleApp.clear();
-    console.log();
+    if (undefined === clear || true === clear) {
+        consoleApp.clear();
+        console.log();
+    }
 
     // Generate the files
     fileConfigs.forEach(function(config) {
@@ -346,7 +349,7 @@ helper.generateScaffoldsByConfig = function(fileConfigs, results)
         );
 
         global.table.writeRow([
-            'generate'.bold.green,
+            'generate '.bold.green,
             new String(config.path + config.name).replace(process.cwd() + '/', '').white
         ]);
     });
@@ -400,6 +403,36 @@ helper.getCurrentUser = function(callback)
     }
 
     getUserStr(callback);
+}
+
+/**
+ * Create directories by an given array.
+ *
+ * @param {Array} paths - Array of path strings (absolute|relative)
+ * @param {Boolean} [clear] - Clear the terminal - Default true
+ * @return void
+ */
+helper.generateScaffoldPaths = function(paths, clear)
+{
+    if (undefined === clear || true === clear) {
+        consoleApp.clear();
+        console.log();
+    }
+
+    // Generate the files
+    paths.forEach(function(path) {
+
+        // Try to build the path, on error it just exists
+        try {
+            (require('node-fs')).mkdirSync(path, '0744', true);
+        } catch (e) {
+        }
+
+        global.table.writeRow([
+            'create '.bold.green,
+            new String(path).replace(process.cwd() + '/', '').white
+        ]);
+    });
 }
 
 module.exports = helper;

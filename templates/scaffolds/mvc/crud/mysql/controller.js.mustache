@@ -291,14 +291,14 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
                     return res.end();
                 }
 
-                {{#softDeletion}}
+                {{#softDeletable}}
                 record.deleted_at = new Date();
 
                 record.save().success(function(record) {
-                {{/softDeletion}}
-                {{^softDeletion}}
+                {{/softDeletable}}
+                {{^softDeletable}}
                 record.destroy().success(function(record) {
-                {{/softDeletion}}
+                {{/softDeletable}}
                     res.end();
                 }).error(function(err) {
                     self.error.showErrorPage(req, res, err);
@@ -310,7 +310,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
         });
     }
 };
-{{#softDeletion}}
+{{#softDeletable}}
 
 /**
  * Backend action to restore a {{{name}}}.
@@ -346,7 +346,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
         });
     }
 };
-{{/softDeletion}}
+{{/softDeletable}}
 
 module.exports = {{{headlinePlural}}}Controller;
 
