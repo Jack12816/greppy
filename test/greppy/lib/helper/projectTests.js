@@ -1,3 +1,9 @@
+/**
+ * Tests for lib/helper/project.js
+ *
+ * @author Nabil Krause <nabil.krause@silberlicht.eu>
+ */
+
 var should = require('should');
 var path   = require('path');
 var root   = path.resolve('./');
@@ -94,9 +100,6 @@ describe('project helper', function() {
     // NOT WORKING YET
     describe('loadContexts', function() {
         
-        // not working yet (reason: path issues)
-        return;
-        
         var contextObject = {};
         
         beforeEach(function() {
@@ -106,8 +109,10 @@ describe('project helper', function() {
             contextObject = myProject.listContexts(curAppPath);
         });
         
-        it('instantiate each provided context', function() {
-            
+        it.skip('should instantiate each provided context', function() {
+            var ProjectHelper = require(root + '/lib/helper/test/project');
+            var project       = new ProjectHelper();
+            console.log(project);
         });
         
     });

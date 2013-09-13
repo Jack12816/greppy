@@ -1,3 +1,9 @@
+/**
+ * Tests for lib/helper/store.js
+ *
+ * @author Nabil Krause <nabil.krause@silberlicht.eu>
+ */
+
 var should = require('should');
 var path   = require('path');
 var root   = path.resolve('./');
