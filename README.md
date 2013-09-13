@@ -22,16 +22,16 @@ For more details take a look at [greppy.org](http://greppy.org) or the
 
 ### Installation
 
-    npm install -g greppy
+    $ npm install -g greppy
 
 ### Creating a new Project
 
 Open a terminal and go to your usual workspace. The next step is to create a new
 Greppy project.
 
-    greppy --new PROJECT_NAME
-    cd PROJECT_NAME
-    greppy --start acme -d
+    $ greppy --new PROJECT_NAME
+    $ cd PROJECT_NAME
+    $ greppy --start acme -d
 
 The application directory structure will be created and an initial vendor
 package installation using npm and bower will be done.
@@ -76,4 +76,15 @@ package installation using npm and bower will be done.
     ├── bower.json
     ├── package.json
     └── README.md
+
+## Running Tests
+
+To run the test suite just run the following command, which installs the
+development dependencies:
+
+    $ npm install
+
+Run the tests with:
+
+    $ make test
 
