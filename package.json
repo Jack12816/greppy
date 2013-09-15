@@ -30,7 +30,7 @@
         }
     ],
     "dependencies": {
-        "express": "~3.3.5",
+        "express": "~3.4.0",
         "node-getopt": "~0.2.3",
         "node-fs": "~0.1.5",
         "async": "~0.2.5",
