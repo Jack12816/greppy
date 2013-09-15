@@ -1,4 +1,0 @@
-{
-    "title": "Application / Cluster",
-    "children": ["app.cluster.ipc"]
-}

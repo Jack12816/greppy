@@ -24,6 +24,7 @@ var template = require( 'jsdoc/template' ),
 var globalUrl = helper.getUniqueFilename( 'global' );
 var indexUrl = helper.getUniqueFilename( 'index' );
 var docsUrl = helper.getUniqueFilename( 'guide' );
+var examplesUrl = helper.getUniqueFilename( 'examples' );
 
 var navOptions = {
     systemName      : conf.systemName || "Documentation",
@@ -42,10 +43,16 @@ var navigationMaster = {
         link    : indexUrl,
         members : []
     },
-    gettingStarted     : {
+    gettingStarted: {
         title   : "Documentation",
         icon    : 'icon-book',
         link    : docsUrl,
+        members : []
+    },
+    examples: {
+        title   : "Examples",
+        icon    : 'icon-code',
+        link    : examplesUrl,
         members : []
     },
     namespace : {
@@ -608,7 +615,13 @@ exports.publish = function ( taffyData, opts, tutorials ) {
         ).concat( files ),
         docsUrl );
 
-
+    generate( 'examples', 'Index',
+        packages.concat(
+            [
+                {kind : 'mainpage', readme : fs.readFileSync('./docs/chaper_examples.html', 'utf8'), longname : (opts.mainpagetitle) ? opts.mainpagetitle : 'Examples'}
+            ]
+        ).concat( files ),
+        examplesUrl );
 
     // set up the lists that we'll use to generate pages
     var classes = taffy( members.classes );

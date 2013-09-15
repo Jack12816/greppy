@@ -8,10 +8,12 @@ define md2html
 	$(call print,"Prepare ${1} chapter")
 
 	@cd "docs/${1}"; \
-	for file in $$(find *.md 2>/dev/null); do \
+	echo > "../chaper_${1}.md"; \
+	for file in $$(find . -regex ".*\.\(md\)" 2>/dev/null | sort); do \
+		echo "$${file}"; \
 		cat "$${file}" >> "../chaper_${1}.md"; \
 	done; \
-	marked --gfm --tables --lang-prefix "" "../chaper_${1}.md" >> "../chaper_${1}.html";
+	marked --gfm --tables --lang-prefix "" "../chaper_${1}.md" > "../chaper_${1}.html";
 endef
 
 all: test docs
@@ -29,6 +31,7 @@ docs: clean docs-md docs-api
 
 docs-md:
 	$(call md2html,"guide")
+	$(call md2html,"examples")
 
 docs-api:
 	@jsdoc -c ./docs/jsdoc.conf.json ./lib ./README.md
