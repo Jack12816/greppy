@@ -97,22 +97,40 @@ describe('project helper', function() {
         });
     });
 
-    // NOT WORKING YET
     describe('loadContexts', function() {
 
         var contextObject = {};
+        var cwdBak        = process.cwd();
 
         beforeEach(function() {
-
+            curAppPath = '/tmp/greppy/project/';
             // create contextObject mockup
-            curAppPath = validAppPath;
             contextObject = myProject.listContexts(curAppPath);
         });
 
-        it.skip('should instantiate each provided context', function() {
-            var ProjectHelper = require(root + '/lib/helper/test/project');
-            var project       = new ProjectHelper();
-            console.log(project);
+        afterEach(function() {
+            process.chdir(cwdBak);
+        });
+
+        it('should instantiate each provided context', function() {
+            process.chdir(curAppPath);
+            var contexts = contextObject.contexts;
+            var result   = myProject.loadContexts(contextObject);
+
+            result.should.have.property('path');
+            result.should.have.property('contexts');
+            result.should.have.property('instance');
+
+            contexts.forEach(function(item, idx) {
+
+                result.instance.should.have.property(item);
+                result.instance[item].should.have.property('name');
+                result.instance[item].should.have.property('description');
+                result.instance[item].should.have.property('backends');
+                result.instance[item].should.have.property('modules');
+                result.instance[item].should.have.property('controllers');
+                result.instance[item].should.have.property('routes');
+            });
         });
     });
 
@@ -187,18 +205,16 @@ describe('project helper', function() {
     });
 
     // NOT WORKING YET
-    describe('listModels', function() {
+    describe.skip('listModels', function() {
 
         // not working yet (reason: models need to be generated first)
-        return;
 
     });
 
     // NOT WORKING YET
-    describe('listModelsForAllModules', function() {
+    describe.skip('listModelsForAllModules', function() {
 
         // not working yet (reason: models need to be generated first)
-        return;
 
     });
 });

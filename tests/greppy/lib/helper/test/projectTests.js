@@ -41,7 +41,7 @@ describe('project helper for tests', function() {
         it('should create a test-project', function(done) {
             tp = new TestProject();
 
-            tp.showOutput = false;
+            tp.showOutput = true;
 
             tp.createProject(function(exitCode) {
                 exitCode.should.equal(0);
