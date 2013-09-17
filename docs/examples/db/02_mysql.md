@@ -13,3 +13,35 @@
         console.log(models);
     });
 
+### Fetch groups of entities in parallel
+
+    greppy.helper.get('db.sql.entities').fetchGroups([
+        {
+            name: "groupName1",
+            criteria: {
+                where: {deleted_at: null}
+            },
+            models: [
+                models.Product,
+                models.Portal
+            ]
+        }
+    ], function(err, groups) {
+
+        console.log(groups);
+    });
+
+### Fetch all entities in parallel
+
+    greppy.db.get('mysql.mdc').getORM(function(orm, models) {
+
+        greppy.helper.get('db.sql.entities').fetchAll([
+            models.Product,
+            models.Portal,
+            models.Operator
+        ], function(err, entities) {
+
+            console.log(entities);
+        });
+    });
+
