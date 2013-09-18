@@ -70,13 +70,47 @@ exports.run = function(opts)
                 conf.backend.white
             ]);
 
-            global.table.writeRow([
-                conf.connection.blue.bold,
-                conf.username.yellow + '@'.white
-                    + conf.host.cyan
-                    + '/'.white
-                    + conf.db.magenta
-            ]);
+            if ('mysql' === conf.backend) {
+
+                global.table.writeRow([
+                    conf.connection.blue.bold,
+                    conf.username.yellow + '@'.white
+                        + conf.host.cyan
+                        + '/'.white
+                        + conf.db.magenta
+                ]);
+            }
+
+            if ('mongodb' === conf.backend) {
+
+                var connection = ''
+
+                if (conf.username) {
+                    connection = conf.username.yellow + '@'.white;
+                } else {
+                    connection = 'anonymouse'.yellow + '@'.white;
+                }
+
+                if (conf.servers instanceof Array && 1 < conf.servers.length) {
+
+                    var servers = [];
+
+                    conf.servers.forEach(function(server) {
+                        servers.push(server.host);
+                    });
+
+                    connection += ('{' + servers.join(',') + '}').cyan;
+                } else {
+                    connection += conf.servers[0].host.cyan;
+                }
+
+                connection += '/'.white + conf.db.magenta;
+
+                global.table.writeRow([
+                    conf.connection.blue.bold,
+                    connection
+                ]);
+            }
 
             console.log();
         });
