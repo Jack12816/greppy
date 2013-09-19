@@ -14,3 +14,17 @@
         });
     });
 
+### Find one document by it's ObjectID
+
+    var connection = greppy.db.get('mongodb.demo');
+
+    connection.instance.collection('keys', function(err, collection) {
+
+        collection.findOne({
+            _id: new connection.backend.mongo.BSONPure.ObjectID("5239b32f7cfced1c30e4b4b1")
+        }, function(err, result){
+
+            console.log(err, result);
+        });
+    });
+
