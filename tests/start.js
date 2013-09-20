@@ -7,24 +7,21 @@
 var Mocha             = require('mocha');
 var execBefore        = require('./before.js');
 var execAfter         = require('./after.js');
-var PathHelper        = require('../lib/helper/path');
+var TestLoader        = require('../lib/helper/test/loader');
+var TestManager        = require('../lib/helper/test/manager');
 var testPath          = __dirname + '/greppy/';
-var skipTestTests     = true;
 var skipCreateProject = false;
 
 var mocha = new Mocha();
 var ph    = new PathHelper();
+var tl    = new TestLoader(require('./metas'), testPath);
+var tm    = new TestManager(mocha);
 
-ph.list(testPath).forEach(function(file) {
+tm.setBefore(execBefore);
+tm.setAfter(execAfter);
+tm.addTests(tl.getTests());
 
-    if (skipTestTests && file.indexOf('lib/helper/test/') > -1) {
-        console.log('Skipping tests of ' + file);
-        return;
-    }
-    mocha.addFile(file);
-});
-
-execBefore(skipCreateProject);
+tl.runTests();
 
 console.log('Starting tests...');
 
