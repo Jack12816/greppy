@@ -7,26 +7,16 @@
 var Mocha             = require('mocha');
 var execBefore        = require('./before.js');
 var execAfter         = require('./after.js');
-var TestLoader        = require('../lib/helper/test/loader');
-var TestManager        = require('../lib/helper/test/manager');
+var metas             = require('./metas');
+var Manager           = require('../lib/helper/test/manager');
 var testPath          = __dirname + '/greppy/';
 var skipCreateProject = false;
 
 var mocha = new Mocha();
-var ph    = new PathHelper();
-var tl    = new TestLoader(require('./metas'), testPath);
-var tm    = new TestManager(mocha);
+var tm    = new Manager(mocha, metas, testPath);
 
 tm.setBefore(execBefore);
 tm.setAfter(execAfter);
-tm.addTests(tl.getTests());
+tm.enable('testTests');
 
-tl.runTests();
-
-console.log('Starting tests...');
-
-mocha.run(function(exitCode) {
-    execAfter();
-    process.exit(exitCode);
-});
-
+tm.run();
