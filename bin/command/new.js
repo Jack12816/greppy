@@ -8,7 +8,7 @@
 exports.run = function(opts)
 {
     var appPath = path.normalize(
-        process.cwd() + '/' + opts.options.new
+        process.cwd() + '/' + opts.argv.shift()
     );
 
     var createProject = function()

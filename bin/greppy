@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 
 /**
- * Greppy CLI
+// Greppy CLI
  *
- * @module greppy/cli
- * @author Hermann Mayer <hermann.mayer92@gmail.com>
+// @module greppy/cli
+// @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
 fs             = require('fs');
 path           = require('path');
 async          = require('async');
-colors         = require('colors')
+colors         = require('colors');
 childProcess   = require('child_process');
 daemon         = require('daemon');
 Table          = require('tab');
@@ -35,18 +35,18 @@ table = new Table.TableOutputStream({
 });
 
 var getopt = require('node-getopt').create([
-    ['n', 'new=APP_PATH', 'Create the application directory structure'],
+    ['n', 'new APP_NAME', 'Create a new application in cwd/APP_NAME'],
     ['s', 'start', 'Start the configured application ((non-)clustered)'],
     ['k', 'stop', 'Stop the whole application or explicit modules'],
     ['r', 'restart', 'Restart the whole application or explicit modules'],
+    ['e', 'reload', 'Just reload workers of running contexts'],
     ['m', 'status', 'Check the status of the whole application'],
     ['l', 'list', 'List all application worker contexts'],
-    ['d', 'debug', 'Debug flag'],
+    ['d', 'debug', 'Debug flag to start a context in foreground'],
     ['', 'db', 'Database operations namespace'],
     ['', 'generate', 'Scaffolding operations namespace'],
     ['', 'assets', 'Assets operations namespace'],
-
-    ['h', 'help', 'Display this help'],
+    ['h', 'help', 'Display this help or the help of a namespace eg. -h --db'],
     ['v', 'version', 'Show version']
 ]);
 
@@ -62,85 +62,82 @@ getopt.setHelp(
 // Parse the given process args
 var opts = getopt.parseSystem();
 
-/**
- * db namespace command
- */
-if (opts.options.hasOwnProperty('db')) {
-    require('./command/db').run(opts);
-    return;
-}
+// Run the selected command
+(function() {
 
-/**
- * generate namespace command
- */
-if (opts.options.hasOwnProperty('generate')) {
-    require('./command/generate').run(opts);
-    return;
-}
+    // Db namespace command
+    if (opts.options.hasOwnProperty('db')) {
+        require('./command/db').run(opts);
+        return;
+    }
 
-/**
- * assets namespace command
- */
-if (opts.options.hasOwnProperty('assets')) {
-    require('./command/assets').run(opts);
-    return;
-}
+    // Generate namespace command
+    if (opts.options.hasOwnProperty('generate')) {
+        require('./command/generate').run(opts);
+        return;
+    }
 
-// Without args print the help
-if (0 == Object.keys(opts.options).length || opts.options.hasOwnProperty('help')) {
-    getopt.showHelp();
-    return;
-}
+    // Assets namespace command
+    if (opts.options.hasOwnProperty('assets')) {
+        require('./command/assets').run(opts);
+        return;
+    }
 
-/**
- * version command
- */
-if (opts.options.hasOwnProperty('version')) {
-    require('./command/version').run(opts);
-    return;
-}
+    // Without args print the help
+    if (0 === Object.keys(opts.options).length || opts.options.hasOwnProperty('help')) {
+        getopt.showHelp();
+        return;
+    }
 
-/**
- * new command
- */
-if (opts.options.hasOwnProperty('new')) {
-    require('./command/new').run(opts);
-}
+    // Version command
+    if (opts.options.hasOwnProperty('version')) {
+        require('./command/version').run(opts);
+        return;
+    }
 
-/**
- * start command
- */
-if (opts.options.hasOwnProperty('start')) {
-    require('./command/start').run(opts.argv, (opts.options.hasOwnProperty('debug')) ? true : false);
-}
+    // New command
+    if (opts.options.hasOwnProperty('new')) {
+        require('./command/new').run(opts);
+        return;
+    }
 
-/**
- * stop command
- */
-if (opts.options.hasOwnProperty('stop')) {
-    require('./command/stop').run(opts.argv);
-}
+    // Start command
+    if (opts.options.hasOwnProperty('start')) {
+        require('./command/start').run(opts.argv, (opts.options.hasOwnProperty('debug')) ? true : false);
+        return;
+    }
 
-/**
- * restart command
- */
-if (opts.options.hasOwnProperty('restart')) {
-    require('./command/stop').run(opts.argv, function() {
-        require('./command/start').run(opts.argv);
-    });
-}
+    // Stop command
+    if (opts.options.hasOwnProperty('stop')) {
+        require('./command/stop').run(opts.argv);
+        return;
+    }
 
-/**
- * status command
- */
-if (opts.options.hasOwnProperty('status')) {
-    require('./command/status').run();
-}
+    // Restart command
+    if (opts.options.hasOwnProperty('restart')) {
+        require('./command/stop').run(opts.argv, function() {
+            require('./command/start').run(opts.argv);
+        });
+        return;
+    }
 
-/**
- * list command
- */
-if (opts.options.hasOwnProperty('list')) {
-    require('./command/list').run();
-}
+    // Reload command
+    if (opts.options.hasOwnProperty('reload')) {
+        require('./command/reload').run(opts.argv);
+        return;
+    }
+
+    // Status command
+    if (opts.options.hasOwnProperty('status')) {
+        require('./command/status').run();
+        return;
+    }
+
+    // List command
+    if (opts.options.hasOwnProperty('list')) {
+        require('./command/list').run();
+        return;
+    }
+
+}());
 
