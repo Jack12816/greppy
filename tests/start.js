@@ -12,7 +12,10 @@ var Manager           = require('../lib/helper/test/manager');
 var testPath          = __dirname + '/greppy/';
 var skipCreateProject = false;
 
-var mocha = new Mocha();
+var mocha = new Mocha({
+    reporter: (process.argv[2] === '--reporter' && process.argv[3]) ? process.argv[3] : 'list'
+});
+
 var tm    = new Manager(mocha, metas, testPath);
 
 tm.setBefore(execBefore);

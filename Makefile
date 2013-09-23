@@ -19,7 +19,7 @@ endef
 all: test docs
 
 test:
-	@node ./tests/start.js
+	@node ./tests/start.js --reporter $(REPORTER)
 
 docs: clean docs-md docs-api
 	$(call print,"Generate documentation")
