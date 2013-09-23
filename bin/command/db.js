@@ -41,7 +41,7 @@ exports.run = function(opts)
         ].join('\n');
 
         console.log(help);
-    }
+    };
 
     if (opts.options.help) {
         return printHelp();
@@ -67,24 +67,21 @@ exports.run = function(opts)
 
             global.table.writeRow([
                 conf.source.green.bold,
-                conf.backend.white
+                (conf.backend + '.' + conf.connection).yellow
             ]);
 
             if ('mysql' === conf.backend) {
 
                 global.table.writeRow([
-                    conf.connection.blue.bold,
-                    conf.username.yellow + '@'.white
-                        + conf.host.cyan
-                        + '/'.white
-                        + conf.db.magenta
+                    ''.white.bold,
+                    (conf.username + '@' + conf.host + '/' + conf.db).white
                 ]);
             }
 
             if ('mongodb' === conf.backend) {
 
                 global.table.writeRow([
-                    conf.connection.blue.bold,
+                    ''.white.bold,
                     conf.uri
                 ]);
             }
@@ -163,5 +160,5 @@ exports.run = function(opts)
             return;
         }
     });
-}
+};
 
