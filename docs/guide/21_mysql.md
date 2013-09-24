@@ -149,7 +149,7 @@ Fixtures need to be deployed under ``database/fixtures/CONNECTION``.
 
 #### ORM
 
-The access to Sequelize as MySQL ORM is pretty easy with the dbReg.
+The access to Sequelize as MySQL ORM is pretty easy with the db-Store.
 
     greppy.db.get('mysql.demo').getORM(function(orm, models) {
 
