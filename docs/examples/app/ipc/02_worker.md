@@ -6,8 +6,7 @@
         console.log(err, result, msg);
     });
 
-
-### Interval based IPC req/res
+### Interval based IPC request/response
 
     var i = 0;
 

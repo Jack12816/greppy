@@ -26,6 +26,5 @@
     });
 
     console.log(config);
-
     console.log(greppy.config.get('app'));
 

@@ -28,3 +28,21 @@
         });
     });
 
+### Insert a document with mongoose
+
+    greppy.db.get('mongodb.demo').getORM(function(orm, models) {
+
+        models.User.create({
+            fullname : "Test User",
+            email    : "user@domain.tld",
+            password : "test"
+        }, function (err, savedUser) {
+
+            if (err) {
+                return console.log(err);
+            }
+
+            console.log('Saved.');
+        });
+    });
+

@@ -10,7 +10,7 @@
 
     }, 2000);
 
-### Interval based IPC req/res
+### Interval based IPC request/response
 
     master.getIPC().addMethod('notify.request', function(msg, options, callback) {
 

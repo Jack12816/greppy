@@ -2,11 +2,35 @@
 
 ### Fetch LDAP information by query
 
-    ldapAuth.search('ou=Users, dc=acme, dc=lan', {
-        sizeLimit : 10,
-        filter    : '(|(cn=*' + 'h.mayer' +'*)(uid=' + 'h.mayer' + '*))',
+    var config = {
+        url             : 'ldaps://ldap.acme.com',
+        bindDN          : 'uid=serviceUser,ou=Services,dc=acme,dc=lan',
+        bindCredentials : 'secret',
+        tlsOptions      : {
+            rejectUnauthorized : false
+        },
+        userBindDN      : 'uid={{{username}}},ou=Users,dc=acme,dc=lan',
+        timeout         : 10,
+        connectTimeout  : 5
+    };
+
+    var ldapClient = new (greppy.get('helper.ldap.client'))({
+        ldap: config
+    });
+
+    var base = 'ou=Users,dc=acme,dc=lan';
+    var options = {
+        sizeLimit : 5,
+        filter    : '(|(fullname=*' + query +'*)(uid=' + query + '*))',
         scope     : 'sub'
-    }, function(err, data) {
-        console.log(ldapAuth.resultsToJSON(data));
+    };
+
+    ldapClient.search(base, options, function(err, results) {
+
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log(ldapClient.resultsToJSON(results));
     });
 
