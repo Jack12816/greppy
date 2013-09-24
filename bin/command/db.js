@@ -82,7 +82,7 @@ exports.run = function(opts)
 
                 global.table.writeRow([
                     ''.white.bold,
-                    conf.uri
+                    conf.uri.white
                 ]);
             }
 
