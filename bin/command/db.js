@@ -24,6 +24,9 @@ exports.run = function(opts)
             '    ' + 'fill'.yellow + ' [adapter.connection ...]',
             '        Fill all|the given connection(s) with its fixture data.',
             '',
+            '    ' + 'clear'.yellow + ' [adapter.connection ...]',
+            '        Clear data from all|the given connection(s).',
+            '',
             ' Combined Operations'.green.bold,
             '',
             '    ' + 'build'.yellow + ' [adapter.connection ...]',
@@ -37,6 +40,11 @@ exports.run = function(opts)
             '            * drop',
             '            * create',
             '            * migrate',
+            '            * fill',
+            '',
+            '    ' + 'refill'.yellow + ' [adapter.connection ...]',
+            '        Run these operation for all|the given connection(s):',
+            '            * clear',
             '            * fill'
         ].join('\n');
 
@@ -97,10 +105,11 @@ exports.run = function(opts)
     var argument = argumentHelper.build(opts.argv);
 
     argument.setCommands({
-        atomic: ['create', 'drop', 'migrate', 'fill'],
+        atomic: ['create', 'drop', 'migrate', 'fill', 'clear'],
         combined: {
             build: ['create', 'migrate', 'fill'],
-            rebuild: ['drop', 'create', 'migrate', 'fill']
+            rebuild: ['drop', 'create', 'migrate', 'fill'],
+            refill: ['clear', 'fill']
         }
     });
 
