@@ -41,8 +41,8 @@ exports.run = function(options, printHints, callback)
 
         question({
             id        : 'softdelete',
-            question  : 'Enable soft-deletion (entity will be marked instead of deletion)?',
-            prompt    : 'Module',
+            question  : 'Enable soft-deletion (entity will be marked as deleted instead of real deletion)?',
+            prompt    : 'Soft-deletion',
             values    : ['y', 'n'],
             default   : 'y'
         }),

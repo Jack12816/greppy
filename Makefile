@@ -6,11 +6,11 @@ endef
 
 define md2html
 	$(call print,"Prepare ${1} chapter")
-
+    @echo
 	@cd "docs/${1}"; \
 	echo > "../chaper_${1}.md"; \
 	for file in $$(find . -regex ".*\.\(md\)" 2>/dev/null | sort); do \
-		echo "$${file}"; \
+		echo "    $${file}"; \
 		cat "$${file}" >> "../chaper_${1}.md"; \
 	done; \
 	marked --gfm --tables --lang-prefix "" "../chaper_${1}.md" > "../chaper_${1}.html";

@@ -27,13 +27,6 @@ var Worker = greppy.get('app.cluster.worker');
 // Bootstrap an Express providing HTTP server
 var server = http.createServer(app);
 
-// Method to run after the worker was initalized
-var postSetup = function()
-{
-    // Print simple notification
-    logger.info('ACME application started.');
-};
-
 // Setup the application worker
 var worker = new Worker(app, server, {
     title   : 'greppy-acme-worker',
@@ -42,4 +35,10 @@ var worker = new Worker(app, server, {
         colors : {debug : 'white'}
     }
 }, postSetup);
+
+// Configure the worker and the related objects,
+// run the callback after the worker was initalized
+worker.configure(app, server, function() {
+    logger.info('ACME application started.');
+});
 

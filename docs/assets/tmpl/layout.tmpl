@@ -155,7 +155,17 @@
             $( "#toc" ).toc( {
                 selectors   : "h1,h2,h3:not(#footer h3),h4",
                 showAndHide : false,
-                scrollTo    : 60
+                scrollTo    : 60,
+                onHighlight : function(el) {
+
+                  var height = $('#toc-wrap').height();
+                  var rel    = $('#toc-wrap').height() - el.position().top;
+
+                  // If Active element is invisible scroll to it
+                  if (0 > rel || height < rel) {
+                    $('#toc-wrap').scrollTop(el.offset().top - el.parent().offset().top - 10);
+                  }
+                }
             } );
             $( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
             $( "#main span[id^='toc']:not(:first-child)" ).addClass( "toc-shim" );

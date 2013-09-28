@@ -16,6 +16,15 @@ Many questions have default values which appears in brackets ([]), so you have
 just to press enter in case you don't want to change the value. Further you
 can use auto-completion on selections with predefined values. Just press the tab key.
 
+## Generation of application modules
+
+The generation of a new application module is an essential task while
+developing a new software product. You should encapsulate your code into
+modules where the code which lies in it is dedicated to the module. With
+this principle you can reuse the module with another application.
+
+The only question to answer to the generator is the name of the new module.
+
 ## Generation of application contexts
 
 The generation of an application context will result in an Javascript file

@@ -118,9 +118,15 @@ Run migrations for all|the given connection(s).
 
 Fill all|the given connection(s) with it's fixture data.
 
+#### clear
+
+**Synopsis:** greppy --db clear [adapter.connection ...]
+
+Clear data from all|the given connection(s).
+
 #### build
 
-**Synopsis:** greppy --db fill [adapter.connection ...]
+**Synopsis:** greppy --db build [adapter.connection ...]
 
 Run these operation for all|the given connection(s):
 
@@ -130,13 +136,22 @@ Run these operation for all|the given connection(s):
 
 #### rebuild
 
-**Synopsis:** greppy --db fill [adapter.connection ...]
+**Synopsis:** greppy --db rebuild [adapter.connection ...]
 
 Run these operation for all|the given connection(s):
 
 * drop
 * create
 * migrate
+* fill
+
+#### refill
+
+**Synopsis:** greppy --db refill [adapter.connection ...]
+
+Run these operation for all|the given connection(s):
+
+* clear
 * fill
 
 ## Asset management
@@ -168,6 +183,13 @@ The ``greppy`` binary supports the generating of wide parts of the application
 by the ``--generate`` switch. If you specify no operation or any other flag this
 command will show a help for all available operations. For more details of the
 scaffolding concept take a look at the ``Scaffolding`` section.
+
+#### module
+
+**Synopsis:** greppy --generate module
+
+This generator offers the ability to create a new module structure
+with initial layout files. You just need to specify the new module name.
 
 #### context
 

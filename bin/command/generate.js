@@ -61,6 +61,9 @@ exports.run = function(opts)
             '    to press enter in case you don\'t want to change the value. Further you',
             '    can use auto-completion on selections with predefined values. Just press',
             '    the tab key.',
+            '',
+            '    Many generators ends with an endless loop of an question set, if you answered',
+            '    all the questions just hit Ctrl+C to leave the question set.',
             ''
         ].join('\n');
 
