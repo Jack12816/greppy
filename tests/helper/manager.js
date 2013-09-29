@@ -11,7 +11,7 @@ var PathHelper  = require('../../lib/helper/path');
 
 /**
  * @constructor
- * 
+ *
  * @param {Object} mocha An instance of mocha.
  * @param {Array} metas An array with meta objects.
  * @param {String} testPath The path which contains all tests.
@@ -39,7 +39,7 @@ Manager.prototype.setAfter = function(after)
 
 /**
  * Sets terms to be enabled.
- * 
+ *
  * @param {String} term An array with one or more strings.
  * @returns {undefined}
  */
@@ -51,15 +51,15 @@ Manager.prototype.enable = function(term)
 /**
  * Let the show begin!
  * Fires off mocha after processing the before function.
- * 
+ *
  * @returns {undefined}
  */
 Manager.prototype.run = function()
 {
     var self = this;
-    
+
     this.execBefore && this.execBefore();
-    
+
     this.initTests();
     this.queueTests(this.tests);
 
@@ -74,7 +74,7 @@ Manager.prototype.run = function()
 
 /**
  * Fills the tests-array with test-objects.
- * 
+ *
  * @returns {undefined}
  */
 Manager.prototype.initTests = function()
@@ -82,31 +82,31 @@ Manager.prototype.initTests = function()
     if ('string' !== typeof this.testPath) {
         throw new Error('No valid test path defined!');
     }
-    
+
     var self      = this;
     var ph        = new PathHelper();
     var ml        = new MetaLoader(this.metas);
     var pl        = new PlainLoader();
     var testPaths = ph.list(this.testPath);
-    
+
     ml.setNext(pl);
     ml.setConditionsMet(this.conditionsMet);
-    
+
     testPaths.forEach(function(path) {
-        
+
         // we want only js files
         if (path.match(/\.js$/)) {
             var relPath = path.replace(self.testPath, '');
             self.tests.push(ml.getTest(relPath));
         }
     });
-    
+
     this.tests = this.sortTests(this.tests);
 };
 
 /**
  * Either adds tests to the mocha instance or skips them.
- * 
+ *
  * @param {Array} tests
  * @returns {undefined}
  */
@@ -115,19 +115,19 @@ Manager.prototype.queueTests = function(tests)
     var self    = this;
     var added   = 0;
     var skipped = 0;
-    
+
     tests.forEach(function(test) {
-        
+
         if ('skip' === test.command) {
             console.log('Skipping test-file: ' + test.file);
             skipped++;
             return;
         }
-        
+
         self.mocha.addFile(self.testPath + test.file);
         added++;
     });
-    
+
     console.log();
     console.log('Added ' + added + ' test-file(s).');
     console.log('Skipped ' + skipped + ' test-file(s).');
@@ -153,7 +153,7 @@ Manager.prototype.sortTests = function(tests)
         }
 
         // a has an order, b hasn't
-        if (('number' === typeof a.order) && 
+        if (('number' === typeof a.order) &&
                 ('number' !== typeof b.order)) {
             return (a.order === 0) ? -1 : 1;
         }
@@ -168,9 +168,10 @@ Manager.prototype.sortTests = function(tests)
         if (a.order === b.order) {
             return 0;
         }
-        
+
         return (a.order < b.order) ? -1 : 1;
     });
 };
 
 module.exports = Manager;
+

@@ -28,13 +28,13 @@ var Worker = greppy.get('app.cluster.worker');
 var server = http.createServer(app);
 
 // Setup the application worker
-var worker = new Worker(app, server, {
+var worker = new Worker({
     title   : 'greppy-acme-worker',
     modules : ['commons'],
     logger  : {
         colors : {debug : 'white'}
     }
-}, postSetup);
+});
 
 // Configure the worker and the related objects,
 // run the callback after the worker was initalized

@@ -1,7 +1,7 @@
 /**
  * The meta-loader is responsible for loading tests with special settings.
  * Other tests are processed by the specified next-object.
- * 
+ *
  * @module greppy/helper/test/loader
  * @author Nabil Krause <nabil.krause@silberlicht.eu>
  */
@@ -19,7 +19,7 @@ var MetaLoader = function(metas)
 
 /**
  * Sets the next object for the chain of responsibility.
- * 
+ *
  * @param {Object} next The next object in the chain.
  * @returns {undefined}
  */
@@ -33,7 +33,7 @@ MetaLoader.prototype.setNext = function(next)
 
 /**
  * Tell the loader that specified conditions are met.
- * 
+ *
  * @param {Array} conditions An array of strings representing the conditions which are met.
  * @returns {undefined}
  */
@@ -46,13 +46,13 @@ MetaLoader.prototype.setConditionsMet = function(conditions)
  * Returns an object with the following keys:
  * command: May be 'test' or 'skip'.
  * file: The filepath of the test.
- * 
+ *
  * @param {String} path The path of the test.
  * @returns {Object}
  */
 MetaLoader.prototype.getTest = function(path)
-{   
-    
+{
+
     // first, check if we can process the path
     if (this.getMetaByPath(path)) {
         return this.toTest(path);
@@ -63,7 +63,7 @@ MetaLoader.prototype.getTest = function(path)
 
 /**
  * Creates a test object from the corresponding meta.
- * 
+ *
  * @param {String} path The path of the test.
  * @returns {Object}
  */
@@ -85,7 +85,7 @@ MetaLoader.prototype.toTest = function(path)
 /**
  * Returns the meta object for the given path or null if no
  * corresponding meta object was found.
- * 
+ *
  * @param {String} path
  * @returns {Object}
  */
@@ -105,7 +105,7 @@ MetaLoader.prototype.getMetaByPath = function(path)
 
 /**
  * Determines if the current instance has all passed terms enabled.
- * 
+ *
  * @param {Array} reqs
  * @returns {Bool}
  */
@@ -114,7 +114,7 @@ MetaLoader.prototype.hasAllRequirements = function(reqs)
     if (!reqs) {
         return true;
     }
-    
+
     var i = 0;
 
     for (/* omitted */; i < reqs.length; i++) {
@@ -122,13 +122,13 @@ MetaLoader.prototype.hasAllRequirements = function(reqs)
             return false;
         }
     }
-    
+
     return true;
 };
 
 /**
  * Determines if the current instance has the passed requirement available.
- * 
+ *
  * @param {String} req
  * @returns {Boolean}
  */
@@ -146,3 +146,4 @@ MetaLoader.prototype.hasRequirement = function(req)
 };
 
 module.exports = MetaLoader;
+
