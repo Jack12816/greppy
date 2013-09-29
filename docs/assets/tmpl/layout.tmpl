@@ -158,17 +158,26 @@
                 scrollTo    : 60,
                 onHighlight : function(el) {
 
-                  var height = $('#toc-wrap').height();
-                  var rel    = $('#toc-wrap').height() - el.position().top;
+                    var height = $('#toc-wrap').height();
+                    var rel    = $('#toc-wrap').height() - el.position().top;
 
-                  // If Active element is invisible scroll to it
-                  if (0 > rel || height < rel) {
-                    $('#toc-wrap').scrollTop(el.offset().top - el.parent().offset().top - 10);
-                  }
+                    // If Active element is invisible scroll to it
+                    if (0 > rel || height < rel) {
+                        $('#toc-wrap').scrollTop(el.offset().top - el.parent().offset().top - 10);
+                    }
+                },
+                headerText: function(i, heading, $heading) {
+                    return $heading.clone().children().remove().end().text();
                 }
             } );
             $( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
             $( "#main span[id^='toc']:not(:first-child)" ).addClass( "toc-shim" );
+            $('h1,h2,h3:not(#footer h3),h4').on('mouseenter', function() {
+                $(this).find('a.toc-humanized-anchor').show();
+            });
+            $('h1,h2,h3:not(#footer h3),h4').on('mouseleave', function() {
+                $(this).find('a.toc-humanized-anchor').hide();
+            });
         } );
 
         $('#toc-wrap').enscroll({
@@ -182,9 +191,9 @@
     <?js if (this.navOptions.collapseSymbols) { ?>
     <script>
         $( function () {
-            $('#main').localScroll({
-                offset: { top: 56 } //offset by the height of your header (give or take a few px, see what works for you)
-            });
+            /*$('#main').localScroll({*/
+            /*    offset: { top: 56 } //offset by the height of your header (give or take a few px, see what works for you)*/
+            /*});*/
             $( "dt h4.name" ).each( function () {
                 var $this = $( this );
                 var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
