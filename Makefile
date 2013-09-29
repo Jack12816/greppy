@@ -13,7 +13,10 @@ define md2html
 		echo "    $${file}"; \
 		cat "$${file}" >> "../chaper_${1}.md"; \
 	done; \
-	marked --gfm --tables --lang-prefix "" "../chaper_${1}.md" > "../chaper_${1}.html";
+
+	@cat "./docs/chaper_${1}.md" | ./docs/assets/prepare-anchors "./docs/chaper_${1}.md"
+
+	@marked --gfm --tables --lang-prefix "" "./docs/chaper_${1}.md" > "./docs/chaper_${1}.html";
 endef
 
 all: test docs

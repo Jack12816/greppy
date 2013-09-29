@@ -599,7 +599,7 @@ exports.publish = function ( taffyData, opts, tutorials ) {
     var files = find( {kind : 'file'} ),
         packages = find( {kind : 'package'} );
 
-    generate( 'index', 'Index',
+    generate( 'index', 'Framework',
         packages.concat(
             [
                 {kind : 'mainpage', readme : opts.readme, longname : (opts.mainpagetitle) ? opts.mainpagetitle : 'Main Page'}
@@ -607,7 +607,7 @@ exports.publish = function ( taffyData, opts, tutorials ) {
         ).concat( files ),
         indexUrl );
 
-    generate( 'gettingStarted', 'Index',
+    generate( 'gettingStarted', 'Framework - Documentation',
         packages.concat(
             [
                 {kind : 'mainpage', readme : fs.readFileSync('./docs/chaper_guide.html', 'utf8'), longname : (opts.mainpagetitle) ? opts.mainpagetitle : 'Documentation'}
@@ -615,7 +615,7 @@ exports.publish = function ( taffyData, opts, tutorials ) {
         ).concat( files ),
         docsUrl );
 
-    generate( 'examples', 'Index',
+    generate( 'examples', 'Framework - Examples',
         packages.concat(
             [
                 {kind : 'mainpage', readme : fs.readFileSync('./docs/chaper_examples.html', 'utf8'), longname : (opts.mainpagetitle) ? opts.mainpagetitle : 'Examples'}

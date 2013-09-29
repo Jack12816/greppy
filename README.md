@@ -19,6 +19,7 @@ freenode.
 * Easy integration of MongoDB/MariaDB|MySQL ORMs (mongoose, sequelize)
 * Configuration and extension support
 * Simple but powerful MVC setup to get started with ease
+* Rapid Prototyping, simply generate your application scaffold, even with CRUD controllers
 
 ## Getting Started
 

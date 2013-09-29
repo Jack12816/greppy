@@ -205,3 +205,12 @@ body {
 pre {
     background-color:#F8F8FF
 }
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    padding-top: 56px; margin-top: -56px;
+}
+
+.toc-humanized-anchor {
+    display: none;
+}
+
