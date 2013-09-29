@@ -18,7 +18,7 @@ function createExampleProject(skip) {
 
     console.log('Trying to setup example project...');
 
-    var TestProject = require('../lib/helper/test/project.js');
+    var TestProject = require('./helper/project.js');
     var tp          = new TestProject('/tmp/greppy/');
     var code;
 

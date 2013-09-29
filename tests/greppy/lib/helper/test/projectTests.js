@@ -8,7 +8,7 @@ var should      = require('should');
 var path        = require('path');
 var fs          = require('fs');
 var root        = path.resolve('./');
-var TestProject = require(root + '/lib/helper/test/project');
+var TestProject = require(root + '/tests/helper/project');
 var tp          = null;
 
 describe('project helper for tests', function() {

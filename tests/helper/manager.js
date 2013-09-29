@@ -7,7 +7,7 @@
 
 var MetaLoader  = require('./loader/meta');
 var PlainLoader = require('./loader/plain');
-var PathHelper  = require('../path');
+var PathHelper  = require('../../lib/helper/path');
 
 /**
  * @constructor

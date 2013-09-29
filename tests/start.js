@@ -8,7 +8,7 @@ var Mocha      = require('mocha');
 var execBefore = require('./before.js');
 var execAfter  = require('./after.js');
 var metas      = require('./metas');
-var Manager    = require('../lib/helper/test/manager');
+var Manager    = require('./helper/manager');
 var testPath   = __dirname + '/greppy/';
 
 var mocha = new Mocha({

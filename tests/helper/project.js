@@ -8,7 +8,7 @@
 var fs            = require('fs');
 var cp            = require('child_process');
 var es            = require('execSync');
-var greppyBinPath = __dirname + '/../../../bin/greppy';
+var greppyBinPath = __dirname + '/../../bin/greppy';
 
 /**
  * @constructor
