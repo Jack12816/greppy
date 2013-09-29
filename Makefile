@@ -22,12 +22,7 @@ endef
 all: test docs
 
 test:
-	@./node_modules/.bin/mocha \
-		--reporter $(REPORTER) \
-		--recursive \
-		--require should \
-		--growl \
-		tests/
+	@node ./tests/start.js --reporter $(REPORTER)
 
 docs: clean docs-md docs-api
 	$(call print,"Generate documentation")
