@@ -48,8 +48,8 @@ Every model is represented by it's own file, which is named after the model.
 
 #### Migrations
 
-Migrations are very usefull if you don't want to use Mongoose but you still
-needs to create indexes or some other stuff like manipulation your datasets.
+Migrations are very useful if you don't want to use Mongoose, but still
+need to create indexes or do some other stuff like manipulating your datasets.
 A simple example for a migration could be the following:
 
     /**
@@ -99,10 +99,9 @@ Migrations are deployed under the path ``database/migrations/CONNECTION``.
 
 #### Fixtures
 
-An application without data mostly very useless, so you want
-for sure prepare a set of documents which will be inserted if
-you rebuild the whole database. A easy example for a user fixture
-could be the following:
+An application without data is most often very useless, so you surely want
+to prepare a set of documents, which will be inserted if you rebuild the
+whole database. Here's an easy example for a user fixture:
 
     /**
      * Fixtures for Users collection
@@ -151,7 +150,7 @@ The filename of fixtures needs to be in the following format:
     GROUP-modelName.js
 
 The ``GROUP`` is a numeric value, which shows the dependencies of the model.
-The smaller this value, the earlier will the fixture be queued.
+The smaller this value, the earlier the fixture will be queued.
 Fixtures need to be deployed under ``database/fixtures/CONNECTION``.
 
 #### ORM

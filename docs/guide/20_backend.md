@@ -35,7 +35,7 @@ this measurement, without requiring manual interference.
 ### Configuration
 
 db-Store can handle multiple backend connections by
-using a structure like these:
+using a structure like this:
 
     /**
      * Current Environment specific Database connections

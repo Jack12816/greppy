@@ -1,9 +1,9 @@
 # Vendor libraries
 
-Due the great amount of vendor libraries many features and functionalities
-are easy to use without reinventing the wheel. The advantage of this is fact
-is a lesser time-consuming development of applications. Learning to write
-enterprise applications will mean learning how to use these vendor libraries.
+Due to the great amount of vendor libraries, many features and functionalities
+are easy to use without reinventing the wheel. The advantage of this is a
+less time-consuming development process of applications. Learning to write
+enterprise applications means learning how to use these vendor libraries.
 
 ## Commons
 

@@ -1,6 +1,6 @@
 # Greppy Framework - Examples
 
-This document documents interessting examples for the day to day usage
+This document documents interesting examples for the day to day usage
 of the Greppy Framework.
 
 The lead developer and maintainer of this project is Hermann

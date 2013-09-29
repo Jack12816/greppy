@@ -4,14 +4,14 @@ We designed our framework to implement the MVC (Model-View-Controler)
 pattern with the help of the Express framework and our application
 structure.
 
-Greppy is a top-layer overlay of Express and extend the functionality
-of it. So we support encapsulation of controllers into namespaces, called
-modules and an uniform loading mechanism of them.
+Greppy is a top-layer overlay for Express and extends the functionality
+of it. So we support encapsulation of controllers into namespaces (called
+modules) and an uniform loading mechanism for them.
 
 ## Structures of modules
 
 We split the resources of modules into separate sub-directories to ensure
-a clean encapsulation of file types. A sample structure follows:
+a clean encapsulation of file types. The following is a sample structure:
 
     .
     ├── controllers
@@ -33,11 +33,11 @@ a clean encapsulation of file types. A sample structure follows:
             └── layout.json
 
 Any module of Greppy should look like this. You can define any kind of
-files in a module as long as it fits in this namespace.
+files in a module, as long as it fits in this namespace.
 
 ## Working with controllers
 
-Lets look at a simple index controller which will only render a view without
+Lets look at a simple index controller, which will only render a view without
 pushing data to it.
 
     /**
@@ -86,7 +86,7 @@ pushing data to it.
 
 A view can be defined as Jade or any templating engine you want. You just
 have to configure it in the worker context. A simple example for the previous
-declared controller action could be this:
+declared controller action could look like this:
 
     h2 Hello World
       a.pull-right(onclick="history.back();", title="Zurück").btn
@@ -100,31 +100,31 @@ declared controller action could be this:
 
 ### Working with helpers
 
-Helper are a blessing for sharing code and functionality across multiple
+Helpers are a blessing for sharing code and functionality across multiple
 modules of your application. So you can use parts of your service right
 inside of your admin module without reimplementing the functionality.
 
-Helper can be encapsulation and separated into namespaces unter the helpers
-directory of your model. The previous shown module directory structure got
-an ``github`` helper under a ``request`` namespace. To access this helper
+Helpers can be encapsulated and separated into namespaces under the helpers
+directory of your model. The previously shown module directory structure got
+a ``github`` helper, located in a ``request`` namespace. To access this helper,
 the following code will do the trick:
 
     var helper = greppy.helper.get('admin.requests.github');
 
-If you plan to put helpers directly in the modules helpers directory you
+If you plan to put helpers directly in the modules helpers directory, you
 can access them this way:
 
     var helper = greppy.helper.get('admin.helperName');
 
 Greppy ships with some predefined helper sets for many common needs.
-Accessing these is easily the same:
+Accessing these is basically the same:
 
     var helper = greppy.helper.get('controller.error');
 
 You just don't specify the module name.
 
-To get an overview of all defined helpers the helper store got the
-``list()`` method. Just cal it that way:
+To get an overview of all defined helpers, use the
+``list()`` method of the helper store. Just call it this way:
 
     var helperNames = greppy.helper.list();
 

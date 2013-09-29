@@ -34,7 +34,7 @@ If the -d switch is passed, the application gets started
 in development mode.
 
 Furthermore you can pass explicit module names to start
-to start only some contexts of the application.
+only some contexts of the application.
 
 ### ./bin/greppy --stop [MODULE1 MODULE2 ...]
 

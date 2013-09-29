@@ -1,14 +1,14 @@
 # Authentication
 
-Greppy provides an authentication system which is based on adapters and
+Greppy provides an authentication system, which is based on adapters and
 handlers. The authentication process is splitted into two parts, where the
-input (eg. username and password) which comes from the user will be handled
+input (eg. username and password), which comes from the user, will be handled
 by authentication handlers and the datasource on which this inputs will be
 verified by one or many adapters.
 
 ## Adapters
 
-An adapter is a simple component that only performes authentication against a
+An adapter is a simple component that just performs authentication against a
 datasource and returns the result. The adapter is like an interface to a
 datasource and the datasource acts like a whitelist.
 Such an adapter can additionaly be stuck into a handler, giving the opportunity
@@ -119,7 +119,7 @@ The handler provides an interface to the data input.
         adapter: [htpasswdSource, arraySource],
         success: function() {
             // The user inputs were verified against the adapters
-            // and are proofen to be valid
+            // and are proven to be valid
         },
         error: function() {
             // The user inputs couldn't be verified or
@@ -134,7 +134,7 @@ The handler provides an interface to the data input.
 
 ### Define own handlers
 
-The definition of own authentication handlers is very easy, too. Specialised
+The definition of own authentication handlers is very easy, too. Specialized
 authentication must inherit the base handler and overwrite the
 ``middleware(req, res, callback)`` and can overwrite the ``post(isAuthenticated, callback)``
 methods. Everything else is up to you.
@@ -241,6 +241,6 @@ the controller specific ``configure()`` method like this:
 You can manage the protection very fine-grained to every route of the
 controller by an array of regular expressions. If this array is empty
 all routes of the controller will be protected by the given handler.
-If you sets ``options.auth.routes`` to ``null`` no route of the
+If you set ``options.auth.routes`` to ``null``, no route of the
 controller will be protected.
 

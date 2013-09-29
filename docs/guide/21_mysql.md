@@ -138,7 +138,7 @@ The filename of fixtures needs to be in the following format:
     GROUP-modelName.js
 
 The ``GROUP`` is a numeric value, which shows the dependencies of the model.
-The smaller this value, the earlier will the fixture be queued.
+The smaller this value, the earlier the fixture will be queued.
 If for example the model ``DataSource`` is based on the ``User`` model, it's
 group would be higher than that of the user.
 

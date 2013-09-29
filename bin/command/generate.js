@@ -55,15 +55,15 @@ exports.run = function(opts)
         var hints = [
             ' Usage hints'.yellow,
             '',
-            '    To generate any scaffolds we are going to ask you multiple',
+            '    To generate any scaffolds, we are going to ask you multiple',
             '    questions. You will always get hints and descriptions. Multiple questions',
-            '    will have default values which appears in brackets ([]), so you have just',
+            '    will have default values which appear in brackets ([]), so you just have',
             '    to press enter in case you don\'t want to change the value. Further you',
             '    can use auto-completion on selections with predefined values. Just press',
             '    the tab key.',
             '',
-            '    Many generators ends with an endless loop of an question set, if you answered',
-            '    all the questions just hit Ctrl+C to leave the question set.',
+            '    Many generators end with an endless loop of a question set, if you\'re done',
+            '    answering all the questions, just hit Ctrl+C to leave the question set.',
             ''
         ].join('\n');
 

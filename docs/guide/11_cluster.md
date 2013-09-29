@@ -17,7 +17,7 @@ the application server. The server implementation also represents the
 cluster master. It manages the whole IPC pool and starts and restarts
 the workers in case they crash. A crashing worker is called a worker
 crash. The master takes care of an application's high availability
-to keep it operable even if the worker crash. To ensure that goal,
+to keep it operable even if the worker crashes. To ensure that goal,
 the master's implementation is as easy and definitive as possible.
 
 If the master crashes, the application's availability cannot be
@@ -31,7 +31,7 @@ ensured anymore. This case is called a master crash.
 * Bootstraping the Express application
 * Bootstraping the module/model/view/controler layer
 * Providing the HTTP servers
-* Providing the a module's application
+* Providing a module's application
 
 ### Description
 
@@ -60,9 +60,9 @@ The application is ready by this point.
 
 The worker context is different from the generic worker as it provides
 the worker with additional information. Theoretically, the generic worker
-would suffice to run an application, it wouldn't describe an application
-specific profile, though.
+would suffice to run an application, but it wouldn't describe an application
+specific profile.
 
 To add another worker to the project, only a new context is needed,
-even if it isn't specialised in anything.
+even if it isn't specialized in anything.
 

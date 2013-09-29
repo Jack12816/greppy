@@ -48,7 +48,7 @@ as the following:
 * ``package.json`` Package meta data - gives a short description of the package including dependencies.
     See: [http://package.json.nodejitsu.com](http://package.json.nodejitsu.com)
 
-* ``README.md`` An getting started document, describing the workflow and helping new developers to find a starting point.
+* ``README.md`` A getting started document, describing the workflow and helping new developers to find a starting point.
 
 * ``bin/`` The script directory in which scripts are located.
 
@@ -56,13 +56,13 @@ as the following:
 
     * ``config/`` The config directory contains the application's configuration files.
 
-    * ``context/`` All worker contexts are located in here.
+    * ``context/`` All worker contexts are located here.
 
-    * ``worker.js`` The worker provides the actual application with its own web server which waits for requests. The main task is to load and run the application with various settings.
+    * ``worker.js`` The worker provides the actual application with it's own web server which waits for requests. The main task is to load and run the application with various settings.
 
     * ``server.js`` File which is passed to Node in order to start the cluster master, which forks the worker processes.
 
-* ``node_modules/`` The node modules are managed by the node package manager (npm) and consist of all external libraries.
+* ``node_modules/`` The node modules are managed by the node package manager (npm) and consist of external libraries.
 
 * ``modules/`` The actual application.
 

@@ -58,10 +58,10 @@ The debug switch can be used in combination with start, stop and restart.
 It puts the application into the debugging mode which contains the following
 settings:
 
-* If an fatal error or an uncaught exception occurs the master won't
-  restart the works. (no handling of worker crashs)
+* If a fatal error or an uncaught exception occurs the master won't
+  restart the works (no handling of worker crashs).
 * Starts the application in foreground so everything gets logged on the terminal
-* If you specify more than one worker context a GNU Screen session is started
+* If you specify more than one worker context, a GNU Screen session is started
 
 ## Application management
 
@@ -71,7 +71,7 @@ settings:
 
 Bootstrap a new Greppy project in the current working directory. So a directory
 with the specified name will be created and the application structure will be
-pulled in. Afterwards npm and bower will be ran to fetch all dependencies.
+pulled in. Afterwards npm and bower will be run to fetch all dependencies.
 
 ### list
 
@@ -86,7 +86,7 @@ List all available worker contexts of the application.
 **Synopsis:** greppy --db
 
 The ``greppy`` binary supports database management by the ``--db`` switch.
-If you specify no operation or any other flag this command will search all
+If you specify no operation or any other flag, this command will search all
 database configurations of the project in the current working directory, if
 it is a Greppy project.
 
@@ -97,7 +97,7 @@ You can specify the ``--help`` flag to get a cheatsheet for all database operati
 **Synopsis:** greppy --db create [adapter.connection ...]
 
 Create all|the given backend connection(s) based on the specified adapter and
-configuration. For the MySQL backend adapter it would be tried to create
+configuration. For the MySQL backend adapter, it would try to create
 a new database based on the configuration.
 
 #### drop
@@ -128,7 +128,7 @@ Clear data from all|the given connection(s).
 
 **Synopsis:** greppy --db build [adapter.connection ...]
 
-Run these operation for all|the given connection(s):
+Run this operation for all|the given connection(s):
 
 * create
 * migrate
@@ -138,7 +138,7 @@ Run these operation for all|the given connection(s):
 
 **Synopsis:** greppy --db rebuild [adapter.connection ...]
 
-Run these operation for all|the given connection(s):
+Run this operation for all|the given connection(s):
 
 * drop
 * create
@@ -149,7 +149,7 @@ Run these operation for all|the given connection(s):
 
 **Synopsis:** greppy --db refill [adapter.connection ...]
 
-Run these operation for all|the given connection(s):
+Run this operation for all|the given connection(s):
 
 * clear
 * fill
@@ -161,7 +161,7 @@ Run these operation for all|the given connection(s):
 **Synopsis:** greppy --assets
 
 The ``greppy`` binary supports asset management by the ``--assets`` switch.
-If you specify no operation or any other flag this command will show a help
+If you specify no operation or any other flag, this command will show a help
 for all available operations.
 
 #### install
@@ -171,7 +171,7 @@ for all available operations.
 With the help of the ``install`` operation you can install all assets for
 all|the given module into /public. This will link up the ``resources/public``
 directory of a module to ``public/modules/NAME_OF_MODULE``, so they are
-accessible from the outsite.
+accessible from the outside.
 
 ## Scaffolding
 
@@ -179,10 +179,10 @@ accessible from the outsite.
 
 **Synopsis:** greppy --generate
 
-The ``greppy`` binary supports the generating of wide parts of the application
-by the ``--generate`` switch. If you specify no operation or any other flag this
+The ``greppy`` binary supports the generation of wide parts of the application
+by the ``--generate`` switch. If you specify no operation or any other flag, this
 command will show a help for all available operations. For more details of the
-scaffolding concept take a look at the ``Scaffolding`` section.
+scaffolding concept, take a look at the ``Scaffolding`` section.
 
 #### module
 
@@ -195,7 +195,7 @@ with initial layout files. You just need to specify the new module name.
 
 **Synopsis:** greppy --generate context
 
-The context generation of an working application context is just some
+The context generation of a working application context is just some
 keystrokes away. This operation will ask you some questions to setup the
 new application context.
 
@@ -203,7 +203,7 @@ new application context.
 
 **Synopsis:** greppy --generate model
 
-With the help of the ``model`` operation you can generate all necessary files
+With the help of the ``model`` operation, you can generate all necessary files
 for a complete database backend equipment. A model, it's migration and a fixture
 for it will be generated. The generated files will be placed at the right paths
 of the application structure, so you can easily test the results.
@@ -212,7 +212,7 @@ of the application structure, so you can easily test the results.
 
 **Synopsis:** greppy --generate controller
 
-The ``controller`` operation will generate an complete CRUD (Create-Read-Update-Delete)
+The ``controller`` operation will generate a complete CRUD (Create-Read-Update-Delete)
 controller based on the given model so you can just restart the application and
 will find an working controller experience with all views and resources.
 
