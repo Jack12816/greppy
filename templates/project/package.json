@@ -10,8 +10,8 @@
         }
     ],
     "dependencies" : {
-        "greppy"            : "0.x",
-        "express"           : "3.x",
+        "greppy"            : "~0.3.0",
+        "express"           : "~3.4.0",
         "jade"              : "~0.34.1",
         "piler"             : "~0.4.1",
         "async"             : "~0.2.5",
