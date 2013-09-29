@@ -65,7 +65,7 @@ describe('app', function() {
         
         // assume the last element in the stack is the greppy middleware.
         // remove it, so our test will run.
-        //exApp.stack.pop();
+        exApp.stack.pop();
         
         exApp.get('/just/some/test/:id', function(req, res) {
             res.send(req.params.id);
@@ -105,7 +105,7 @@ describe('app', function() {
         
         // assume the last element in the stack is the greppy middleware.
         // remove it, so our test will run.
-        //exApp.stack.pop();
+        exApp.stack.pop();
         
         exApp.get('/another/test/:uuid', function(req, res) {
             res.send(req.params.uuid);

@@ -8,7 +8,6 @@ var should      = require('should');
 var path        = require('path');
 var fs          = require('fs');
 var root        = path.resolve('./');
-var testPath    = root + '/test/';
 var TestProject = require(root + '/lib/helper/test/project');
 var tp          = null;
 
@@ -24,7 +23,7 @@ describe('project helper for tests', function() {
             tp.path.should.match(/\/$/);
         });
 
-        it('should init a directory in the tests folder, if no other folder was specified', function(done) {
+        it('should init a default directory, if no folder was specified', function(done) {
             tp = new TestProject();
 
             var path = tp.getTargetPath();
@@ -40,8 +39,6 @@ describe('project helper for tests', function() {
 
         it('should create a test-project', function(done) {
             tp = new TestProject();
-
-            tp.showOutput = true;
 
             tp.createProject(function(exitCode) {
                 exitCode.should.equal(0);

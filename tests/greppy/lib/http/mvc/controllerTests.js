@@ -12,8 +12,26 @@ var controller = null;
 
 describe('controller', function() {
     
+    before(function() {
+        
+        // create global greppy mockup
+        greppy = {
+            helper: {
+                list: function() {
+                    return [];
+                }
+            }
+        }
+    });
+    
     beforeEach(function() {
         controller = new Controller();
+    });
+    
+    after(function() {
+        
+        // delete global greppy mockup
+        delete greppy;
     });
     
     it('should have an options property with the correct structure and values', function() {
