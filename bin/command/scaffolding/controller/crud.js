@@ -144,10 +144,7 @@ exports.run = function(options, printHints, callback)
                 }
             ];
 
-            var viewsPath = __dirname + '/../../../../templates/scaffolds/mvc/crud/'
-                            + results.backend + '/views/';
-
-            fs.readdirSync(viewsPath).forEach(function(file) {
+            var addView = function(file) {
 
                 generationConfig.push({
                     name: file,
@@ -155,7 +152,13 @@ exports.run = function(options, printHints, callback)
                     path: process.cwd() + '/modules/' + results.module
                             + '/resources/views/' + results.namePlural + '/'
                 });
-            });
+            };
+
+            var viewsPath = __dirname + '/../../../../templates/scaffolds/mvc/crud/generic/views/';
+            fs.readdirSync(viewsPath).forEach(addView);
+
+            var viewsPath = __dirname + '/../../../../templates/scaffolds/mvc/crud/' + results.backend + '/views/';
+            fs.readdirSync(viewsPath).forEach(addView);
 
             commandHelper.generateScaffoldsByConfig(generationConfig, results);
         });

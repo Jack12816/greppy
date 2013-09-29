@@ -1,0 +1,42 @@
+/**
+ * Fixtures for {{{namePluralLowerCase}}} collection
+ */
+module.exports = function(orm, models, share, utils, callback)
+{
+    var records = [];
+
+    for (var i = 0; i < 100; i++) {
+
+        records.push({
+        {{#properties}}
+            {{{name}}}: {{{fixture}}},
+        {{/properties}}
+            created_at: utils.content.date(),
+        {{#softdelete}}
+            deleted_at: utils.content.optional(utils.content.date())
+        {{/softdelete}}
+        });
+    }
+
+    async.map(records, function(record, callback) {
+
+        models.{{{name}}}.create(record, function (err, saved{{{name}}}) {
+
+            if (err) {
+                return callback && callback(err);
+            }
+
+            callback && callback(null, saved{{{name}}});
+        });
+
+    }, function(err, records) {
+
+        if (err) {
+            return callback && callback(err);
+        }
+
+        share.{{{name}}} = records;
+        callback && callback();
+    });
+}
+

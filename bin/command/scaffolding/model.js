@@ -202,6 +202,9 @@ exports.run = function(options, printHints, callback)
         // Reformat the resultset
         results = commandHelper.dialogResultsFormat(results);
         results.namePlural = (require('inflection')).pluralize(results.name);
+        results.namePluralLowerCase = results.namePlural.toLowerCase();
+
+        var backend = results.connection.split('.')[0];
 
         // Result cleanup
         if ('y' == results.softdelete) {
@@ -313,14 +316,25 @@ exports.run = function(options, printHints, callback)
                     results.properties[idx].fixture = item.default;
                 }
 
-                results.properties[idx].type = item.type.toUpperCase();
+                if ('mysql' === backend) {
+                    results.properties[idx].type = item.type.toUpperCase();
+                } else if ('mongodb' === backend) {
+
+                    if ('float' == item.type || 'integer' == item.type) {
+                        item.type = 'number';
+                    }
+
+                    if ('text' == item.type) {
+                        item.type = 'string';
+                    }
+
+                    results.properties[idx].type = item.type.capitalize();
+                }
             });
 
         } else {
             results.properties = false;
         }
-
-        var backend = results.connection.split('.')[0];
 
         commandHelper.generateScaffoldsByConfig([
             {
@@ -334,7 +348,8 @@ exports.run = function(options, printHints, callback)
             },
             {
                 name     : (require('moment'))().format('YYYYMMDDHHmmss')
-                            + '-add_' + results.name.toLowerCase() + '_table.js',
+                            + '-add_' + results.name.toLowerCase() + '_'
+                            + ('mongodb' == backend ? 'collection' : 'table') + '.js',
 
                 template : __dirname + '/../../../templates/scaffolds/db/'
                             + backend + '/migration.js.mustache',

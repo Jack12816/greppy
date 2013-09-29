@@ -62,6 +62,40 @@ helper.getModelAttributes = function(backend, modelPath)
         return attributes;
     }
 
+    if ('mongodb' === backend) {
+
+        Schema = require('mongoose').Schema;
+        var schema = require(modelPath);
+
+        Object.keys(schema.tree).forEach(function(attr) {
+
+            var attrObj  = schema.tree[attr];
+            var nullable = true;
+            var type     = attrObj.type;
+
+            if (attrObj.hasOwnProperty('required')) {
+                nullable = attrObj.required;
+            }
+
+            // Skip virtuals
+            if (!type) {
+                return;
+            }
+
+            attributes.push({
+                name     : attr,
+                type     : (new type()).constructor.name.toLowerCase(),
+                nullable : nullable,
+                default  : attrObj.default || undefined
+            });
+        });
+
+        // Clear global variable pollution
+        delete Schema;
+
+        return attributes;
+    }
+
     return [];
 }
 
@@ -104,6 +138,7 @@ helper.mapDetails = function(results, attributes)
         if ('string' == attr.type ||
             'integer' == attr.type ||
             'float' == attr.type ||
+            'number' == attr.type ||
             'boolean' == attr.type ||
             'date' == attr.type) {
             attr.element = 'input';
@@ -129,7 +164,7 @@ helper.mapDetails = function(results, attributes)
             attr.parsing = 'parseFloat(' + attr.parsing + ')';
         }
 
-        if ('integer' == attr.type) {
+        if ('integer' == attr.type || 'number' == attr.type) {
             attr.parsing = 'parseInt(' + attr.parsing + ')';
         }
 

@@ -1,0 +1,364 @@
+/**
+ * {{{headline}}} Controller
+ *
+ * @module {{{module}}}/controller/{{{namePlural}}}
+ * @author {{{author}}}
+ */
+
+/**
+ * @constructor
+ */
+var {{{headlinePlural}}}Controller = function()
+{
+    // Call the super constructor
+    {{{headlinePlural}}}Controller.super_.call(this);
+
+    // Define the path to look for views
+    this.viewPath = '{{{namePlural}}}/';
+};
+
+/**
+ * Extend Greppy framework base controller
+ */
+util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'));
+
+/**
+ * Build the controller instance
+ */
+{{{headlinePlural}}}Controller = new {{{headlinePlural}}}Controller();
+
+/**
+ * Deliver the {{{namePlural}}} overview page.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.actions.index =
+{
+    methods : ['GET'],
+    action  : function(req, res) {
+
+        var connection = '{{{connection}}}';
+        var entity     = '{{{model}}}';
+
+        var criteria = self.dataGrid.buildNoSqlCriteria(req, res, {
+            limit        : 10,
+            properties   : [{{{searchableAttributes}}}'created_at'],
+            fuzzySearch  : true,
+            softDeletion : {{{softDeletion}}}
+        });
+
+        if (!criteria) {
+            return;
+        }
+
+        var count = function(callback) {
+
+            self.dataGrid.buildNoSqlPagination(criteria, {
+                connection : connection,
+                entity     : entity
+            }, function(err, pagination) {
+
+                if (err) {
+                    return self.error.showErrorPage(req, res, err);
+                }
+
+                callback && callback(pagination);
+            });
+        };
+
+        var fetch = function(callback) {
+
+            greppy.db.get(connection).getORM(function(orm, models) {
+
+                models[entity].find(criteria.where)
+                              .sort(criteria.order)
+                              .skip(criteria.offset)
+                              .limit(criteria.limit)
+                              .exec(function(err, documents) {
+
+                    if (err) {
+                        return self.error.showErrorPage(req, res, err);
+                    }
+
+                    callback && callback(null, documents);
+                });
+            });
+        };
+
+        var render = function(pagination, documents) {
+
+            // Render the view
+            res.render(self.view(criteria.view), {
+                users: documents,
+                pagination: pagination
+            });
+        };
+
+        if ('_index_rows' === criteria.view) {
+            return fetch(render);
+        }
+
+        if ('_pagination' === criteria.view) {
+            return count(render);
+        }
+
+        fetch(function(err, documents) {
+            count(function(pagination) {
+                render(pagination, documents);
+            });
+        });
+    }
+};
+
+/**
+ * Deliver the {{{name}}} details page.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.actions.show =
+{
+    path    : '/:oid',
+    methods : ['GET'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            models.{{{model}}}.findById(req.params.oid, function(err, document) {
+
+                if (err) {
+                    return self.error.showErrorPage(req, res, err);
+                }
+
+                // Render the view
+                res.render(self.view('show'), {
+                    {{{name}}}: document
+                });
+            });
+        });
+    }
+};
+
+/**
+ * Deliver the new {{{name}}} page.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.actions.new =
+{
+    methods : ['GET'],
+    action  : function(req, res) {
+
+        // Render the view
+        res.render(self.view('new'), {
+            response: {
+                action : 'create',
+                path   : self.link('create')
+            }
+        });
+    }
+};
+
+/**
+ * Deliver the edit {{{name}}} page.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.actions.edit =
+{
+    path    : '/:oid/edit',
+    methods : ['GET'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            models.{{{model}}}.findById(req.params.oid, function(err, document) {
+
+                if (err) {
+                    return self.error.showErrorPage(req, res, err);
+                }
+
+                // Render the view
+                res.render(self.view('edit'), {
+                    response: {
+                        action : 'update',
+                        path   : self.link('update', {oid: document.id})
+                    },
+                    {{{name}}}: document
+                });
+            });
+        });
+    }
+};
+
+/**
+ * Backend action to persist a new {{{name}}}.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.actions.create =
+{
+    path    : '/',
+    methods : ['POST'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            var document = new models.{{{model}}}({
+                {{#attributes}}
+                {{{name}}}: {{{parsing}}},
+                {{/attributes}}
+            });
+
+            document.save(function(err, document) {
+
+                if (err) {
+                    self.form.logAndFlash(req, err);
+                    return res.redirect(self.link('new'));
+                }
+
+                res.redirect(self.link('show', {oid: document.id}));
+            });
+        });
+    }
+};
+
+/**
+ * Backend action to persist the changed {{{name}}} details.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.actions.update =
+{
+    path    : '/:oid',
+    methods : ['POST'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            models.{{{model}}}.findById(req.params.oid, function(err, document) {
+
+                if (err) {
+                    return self.error.showErrorPage(req, res, err);
+                }
+
+                if (!document) {
+                    return res.redirect(self.link('index'));
+                }
+
+                {{#attributes}}
+                document.{{{name}}} = {{{parsing}}};
+                {{/attributes}}
+                document.updated_at = new Date();
+
+                document.save(function(err, document) {
+
+                    if (err) {
+                        self.form.logAndFlash(req, err);
+                        return res.redirect(self.link('edit', {oid: document.id}));
+                    }
+
+                    res.redirect(self.link('show', {oid: document.id}));
+                });
+            });
+        });
+    }
+};
+
+/**
+ * Backend action to delete a {{{name}}}.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.actions.destroy =
+{
+    path    : '/:oid',
+    methods : ['DELETE'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            {{#softDeletable}}
+            models.{{{model}}}.findById(req.params.oid, function(err, document) {
+            {{/softDeletable}}
+            {{^softDeletable}}
+            models.{{{model}}}.findByIdAndRemove(req.params.oid, function(err) {
+            {{/softDeletable}}
+
+                if (err) {
+                    return res.json(500, {err: err});
+                }
+                {{#softDeletable}}
+
+                if (!document) {
+                    return res.end();
+                }
+
+                document.deleted_at = new Date();
+
+                document.save(function(err, document) {
+
+                    if (err) {
+                        return res.json(500, {err: err});
+                    }
+
+                    res.end();
+                });
+                {{/softDeletable}}
+                {{^softDeletable}}
+                res.end();
+                {{/softDeletable}}
+            });
+        });
+    }
+};
+{{#softDeletable}}
+
+/**
+ * Backend action to restore a {{{name}}}.
+ *
+ * @type {ControllerAction}
+ * @public
+ */
+{{{headlinePlural}}}Controller.actions.restore =
+{
+    path    : '/:oid/restore',
+    methods : ['POST'],
+    action  : function(req, res) {
+
+        greppy.db.get('{{{connection}}}').getORM(function(orm, models) {
+
+            models.{{{model}}}.findById(req.params.oid, function(err, document) {
+
+                if (err) {
+                    return res.json(500, {err: err});
+                }
+
+                if (!document) {
+                    return res.end();
+                }
+
+                document.deleted_at = null;
+
+                document.save(function(err, document) {
+
+                    if (err) {
+                        return res.json(500, {err: err});
+                    }
+
+                    res.end();
+                });
+            });
+        });
+    }
+};
+{{/softDeletable}}
+
+module.exports = {{{headlinePlural}}}Controller;
+

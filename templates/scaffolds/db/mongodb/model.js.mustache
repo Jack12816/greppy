@@ -1,0 +1,39 @@
+/**
+ * {{{name}}} Model
+ */
+var {{{name}}} = new Schema({
+    {{#properties}}
+
+    {{{name}}}: {
+        type: {{{type}}},
+        {{#default}}
+        default: {{{default}}},
+        {{/default}}
+        required: {{{notEmpty}}}
+    },
+    {{/properties}}
+
+    created_at: {
+        type: Date,
+        default: Date.now
+    },
+
+    updated_at: {
+        type: Date,
+        default: null
+    }{{#softdelete}},
+
+    deleted_at: {
+        type: Date,
+        default: null
+    }
+    {{/softdelete}}
+});
+
+{{{name}}}.info = {
+    singular : '{{{name}}}',
+    plural   : '{{{namePlural}}}'
+};
+
+module.exports = {{{name}}};
+
