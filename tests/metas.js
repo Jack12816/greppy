@@ -20,11 +20,11 @@ module.exports = [
     },
     {
         file       : 'lib/helper/projectTests.js',
-        conditions : ['hasTestProject'],
+        conditions : ['hasTestProject']
     },
     {
         file       : 'lib/app/workerTests.js',
-        conditions : ['hasTestProject'],
+        conditions : ['hasTestProject']
     }
 ];
 

@@ -65,5 +65,51 @@ describe('controller', function() {
         
         controller.view('myView.jade').should.equal('/some/path/myView.jade');
     });
+    
+    it('should have a link method which returns a valid link for a given action', function() {
+        var actionsMockup = {
+            testAction: {
+                path: '/myTest/'
+            },
+            other: {
+                path: '/okay/'
+            },
+            okay: {
+                path: '/lorem/'
+            }
+        };
+        
+        controller.basePath = '/myBase'
+        controller.actions  = actionsMockup;
+        
+        controller.should.have.property('link');
+        controller.link.should.be.an.instanceOf(Function);
+        
+        controller.link('testAction').should.equal('/myBase/myTest/');
+        controller.link('other').should.equal('/myBase/okay/');
+        controller.link('okay').should.equal('/myBase/lorem/');
+    });
+    
+    it('should correctly handle the params-argument of it\'s link method', function() {
+        var actionsMockup = {
+            testAction: {
+                path: '/myTest/:myParam'
+            },
+            someOtherAction: {
+                path: '/someOtherAction/:otherParam'
+            }
+        };
+        
+        controller.basePath = '/somePath';
+        controller.actions  = actionsMockup;
+        
+        controller.link('testAction', {
+            myParam: 'yo'
+        }).should.equal('/somePath/myTest/yo');
+        
+        controller.link('someOtherAction', {
+            otherParam: 'replacedVal'
+        }).should.equal('/somePath/someOtherAction/replacedVal');
+    });
 });
 
