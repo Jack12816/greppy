@@ -69,15 +69,13 @@ describe('form', function () {
         });
         
         it('should convert float numbers in lists to integers', function() {
+            
             var result = form.sanitizeIntegerList([2.34, 3.12, 4.6]);
             
             result.should.have.length(3);
             result.should.include(2);
             result.should.include(3);
-            
-            // throws an error right now, because sanitizeIntegerList uses
-            // parseInt, which doesn't round. confirm: is this desired behavior?
-            //result.should.include(5);
+            result.should.include(4);
         });
         
         it('should convert a single string number to an array with one element of type number', function() {
@@ -128,6 +126,36 @@ describe('form', function () {
         it('should return an empty array, if an empty array was passed', function() {
             
             form.sanitizeStringList([]).should.eql([]);
+        });
+    });
+    
+    describe('sanitizeFloatList', function() {
+        
+        it('should convert a list of both numbers and string numbers to a list containing only floats', function() {
+            
+            var result = form.sanitizeFloatList([2.2, 3.3, '4.444', '5.2']);
+            
+            result.should.have.length(4);
+            result.should.include(2.2);
+            result.should.include(3.3);
+            result.should.include(4.444);
+            result.should.include(5.2);
+        });
+        
+        it('should remap a scalar value into an array containing a single float', function() {
+            
+            var result1 = form.sanitizeFloatList(2.345);
+            var result2 = form.sanitizeFloatList('3.234');
+            
+            result1.should.have.length(1);
+            result1[0].should.be.a('number');
+            result2.should.have.length(1);
+            result2[0].should.be.a('number');
+        });
+        
+        it('should return an empty array, if an empty array was passed', function() {
+            
+            form.sanitizeFloatList([]).should.eql([]);
         });
     });
 });
