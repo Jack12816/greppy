@@ -92,7 +92,21 @@ describe('Data-Grid', function() {
     
     describe('buildSqlCriteria', function() {
         
-        
+        it('should build sql criteria for searching', function() {
+            
+            var reqMockup = {
+                query: {}
+            };
+            
+            var result = dg.buildSqlCriteria(reqMockup, {}, {});
+            
+            result.view.should.equal('index');
+            result.limit.should.equal(25);
+            result.offset.should.equal(0);
+            result.page.should.equal(1);
+            result.pageSizes.should.eql([10, 25, 50, 100]);
+            result.where.should.equal('(deleted_at IS NULL)');
+        });
     });
 });
 
