@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /**
-// Greppy CLI
+ * Greppy CLI
  *
-// @module greppy/cli
-// @author Hermann Mayer <hermann.mayer92@gmail.com>
+ * @module greppy/cli
+ * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
 fs             = require('fs');

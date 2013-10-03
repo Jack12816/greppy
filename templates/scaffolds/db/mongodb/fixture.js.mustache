@@ -35,7 +35,7 @@ module.exports = function(orm, models, share, utils, callback)
             return callback && callback(err);
         }
 
-        share.{{{name}}} = records;
+        share.{{{namePlural}}} = records;
         callback && callback();
     });
 }

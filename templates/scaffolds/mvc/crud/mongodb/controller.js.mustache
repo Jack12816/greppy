@@ -90,7 +90,7 @@ util.inherits({{{headlinePlural}}}Controller, greppy.get('http.mvc.controller'))
 
             // Render the view
             res.render(self.view(criteria.view), {
-                users: documents,
+                {{{namePlural}}}: documents,
                 pagination: pagination
             });
         };
