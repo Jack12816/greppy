@@ -83,23 +83,23 @@ describe('Data-Grid', function() {
 
             var result1 = dg.buildCriteria(reqMockup1, {}, {});
             var result2 = dg.buildCriteria(reqMockup2, {}, {});
-            
+
             result1.view.should.equal('_index_rows');
             result2.view.should.equal('_pagination');
         });
-        
+
     });
-    
+
     describe('buildSqlCriteria', function() {
-        
-        it('should build sql criteria for searching', function() {
-            
+
+        it('should return a criteria object for sql', function() {
+
             var reqMockup = {
                 query: {}
             };
-            
+
             var result = dg.buildSqlCriteria(reqMockup, {}, {});
-            
+
             result.view.should.equal('index');
             result.limit.should.equal(25);
             result.offset.should.equal(0);
@@ -107,6 +107,46 @@ describe('Data-Grid', function() {
             result.pageSizes.should.eql([10, 25, 50, 100]);
             result.where.should.equal('(deleted_at IS NULL)');
         });
+        
+        it('should return a criteria object with the correct where clause for sql with non-fuzzy searching', function() {
+    
+            var reqMockup = {
+                query: {
+                    search: 'mySearchTerm',
+                    sprop : 'mySearchColumn'
+                }
+            };
+
+            var optsMockup = {
+                properties: ['mySearchColumn']
+            };
+
+            var result = dg.buildSqlCriteria(reqMockup, {}, optsMockup);
+
+            result.where.should.equal('(mySearchColumn LIKE \'%mySearchTerm%\') AND (deleted_at IS NULL)');
+        });
+        
+        it('should return a criteria object with the correct where clause for sql with fuzzy searching', function() {
+    
+            // WIP
+    
+            var reqMockup = {
+                query: {
+                    search : 'mySearchTerm',
+                    sprop  : 'fuzzy'
+                }
+            };
+
+            var optsMockup = {
+                properties  : ['mySearchColumn'],
+                wherePrefix : ''
+            };
+
+            var result = dg.buildSqlCriteria(reqMockup, {}, optsMockup);
+
+            result.where.should.equal('(mySearchColumn LIKE \'%mySearchTerm%\') AND (deleted_at IS NULL)');
+        });
+        
     });
 });
 
