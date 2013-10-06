@@ -20,7 +20,15 @@ var {{{name}}}Context = function()
     this.description = '{{{description}}}';
 
     // Worker context backends configuration.
-    this.backends = null;
+    // Setting this value to null no database
+    // connection will be established. Setting
+    // this value to an empty object will load
+    // all connections of all backends. You can
+    // add an "mysql" property with an array with
+    // the names of your connections, so we will
+    // only load them. An empty array for an property
+    // will load all connections of the given backend.
+    this.backends = {};
 
     // Worker context modules configuration.
     this.modules = [{{{modules}}}];

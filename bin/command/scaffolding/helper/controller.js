@@ -146,6 +146,10 @@ helper.mapDetails = function(results, attributes)
             attr.isTextarea = false;
         }
 
+        if ('string' == attr.type && ~attr.name.indexOf('password')) {
+            attr.elementType = 'password';
+        }
+
         if ('string' == attr.type || 'text' == attr.type) {
             attr.parsing = '(' + attr.parsing + ').trim()';
         }

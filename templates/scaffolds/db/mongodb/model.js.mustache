@@ -14,16 +14,19 @@ var {{{name}}} = new Schema({
     {{/properties}}
 
     created_at: {
+        index: true,
         type: Date,
         default: Date.now
     },
 
     updated_at: {
+        index: true,
         type: Date,
         default: null
     }{{#softdelete}},
 
     deleted_at: {
+        index: true,
         type: Date,
         default: null
     }
