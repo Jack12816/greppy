@@ -13,6 +13,7 @@ async          = require('async');
 colors         = require('colors');
 childProcess   = require('child_process');
 daemon         = require('daemon');
+_              = require('lodash-node');
 Table          = require('tab');
 commandHelper  = require('./helper/command');
 projectHelper  = new (require('../lib/helper/project'))();

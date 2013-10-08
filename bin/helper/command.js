@@ -191,16 +191,40 @@ helper.getDatabaseConfigs = function()
  */
 helper.checkDatabaseNamespace = function(namespaces)
 {
-    var dbConfigs = helper.getDatabaseConfigs();
+    var dbConfigs            = helper.getDatabaseConfigs();
+    var backends             = [];
+    var registeredNamespaces = [];
 
     if (0 === namespaces.length) {
         return dbConfigs.namespaces;
     }
 
+    // Setup wildcard namespaces
+    dbConfigs.namespaces.forEach(function(namespace) {
+        backends.push(namespace.split('.').shift());
+    });
+
+    backends = Array.uniq(backends);
+
     namespaces.forEach(function(namespace) {
 
         var conf = helper.getDatabaseConfigByNamespace(namespace, dbConfigs);
 
+        // We use a wildcard backend namespace?
+        if (_.contains(backends, namespace) && false === conf) {
+
+            // Resolve wildcard namespace to registered namespaces
+            dbConfigs.namespaces.forEach(function(registeredNamespace) {
+
+                if (~registeredNamespace.indexOf(namespace)) {
+                    registeredNamespaces.push(registeredNamespace);
+                }
+            });
+
+            return;
+        }
+
+        // No wildcard and not valid, exit
         if (false === conf) {
 
             console.log(
@@ -215,9 +239,15 @@ helper.checkDatabaseNamespace = function(namespaces)
             process.exit(1);
             return;
         }
+
+        // No wildcard but valid namespace
+        registeredNamespaces.push(namespace);
     });
 
-    return namespaces;
+    // Uniq the given namespaces to prevent multiple time execution
+    registeredNamespaces = Array.uniq(registeredNamespaces);
+
+    return registeredNamespaces;
 }
 
 /**
