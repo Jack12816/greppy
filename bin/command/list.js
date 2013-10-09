@@ -72,6 +72,8 @@ exports.run = function(opts, debug)
                 route
             ]);
         });
+
+        console.log();
     }
 
     if (0 === contextNames.length) {
