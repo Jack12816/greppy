@@ -42,7 +42,7 @@ var getopt = require('node-getopt').create([
     ['r', 'restart', 'Restart the whole application or explicit modules'],
     ['e', 'reload', 'Just reload workers of running contexts'],
     ['m', 'status', 'Check the status of the whole application'],
-    ['l', 'list', 'List all application worker contexts'],
+    ['l', 'list', 'List (all|given) application worker contexts,\n                      use in combination with the debug flag for debugging information'],
     ['d', 'debug', 'Debug flag to start a context in foreground'],
     ['', 'db', 'Database operations namespace'],
     ['', 'generate', 'Scaffolding operations namespace'],
@@ -65,6 +65,8 @@ var opts = getopt.parseSystem();
 
 // Run the selected command
 (function() {
+
+    var debug = (opts.options.hasOwnProperty('debug')) ? true : false;
 
     // Db namespace command
     if (opts.options.hasOwnProperty('db')) {
@@ -104,7 +106,7 @@ var opts = getopt.parseSystem();
 
     // Start command
     if (opts.options.hasOwnProperty('start')) {
-        require('./command/start').run(opts.argv, (opts.options.hasOwnProperty('debug')) ? true : false);
+        require('./command/start').run(opts.argv, debug);
         return;
     }
 
@@ -136,7 +138,7 @@ var opts = getopt.parseSystem();
 
     // List command
     if (opts.options.hasOwnProperty('list')) {
-        require('./command/list').run();
+        require('./command/list').run(opts.argv, debug);
         return;
     }
 

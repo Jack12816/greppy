@@ -5,7 +5,10 @@
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
-exports.run = function(opts)
+fs   = require('fs');
+util = require('util');
+
+exports.run = function(opts, debug)
 {
     // Find a Greppy project recursivly
     commandHelper.findProjectOrDie();
@@ -14,11 +17,21 @@ exports.run = function(opts)
         projectHelper.listContexts(process.cwd())
     );
 
-    // Start all contexts with the found start script
-    contexts.contexts.forEach(function(context) {
+    var found        = 0;
+    var contextNames = contexts.contexts.map(function(context) {
+        return contexts.instance[context].name;
+    });
 
-        context = contexts.instance[context];
+    if (true === debug) {
 
+        var http    = require('http');
+        var express = require('express');
+        var app     = express();
+        var server  = http.createServer(app);
+    }
+
+    var printDetails = function(context)
+    {
         global.table.writeRow([
             context.name.bold.green,
             context.description.white
@@ -29,7 +42,66 @@ exports.run = function(opts)
             context.modules.join(', ')
         ]);
 
-        console.log();
+        if (false === debug) {
+            console.log();
+        } else {
+            printDebugDetails(context);
+        }
+    }
+
+    var printDebugDetails = function(context)
+    {
+        var controllerLoader = new (require('../../lib/http/mvc/loader'))({
+            app: app,
+            server: server,
+            context: context
+        });
+
+        controllerLoader.load(context.modules);
+
+        global.table.writeRow([
+            'routes'.white.bold,
+            ''
+        ]);
+
+        // List routes
+        projectHelper.formatContextRoutes(context).forEach(function(route) {
+
+            global.table.writeRow([
+                ''.white.bold,
+                route
+            ]);
+        });
+    }
+
+    if (0 === contextNames.length) {
+
+        console.log('No configured contexts found.');
+        return;
+    }
+
+    // User filter was given, so we use it
+    if (0 !== opts.length) {
+
+        opts.forEach(function(context, oidx) {
+
+            context = contexts.instance[context];
+
+            if (!context) {
+
+                console.log('Context "' + opts[oidx] + '" is not configured.');
+                return process.exit();
+            }
+
+            printDetails(context);
+        });
+
+        return;
+    }
+
+    // No user filter was given, so we list all contexts
+    contexts.contexts.forEach(function(context) {
+        printDetails(contexts.instance[context]);
     });
 }
 
