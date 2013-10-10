@@ -45,7 +45,7 @@ util.inherits({{{name}}}Context, greppy.get('app.worker.context'));
 {{{name}}}Context.prototype.configure = function(app, server, callback)
 {
     // Templating Engine
-    app.set('views', process.cwd() + '/modules/{{{nameLower}}}/resources/views');
+    app.set('views', process.cwd() + '/modules/{{{nameLower}}}/resources/views/');
     app.set('view engine', 'jade');
     app.locals.pretty = true;
 
