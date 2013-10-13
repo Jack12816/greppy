@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+
+  if ('development' == app.env)
+
+    h2.page-headline #{error.name} in #{req.greppy.route.controllerPath}##{req.greppy.route.action}
+      .pull-right
+        a.btn(onclick="history.back();", title="Back")
+          i.icon-arrow-left
+
+    .well= error.message
+
+    h3 Stack trace
+    pre= error.stack
+
+  else
+
+    h2.page-headline An error occured
+      .pull-right
+        a.btn(onclick="history.back();", title="Back")
+          i.icon-arrow-left
+
+    .error-message
+      h1 The operation could not be performed
+      hr
+      p We apologize for any inconvenience.
+

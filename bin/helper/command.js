@@ -355,7 +355,6 @@ helper.dialogResultsFormat = function(results)
  * @param {Object} fileConfigs - Configuration for all file generations
  * @param {Object} results - Results to use with mustache
  * @param {Boolean} [clear] - Clear the terminal - Default true
- * @return void
  */
 helper.generateScaffoldsByConfig = function(fileConfigs, results, clear)
 {
@@ -389,7 +388,6 @@ helper.generateScaffoldsByConfig = function(fileConfigs, results, clear)
  * Get the identity of the current user.
  *
  * @param {Function} callback - Function to call on finish
- * @return void
  */
 helper.getCurrentUser = function(callback)
 {
@@ -440,7 +438,6 @@ helper.getCurrentUser = function(callback)
  *
  * @param {Array} paths - Array of path strings (absolute|relative)
  * @param {Boolean} [clear] - Clear the terminal - Default true
- * @return void
  */
 helper.generateScaffoldPaths = function(paths, clear)
 {

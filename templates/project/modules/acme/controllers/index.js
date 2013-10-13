@@ -12,6 +12,9 @@ var IndexController = function()
 {
     // Call the super constructor
     IndexController.super_.call(this);
+
+    // Define the path to look for views
+    this.viewPath = 'index/';
 };
 
 /**
@@ -36,7 +39,14 @@ IndexController.actions.index =
     action  : function(req, res) {
 
         // Render the view
-        res.render('app/home');
+        res.render(self.view('index'), function(err, html) {
+
+            if (err) {
+                res.render('error/notfound-layout');
+            }
+
+            res.end(html);
+        });
     }
 };
 

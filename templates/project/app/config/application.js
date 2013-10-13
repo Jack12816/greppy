@@ -9,17 +9,32 @@ var config = {};
 config.infrastructure = {
 
     acme: {
-        slaves   : ['localhost'],
-        host     : '0.0.0.0',
-        port     : 3000,
-        worker   : 1,
+        url    : 'http://localhost:3000',
+        slaves : ['localhost'],
+        host   : '0.0.0.0',
+        port   : 3000,
+        worker : 1
     }
-}
+};
 
 /**
  * Database connections
  */
 config.database = {
+
+    // mongodb: {
+
+    //     blog: {
+    //         plain   : true,
+    //         orm     : true,
+    //         uri     : 'mongodb://127.0.0.1:27017/acme_website',
+    //         options : {
+    //             db: {
+    //                 native_parser: true
+    //             }
+    //         }
+    //     }
+    // },
 
     // mysql: {
 

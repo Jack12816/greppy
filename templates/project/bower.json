@@ -4,7 +4,7 @@
     "dependencies": {
         "bootstrap": "3.0.0",
         "font-awesome": "3.2.1",
-        "greppy": "0.1.1"
+        "greppy": "0.3.0"
     },
     "ignore": [
         "**/.*",

@@ -7,8 +7,15 @@
 
 exports.run = function(opts)
 {
+    var projectName = opts.argv.shift();
+
+    if (!projectName) {
+        console.log('No project name was specified.'.red.bold);
+        return process.exit(1);
+    }
+
     var appPath = path.normalize(
-        process.cwd() + '/' + opts.argv.shift()
+        process.cwd() + '/' + projectName
     );
 
     var createProject = function()
@@ -78,8 +85,7 @@ exports.run = function(opts)
 
         if (err && 0 !== err.code) {
             console.log('npm is not installed or doesn\'t work properly.'.red.bold);
-            process.exit(1);
-            return;
+            return process.exit(1);
         }
 
         childProcess.exec('bower --allow-root', function(err, stdout, stderr) {
@@ -87,16 +93,14 @@ exports.run = function(opts)
             if (err && 0 !== err.code) {
                 console.log('bower is not installed or doesn\'t work properly.'.red.bold);
                 console.log('\nTo install bower run: npm install -g bower');
-                process.exit(1);
-                return;
+                return process.exit(1);
             }
 
             if (fs.existsSync(appPath)) {
 
                 if (0 !== fs.readdirSync(appPath).length) {
                     console.log('\nThe application directory already exists and contains files.'.red.bold);
-                    process.exit(1);
-                    return;
+                    return process.exit(1);
                 }
             }
 

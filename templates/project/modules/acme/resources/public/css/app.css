@@ -1,8 +1,38 @@
-/* Space out content a bit */
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
+/**
+ * @section 1. General Styles
+ *
+ * General styles which are valid for all or most of the pages.
+ **/
+html, body{height:100%}
+html, body { background-color: #F7F7F7; background-image: url("/img/noise.png"); background-repeat: repeat; }
+body { padding-top: 70px; }
+
+/* Wrapper for page content to push down footer */
+#wrap{min-height:100%;height:auto !important;height:100%;margin:0 auto -140px;padding:0 0 170px}
+#wrap > .container{padding:0 15px 0}
+
+
+/**
+ * @section 2. Content
+ *
+ * Styles for the main content block.
+ **/
+#content{margin-bottom:4px}
+
+
+/**
+ * @section 3. Footer
+ **/
+#footer{height:140px;padding:16px 0;border-top:5px solid #222222; background-color:#32708F;color:#fff;background-image:url(/img/bubbles.png)}
+#footer a { color: #fff; }
+#footer a:hover, a:focus { color: #222222; text-decoration: none; }
+.branding-head{margin-top:16px}
+.branding-info{width:830px;p
+
+
+/**
+ * @section 4. Marketing
+ **/
 
 /* Everything but the jumbotron gets side spacing for mobile-first views */
 .header,

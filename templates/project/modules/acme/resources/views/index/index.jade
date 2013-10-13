@@ -1,0 +1,43 @@
+extends ../layout
+
+block content
+
+  .jumbotron
+    .row
+      .col-lg-3
+        img(height="200", src="/modules/acme/img/greppy.png")
+      .col-lg-9
+        h1 You did it!
+        p.lead
+          | Congratulations! You successfully set up a Greppy application.
+          | Read on to get started.
+
+  .row.marketing
+    .col-lg-12
+
+      h3 Getting Started
+      p
+        | Here are the steps to go on:
+
+      h4
+        span.text-muted 1.
+        |  Create controllers and models.
+      p
+        | Just take a look at&nbsp;
+        code modules/acme/controllers
+        |  to get a feeling for the structure.
+
+      h4
+        span.text-muted 2.
+        |  Edit the index controller to replace this page.
+      p
+        | Give it a try and change the index controller to fit your needs.
+        | For more examples see the Greppy documentation.
+
+      h4
+        span.text-muted 3.
+        |  Build your model migrations and fixtures.
+      p
+        | Learn how to write migrations and fixtures for your models - it's a blessing
+        | for deployment and development of your application.
+
