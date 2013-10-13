@@ -6,9 +6,9 @@
 
 var should     = require('should');
 var path       = require('path');
-var root       = path.resolve('./');
+var root       = path.resolve(__dirname + '/../../../../../');
 var DataGrid   = require(root + '/lib/helper/controller/data-grid');
-var dg   = null;
+var dg         = null;
 
 describe('Data-Grid', function() {
 

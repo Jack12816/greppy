@@ -4,11 +4,11 @@
  * @author Nabil Krause <nabil.krause@silberlicht.eu>
  */
 
-var should     = require('should');
-var path       = require('path');
-var root       = path.resolve('./');
-var Form = require(root + '/lib/helper/controller/form');
-var form = null;
+var should = require('should');
+var path   = require('path');
+var root   = path.resolve(__dirname + '/../../../../../');
+var Form   = require(root + '/lib/helper/controller/form');
+var form   = null;
 
 describe('form', function () {
     

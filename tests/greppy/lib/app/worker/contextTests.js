@@ -6,7 +6,7 @@
 
 var should  = require('should');
 var path    = require('path');
-var root    = path.resolve('./');
+var root    = path.resolve(__dirname + '/../../../../../');
 var express = require('express');
 var Context = require(root + '/lib/app/worker/context');
 

@@ -6,7 +6,7 @@
 
 var should = require('should');
 var path   = require('path');
-var root   = path.resolve('./');
+var root   = path.resolve(__dirname + '/../../../');
 
 describe('store', function() {
 
