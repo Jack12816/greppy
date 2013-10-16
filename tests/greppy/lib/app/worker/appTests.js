@@ -25,6 +25,19 @@ describe('app', function() {
             debug: function(s) {
             }
         };
+        
+        // mockup of greppy global
+        greppy = {
+            config: {
+                get: function() {
+                    return {
+                        get: function() {
+                            return null;
+                        }
+                    }
+                }
+            }
+        };
     });
 
     function getFuncName(fun) {
