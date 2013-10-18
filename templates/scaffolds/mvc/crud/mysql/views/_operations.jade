@@ -1,3 +1,9 @@
+- if ('edit' == req.greppy.route.action && 'undefined' !== typeof {{{name}}})
+
+    a.btn.btn-default(href="#{controller.link('show', { id: {{{name}}}.id })}", title="Show {{{name}}} details")
+      i.icon-search
+    &nbsp;
+
 - var disableBackLink = false
 
 - if ('index' == req.greppy.route.action && 'undefined' !== typeof {{{name}}})
