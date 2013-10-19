@@ -8,7 +8,7 @@ var should = require('should');
 var path   = require('path');
 var root   = path.resolve(__dirname + '/../../../../../');
 
-describe('extensions for the string type', function() {
+describe('Extensions for String', function() {
 
     before(function() {
         require(root + '/lib/extension/datatype/string');
@@ -17,6 +17,7 @@ describe('extensions for the string type', function() {
     describe('toCamelCase', function() {
 
         it('should convert a hypen separated string to camelCase', function() {
+
             var myStr1  = 'i-am-some-cool-string';
             var myStr2  = 'lets--see--how----you---handle-----me';
             var myStr3  = '-another-cool--string-';
@@ -34,6 +35,7 @@ describe('extensions for the string type', function() {
     describe('words', function() {
 
         it('should truncate a string to the given amount of words and add a space with dots if it was longer than it is after processing', function() {
+
             var myStr1  = 'this is a sentence to test the implementation of our nice function';
             var myStr2  = 'this sentence is just for testing, too.';
             var result1 = myStr1.words(3);
@@ -44,6 +46,7 @@ describe('extensions for the string type', function() {
         });
 
         it('should not modify the string if the given amount of words is equal or greater than the actual amount of words', function() {
+
             var myStr1  = 'good job.';
             var myStr2  = 'this sentence has just six words';
             var result1 = myStr1.words(2);
@@ -53,7 +56,8 @@ describe('extensions for the string type', function() {
             result2.should.equal('this sentence has just six words');
         });
 
-        it('should return up to ten words, if no amount of words was given.', function() {
+        it('should return up to ten words if no amount of words was given.', function() {
+
             var myStr  = 'test me, because i like to be tested and so we both profit from this.';
             var result = myStr.words(0);
 
@@ -64,6 +68,7 @@ describe('extensions for the string type', function() {
     describe('remove', function() {
 
         it('should return a version of the calling string which has the passed strings and/or regexps removed', function() {
+
             var myStr1  = 'blueberries';
             var myStr2  = 'Ubuntu';
             var myStr3  = 'u{4}k?';
@@ -84,6 +89,7 @@ describe('extensions for the string type', function() {
     describe('contains', function() {
 
         it('should return true if the provided string is contained within the calling string', function() {
+
             var myStr  = 'that\'s just the way it is.';
             var result = myStr.contains('the way');
 
@@ -91,6 +97,7 @@ describe('extensions for the string type', function() {
         });
 
         it('should return false if the provided string is not contained within the calling string', function() {
+
             var myStr  = 'good';
             var result = myStr.contains('well');
 

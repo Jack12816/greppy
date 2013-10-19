@@ -12,7 +12,7 @@ var root    = path.resolve(__dirname + '/../../../../../');
 var express = require('express');
 var App     = require(root + '/lib/app/worker/app');
 
-describe('app', function() {
+describe('App', function() {
 
     var exApp = null;
     var app   = null;
@@ -25,7 +25,7 @@ describe('app', function() {
             debug: function(s) {
             }
         };
-        
+
         // mockup of greppy global
         greppy = {
             config: {

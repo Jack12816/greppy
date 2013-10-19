@@ -1,88 +1,85 @@
 /**
- * Tests for lib/helper/store.js
+ * Tests for lib/store.js
  *
  * @author Nabil Krause <nabil.krause@silberlicht.eu>
  */
 
-var should = require('should');
-var path   = require('path');
-var root   = path.resolve(__dirname + '/../../../');
+var should  = require('should');
+var path    = require('path');
+var root    = path.resolve(__dirname + '/../../../');
+var Store   = require(root + '/lib/store');
+var se      = null;
 
-describe('store', function() {
-
-    var Store   = null;
-    var myStore = null;
-
-    beforeEach(function() {
-        Store = require(root + '/lib/store');
-    });
-
-    afterEach(function() {
-        Store = null;
-        myStore = null;
-    });
+describe('Store', function() {
 
     describe('constructor', function() {
 
         it('should register namespaces passed in as argument via the constructor', function() {
+            
             var namespaces         = ['checkMe', 'lookAtThis', 'ohWow'];
             var namespacesExpected = namespaces.slice(0);
 
             namespacesExpected.push('default');
 
-            myStore = new Store(namespaces);
+            se = new Store(namespaces);
 
-            myStore.namespaces.should.have.keys(namespacesExpected);
+            se.namespaces.should.have.keys(namespacesExpected);
         });
 
         it('should always have a default namespace', function() {
+
             var namespaces = ['checkMe', 'lookAtThis', 'ohWow'];
 
-            myStore = new Store(namespaces);
+            se = new Store(namespaces);
 
-            should.exist(myStore.namespaces.default);
+            should.exist(se.namespaces.default);
         });
 
         it('should only have a default namespace when nothing was passed to the constructor', function() {
-            myStore = new Store();
 
-            myStore.namespaces.should.have.keys('default');
+            se = new Store();
+
+            se.namespaces.should.have.keys('default');
         });
     });
 
     describe('getter', function() {
         it('should get a value which was set without providing a namespace', function() {
-            myStore = new Store();
 
-            myStore.set('fiz', 'buz');
+            se = new Store();
 
-            myStore.get('fiz').should.equal('buz');
-            myStore.get('default', 'fiz').should.equal('buz');
+            se.set('fiz', 'buz');
+
+            se.get('fiz').should.equal('buz');
+            se.get('default', 'fiz').should.equal('buz');
         });
 
         it('should get a value which was set providing a namespace', function() {
-            myStore = new Store(['customSpace']);
 
-            myStore.set('customSpace', 'foo', 'bar');
+            se = new Store(['customSpace']);
 
-            myStore.get('customSpace', 'foo').should.equal('bar');
+            se.set('customSpace', 'foo', 'bar');
+
+            se.get('customSpace', 'foo').should.equal('bar');
         });
 
 
         it('should return null when accessing an undefined value of an undefined namespace', function() {
-            myStore = new Store();
 
-            var result = myStore.get('customSpace', 'foo');
+            se = new Store();
+
+            var result = se.get('customSpace', 'foo');
 
             should.strictEqual(result, null);
         });
 
         it('should return null when accessing an undefined value of a defined namespace', function() {
+
             var namespaces = ['checkMe', 'lookAtThis', 'ohWow'];
 
-            myStore = new Store(namespaces);
+            se = new Store(namespaces);
 
-            var result = myStore.get('checkMe', 'bar');
+            var result = se.get('checkMe', 'bar');
 
             should.strictEqual(result, null);
         });
@@ -90,71 +87,79 @@ describe('store', function() {
 
     describe('setter', function() {
         it('should throw an error if not enough arguments are provided', function() {
-            myStore = new Store();
+
+            se = new Store();
 
             (function(){
-                myStore.set('foo');
+                se.set('foo');
             }).should.throwError(/.*Arguments.*/);
         });
 
         it('should throw an error when trying to set a value of an undefined namespace', function() {
-            myStore = new Store();
+
+            se = new Store();
 
             (function(){
-                myStore.set('bar', 'foo', 'buz');
+                se.set('bar', 'foo', 'buz');
             }).should.throwError(/.*Namespace.*/);
         });
 
         it('should set a value without providing a namespace', function() {
-            myStore = new Store();
+
+            se = new Store();
 
             (function(){
-                myStore.set('foo', 'bar');
+                se.set('foo', 'bar');
             }).should.not.throwError();
         });
 
         it('should set a value within a provided namespace', function() {
-            myStore = new Store(['mySpace']);
+
+            se = new Store(['mySpace']);
 
             (function(){
-                myStore.set('mySpace', 'foo', 'bar');
+                se.set('mySpace', 'foo', 'bar');
             }).should.not.throwError();
         });
     });
 
     describe('list', function() {
+
         it('should list all keys in a provided namespace', function() {
-            myStore = new Store(['s1', 's2']);
 
-            myStore.set('s1', 'myFirstKey', 'myFirstVal');
-            myStore.set('s1', 'mySecondKey', 'mySecondVal');
+            se = new Store(['s1', 's2']);
 
-            myStore.set('s2', 'firstKey', 'firstVal');
-            myStore.set('s2', 'secondKey', 'secondVal');
+            se.set('s1', 'myFirstKey', 'myFirstVal');
+            se.set('s1', 'mySecondKey', 'mySecondVal');
 
-            myStore.set('default', 'firstKeyInDefault', 'firstValInDefault');
-            myStore.set('default', 'secondKeyInDefault', 'secondValInDefault');
+            se.set('s2', 'firstKey', 'firstVal');
+            se.set('s2', 'secondKey', 'secondVal');
 
-            myStore.list('s1').should.eql(['myFirstKey', 'mySecondKey']);
-            myStore.list('s2').should.eql(['firstKey', 'secondKey']);
-            myStore.list('default').should.eql(['firstKeyInDefault', 'secondKeyInDefault']);
+            se.set('default', 'firstKeyInDefault', 'firstValInDefault');
+            se.set('default', 'secondKeyInDefault', 'secondValInDefault');
+
+            se.list('s1').should.eql(['myFirstKey', 'mySecondKey']);
+            se.list('s2').should.eql(['firstKey', 'secondKey']);
+            se.list('default').should.eql(['firstKeyInDefault', 'secondKeyInDefault']);
 
         });
 
-        it('should list all keys of the default namespace, if no namespace was provided', function() {
-            myStore = new Store();
+        it('should list all keys of the default namespace if no namespace was provided', function() {
 
-            myStore.set('foo', 'bar');
-            myStore.set('fiz', 'buzz');
+            se = new Store();
 
-            myStore.list().should.eql(['foo', 'fiz']);
+            se.set('foo', 'bar');
+            se.set('fiz', 'buzz');
+
+            se.list().should.eql(['foo', 'fiz']);
         });
 
         it('should throw an error if a non-existent namespace was provided', function() {
-            myStore = new Store();
+
+            se = new Store();
 
             (function() {
-                myStore.list('foo');
+                se.list('foo');
             }).should.throwError(/.*Namespace.*/);
         });
     });

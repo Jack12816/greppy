@@ -4,34 +4,32 @@
  * @author Nabil Krause <nabil.krause@silberlicht.eu>
  */
 
-var should = require('should');
-var path   = require('path');
-var root   = path.resolve(__dirname + '/../../../../');
+var should         = require('should');
+var path           = require('path');
+var root           = path.resolve(__dirname + '/../../../../');
+var validAppPath   = path.resolve('templates/project');
+var invalidAppPath = path.resolve('templates');
+var Project        = require(root + '/lib/helper/project');
+var pt             = null;
+var curAppPath     = '';
 
-describe('project helper', function() {
-
-    var validAppPath   = path.resolve('templates/project');
-    var invalidAppPath = path.resolve('templates');
-    var Project        = null;
-    var myProject      = null;
-    var curAppPath     = '';
+describe('ProjectHelper', function() {
 
     beforeEach(function() {
-        Project   = require(root + '/lib/helper/project');
-        myProject = new Project();
+        pt = new Project();
     });
 
     afterEach(function() {
-        Project    = null;
-        myProject  = null;
         curAppPath = '';
     });
 
     describe('findAppPath', function() {
 
         it('should find a valid app path', function() {
+
             curAppPath = validAppPath;
-            var result = myProject.findAppPath(curAppPath);
+            var result = pt.findAppPath(curAppPath);
+
             result.should.have.property('path');
             result.should.have.property('searched');
             result.should.have.property('found', true);
@@ -40,8 +38,10 @@ describe('project helper', function() {
         });
 
         it('should not find an invalid app path', function() {
+
             curAppPath = invalidAppPath;
-            var result = myProject.findAppPath(curAppPath);
+            var result = pt.findAppPath(curAppPath);
+
             result.should.have.property('path');
             result.should.have.property('searched');
             result.should.have.property('found', false);
@@ -53,8 +53,10 @@ describe('project helper', function() {
     describe('listContexts', function() {
 
         it('should find contexts in a valid project', function() {
+
             curAppPath = validAppPath;
-            var result = myProject.listContexts(curAppPath);
+            var result = pt.listContexts(curAppPath);
+
             result.should.have.property('path');
             result.should.have.property('contexts');
             result.path.should.be.a('string');
@@ -62,8 +64,10 @@ describe('project helper', function() {
         });
 
         it('should not find contexts in an invalid project', function() {
+
             curAppPath = invalidAppPath;
-            var result = myProject.listContexts(curAppPath);
+            var result = pt.listContexts(curAppPath);
+
             result.should.have.property('path');
             result.should.have.property('contexts');
             result.path.should.be.a('string');
@@ -76,8 +80,10 @@ describe('project helper', function() {
     describe('listModules', function() {
 
         it('should find modules in a valid project', function() {
+
             curAppPath = validAppPath;
-            var result = myProject.listModules(curAppPath);
+            var result = pt.listModules(curAppPath);
+
             result.should.have.property('path');
             result.should.have.property('modules');
             result.path.should.be.a('string');
@@ -87,8 +93,10 @@ describe('project helper', function() {
         });
 
         it('should not find modules in an invalid project', function() {
+
             curAppPath = invalidAppPath;
-            var result = myProject.listModules(curAppPath);
+            var result = pt.listModules(curAppPath);
+
             result.should.have.property('path');
             result.should.have.property('modules');
             result.path.should.be.a('string');
@@ -104,8 +112,9 @@ describe('project helper', function() {
 
         beforeEach(function() {
             curAppPath = '/tmp/greppy/project/';
+
             // create contextObject mockup
-            contextObject = myProject.listContexts(curAppPath);
+            contextObject = pt.listContexts(curAppPath);
         });
 
         afterEach(function() {
@@ -113,9 +122,10 @@ describe('project helper', function() {
         });
 
         it('should instantiate each provided context', function() {
+
             process.chdir(curAppPath);
             var contexts = contextObject.contexts;
-            var result   = myProject.loadContexts(contextObject);
+            var result   = pt.loadContexts(contextObject);
 
             result.should.have.property('path');
             result.should.have.property('contexts');
@@ -137,15 +147,19 @@ describe('project helper', function() {
     describe('findStartScript', function() {
 
         it('should find the start script for a valid project', function() {
+
             curAppPath = validAppPath;
-            var result = myProject.findStartScript(curAppPath);
+            var result = pt.findStartScript(curAppPath);
+
             result.should.be.a('string');
             result.should.not.be.empty;
         });
 
         it('should not find the start script for an invalid project', function() {
+
             curAppPath = invalidAppPath;
-            var result = myProject.findStartScript(curAppPath);
+            var result = pt.findStartScript(curAppPath);
+
             false.should.equal(result);
         });
     });
@@ -153,8 +167,10 @@ describe('project helper', function() {
     describe('listConfigs', function() {
 
         it('should list configs for a valid project', function() {
+
             curAppPath = validAppPath;
-            var result = myProject.listConfigs(curAppPath);
+            var result = pt.listConfigs(curAppPath);
+
             result.path.should.be.a.string;
             result.configs.should.be.an.instanceOf(Array);
             result.path.should.not.be.empty;
@@ -162,8 +178,10 @@ describe('project helper', function() {
         });
 
         it('should not list configs for an invalid project', function() {
+
             curAppPath = invalidAppPath;
-            var result = myProject.listConfigs(curAppPath);
+            var result = pt.listConfigs(curAppPath);
+
             result.path.should.be.a.string;
             result.configs.should.be.an.instanceOf(Array);
             result.configs.should.be.empty;
@@ -173,12 +191,13 @@ describe('project helper', function() {
     describe('loadConfigs', function() {
 
         it('should load configs for a valid project', function() {
+
             curAppPath = validAppPath;
 
             // get config object and configs
-            var configObj = myProject.listConfigs(curAppPath);
+            var configObj = pt.listConfigs(curAppPath);
             var configs   = configObj.configs;
-            var result    = myProject.loadConfigs(configObj);
+            var result    = pt.loadConfigs(configObj);
 
             configs.forEach(function(config) {
                 should.exist(result.instance[config]);
@@ -189,11 +208,12 @@ describe('project helper', function() {
         });
 
         it('should not load configs for an invalid project', function() {
+
             curAppPath = invalidAppPath;
 
             // get config object
-            var configObj = myProject.listConfigs(curAppPath);
-            var result    = myProject.loadConfigs(configObj);
+            var configObj = pt.listConfigs(curAppPath);
+            var result    = pt.loadConfigs(configObj);
 
             result.path.should.be.a.string;
             result.path.should.not.be.empty;

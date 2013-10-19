@@ -4,22 +4,21 @@
  * @author Nabil Krause <nabil.krause@silberlicht.eu>
  */
 
-var should     = require('should');
-var path       = require('path');
-var root       = path.resolve(__dirname + '/../../../../../');
-var DataGrid   = require(root + '/lib/helper/controller/data-grid');
-var dg         = null;
+var should   = require('should');
+var path     = require('path');
+var root     = path.resolve(__dirname + '/../../../../../');
+var DataGrid = require(root + '/lib/helper/controller/data-grid');
+var dg       = null;
 
-describe('Data-Grid', function() {
+describe('DataGrid', function() {
 
     beforeEach(function() {
-
         dg = new DataGrid();
     });
 
     describe('buildBaseCriteria', function() {
 
-        it('should return a critertia object with default values, if the req has no special values', function() {
+        it('should return a critertia object with default values if the req has no special values', function() {
 
             var reqMockup = {
                 query: {}
@@ -34,7 +33,7 @@ describe('Data-Grid', function() {
             result.pageSizes.should.eql([10, 25, 50, 100]);
         });
 
-        it('should should return a criteria object with special values, if options were passed', function() {
+        it('should should return a criteria object with special values if options were passed', function() {
 
             var reqMockup = {
                 query: {}

@@ -8,7 +8,7 @@ var should = require('should');
 var path   = require('path');
 var root   = path.resolve(__dirname + '/../../../../../');
 
-describe('extensions for the array type', function() {
+describe('Extensions for Array', function() {
 
     before(function() {
         require(root + '/lib/extension/datatype/array');
@@ -16,6 +16,7 @@ describe('extensions for the array type', function() {
 
     describe('uniq', function() {
         it('should change the number of elements of an array which has duplicate values', function() {
+
             var myNums = [0, 1, 1, 2];
             var myVals = ['abc', 'def', 'ghj', 'ghj'];
             var mixed  = ['abc', 'def', 0, 'def', 0, 1];
@@ -26,6 +27,7 @@ describe('extensions for the array type', function() {
         });
 
         it('should not change the number of elements of an array which has only unique values', function() {
+
             var myNums = [0, 1, 2];
             var myVals = ['yo', 'hi', 'test', 'kk'];
 
@@ -34,6 +36,7 @@ describe('extensions for the array type', function() {
         });
 
         it('should remove duplicate values of an array which has duplicate values', function() {
+
             var myNums = [0, 1, 1, 2];
             var myVals = ['abc', 'def', 'ghj', 'ghj'];
             var mixed  = ['abc', 'def', 0, 'def', 0, 1];
@@ -47,6 +50,7 @@ describe('extensions for the array type', function() {
         });
 
         it('should sort the values of a given array', function() {
+
             var myNums = [3, 4, 1, 2];
             var myVals = ['def', 'xyz', 'abc'];
 

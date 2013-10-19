@@ -11,19 +11,21 @@ var root   = path.resolve(__dirname + '/../../../../../');
 var TestProject = require(root + '/tests/helper/project');
 var tp          = null;
 
-describe('project helper for tests', function() {
+describe('ProjectHelper for tests', function() {
 
     describe('creating a test project', function() {
         this.timeout(0);
 
         it('should have a default path configured', function() {
+
             tp = new TestProject();
 
             tp.path.should.be.a('string');
             tp.path.should.match(/\/$/);
         });
 
-        it('should init a default directory, if no folder was specified', function(done) {
+        it('should init a default directory if no folder was specified', function(done) {
+
             tp = new TestProject();
 
             var path = tp.getTargetPath();
@@ -38,6 +40,7 @@ describe('project helper for tests', function() {
         });
 
         it('should create a test-project', function(done) {
+
             tp = new TestProject();
 
             tp.createProject(function(exitCode) {
