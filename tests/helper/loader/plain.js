@@ -1,6 +1,6 @@
 /**
  * The plain-loader is responsible for loading test-files
- * without special settings
+ * without special settings.
  *
  * @module greppy/helper/test/loader
  * @author Nabil Krause <nabil.krause@silberlicht.eu>

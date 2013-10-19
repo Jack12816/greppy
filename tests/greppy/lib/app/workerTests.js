@@ -7,6 +7,7 @@
 var should = require('should');
 var path   = require('path');
 var root   = path.resolve(__dirname + '/../../../../');
+var paths  = require(root + '/tests/paths');
 var Worker = require(root + '/lib/app/worker');
 var wr     = null;
 
@@ -16,7 +17,7 @@ describe.skip('Worker', function() {
     var cwdBak = process.cwd();
 
     before(function() {
-        process.chdir('/tmp/greppy/project/');
+        process.chdir(paths.exampleProject);
         greppy = require(root + '/lib/greppy');
     });
 

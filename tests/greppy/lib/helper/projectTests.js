@@ -7,6 +7,7 @@
 var should         = require('should');
 var path           = require('path');
 var root           = path.resolve(__dirname + '/../../../../');
+var paths          = require(root + '/tests/paths');
 var validAppPath   = path.resolve('templates/project');
 var invalidAppPath = path.resolve('templates');
 var Project        = require(root + '/lib/helper/project');
@@ -111,7 +112,7 @@ describe('ProjectHelper', function() {
         var cwdBak        = process.cwd();
 
         beforeEach(function() {
-            curAppPath = '/tmp/greppy/project/';
+            curAppPath = paths.exampleProject;
 
             // create contextObject mockup
             contextObject = pt.listContexts(curAppPath);

@@ -10,12 +10,13 @@ var fs     = require('fs');
 var es     = require('execSync');
 var extend = require('extend');
 var root   = path.resolve(__dirname + '/../../../');
+var paths  = require(root + '/tests/paths');
 var Config = require(root + '/lib/config');
 var cg     = null;
 
 describe('Config', function() {
 
-    var configPath    = '/tmp/greppy/';
+    var configPath    = paths.temp + '/';
     var configFile    = 'config.js';
     var configMockup  = {
         propOne: {
@@ -273,7 +274,7 @@ describe('Config', function() {
         });
 
         it('should deep-merge a user defined config over the default config if deep is set to true', function() {
-            
+
             var expected = extend(true, {}, defaultMockup, userConfig);
 
             cg = new Config({

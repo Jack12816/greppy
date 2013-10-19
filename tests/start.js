@@ -17,10 +17,10 @@ var mocha = new Mocha({
 
 var tm    = new Manager(mocha, metas, testPath);
 
-//tm.setBefore(execBefore);
-//tm.setAfter(execAfter);
-//tm.enable('testTests');
-//tm.enable('hasTestProject');
+tm.setBefore(execBefore);
+tm.setAfter(execAfter);
+tm.enable('testTests');
+tm.enable('hasTestProject');
 
 tm.run();
 

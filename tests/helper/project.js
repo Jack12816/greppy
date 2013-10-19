@@ -8,29 +8,23 @@
 var fs            = require('fs');
 var cp            = require('child_process');
 var es            = require('execSync');
-var greppyBinPath = __dirname + '/../../bin/greppy';
+var path          = require('path');
+var root          = path.resolve(__dirname + '/../../');
+var paths         = require(root + '/tests/paths');
+var greppyBinPath = root + '/bin/greppy';
 
 /**
  * @constructor
+ *
+ * @param {String} [path] The path used for creating the project
  */
 var Project = function(path)
 {
-    this.path          = path || '/tmp/greppy-test/';
-    this.directoryName = 'project';
+    this.path          = path || paths.temp + '/test-project/';
     this.showOutput    = false;
 
     // Create the given path
-    (require('node-fs')).mkdirSync(this.getTargetPath(), '0744', true);
-};
-
-/**
- * Get the name of the project directory.
- *
- * @returns {String}
- */
-Project.prototype.getDirectoryName = function()
-{
-    return this.directoryName;
+    (require('node-fs')).mkdirSync(this.getPath(), '0744', true);
 };
 
 /**
@@ -38,9 +32,9 @@ Project.prototype.getDirectoryName = function()
  *
  * @returns {String}
  */
-Project.prototype.getTargetPath = function()
+Project.prototype.getPath = function()
 {
-    return this.path + this.directoryName + '/';
+    return path.resolve(this.path) + '/';
 };
 
 /**
@@ -50,7 +44,7 @@ Project.prototype.getTargetPath = function()
  */
 Project.prototype.exists = function()
 {
-    return fs.existsSync(this.getTargetPath());
+    return fs.existsSync(this.getPath());
 };
 
 /**
@@ -60,7 +54,7 @@ Project.prototype.exists = function()
  */
 Project.prototype.remove = function()
 {
-    es.run('rm -rf ' + this.getTargetPath());
+    es.run('rm -rf ' + this.getPath());
 };
 
 /**
@@ -70,8 +64,8 @@ Project.prototype.remove = function()
  */
 Project.prototype.clean = function()
 {
-    es.run('rm -rf ' + this.getTargetPath());
-    es.run('mkdir ' + this.getTargetPath());
+    es.run('rm -rf ' + this.getPath());
+    es.run('mkdir ' + this.getPath());
 };
 
 /**
@@ -88,7 +82,7 @@ Project.prototype.createProject = function(callback)
     }
 
     var ps = cp.spawn(greppyBinPath, ['--new=.'], {
-        cwd: this.getTargetPath()
+        cwd: this.getPath()
     });
 
     if (this.showOutput) {
@@ -120,7 +114,7 @@ Project.prototype.createProjectSync = function()
     var cwd = process.cwd();
     var result;
 
-    process.chdir(this.getTargetPath());
+    process.chdir(this.getPath());
     result = es[cmd](greppyBinPath + ' --new=.');
     result = (cmd === 'run') ? result : result.code;
     process.chdir(cwd);
