@@ -1,0 +1,19 @@
+.flash-container.text-center
+
+  - each message in req.flash("info")
+    .flash-message.alert.alert-dismissable.alert-info
+      button(type="button", class="close", data-dismiss="alert", aria-hidden="true") &times;
+      span !{message}
+  - each message in req.flash("success")
+    .flash-message.alert.alert-dismissable.alert-success
+      button(type="button", class="close", data-dismiss="alert", aria-hidden="true") &times;
+      span !{message}
+  - each message in req.flash("warning")
+    .flash-message.alert.alert-dismissable.alert-warning
+      button(type="button", class="close", data-dismiss="alert", aria-hidden="true") &times;
+      span !{message}
+  - each message in req.flash("error")
+    .flash-message.alert.alert-dismissable.alert-danger
+      button(type="button", class="close", data-dismiss="alert", aria-hidden="true") &times;
+      span !{message}
+

@@ -5,8 +5,15 @@ html
     title {{nameCaped}}
 
   body
-    .container
-      block content
+
+    #wrap
+      include layout/_navigation
+      include layout/_messages
+
+      #content.container
+        block content
+
+    footer#footer
       include layout/_foot
 
     include layout/_scripts
