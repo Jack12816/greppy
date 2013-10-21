@@ -27,8 +27,7 @@ exports.run = function()
         gitHelper.getLastCommit(__dirname + '/../../', function(err, info) {
 
             if (err) {
-                console.log(err);
-                return;
+                return callback && callback();
             }
 
             table.writeRow([
@@ -68,7 +67,6 @@ exports.run = function()
             gitHelper.getLastCommit(process.cwd(), function(err, info) {
 
                 if (err) {
-                    console.log(err);
                     return;
                 }
 
