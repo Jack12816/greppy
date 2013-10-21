@@ -46,13 +46,15 @@ describe('App', function() {
 
     it('should let the app use the body parser when it\'s configure method is called', function() {
 
-        var contextMockup = {
-            routes: []
+        var workerMockup = {
+            context: {
+                routes: []
+            }
         };
         var hasJSON       = false;
         var hasUrlencoded = false;
 
-        app = new App(contextMockup);
+        app = new App(workerMockup);
 
         app.configure(exApp, null, null);
 
@@ -74,16 +76,18 @@ describe('App', function() {
 
     it('should only allow digits for id-parameters', function(done) {
 
-        var contextMockup = {
-            routes: [
-                {
-                    path: '/just/some/test/',
-                    method: 'get'
-                }
-            ]
+        var workerMockup = {
+            context: {
+                routes: [
+                    {
+                        path: '/just/some/test/',
+                        method: 'get'
+                    }
+                ]
+            }
         };
 
-        app = new App(contextMockup);
+        app = new App(workerMockup);
 
         app.configure(exApp, null, null);
 
@@ -110,16 +114,18 @@ describe('App', function() {
 
     it('should only allow valid uuids for uuid-parameters', function(done) {
 
-        var contextMockup = {
-            routes: [
-                {
-                    path: '/another/test',
-                    method: 'get'
-                }
-            ]
+        var workerMockup = {
+            context: {
+                routes: [
+                    {
+                        path: '/another/test',
+                        method: 'get'
+                    }
+                ]
+            }
         };
 
-        app = new App(contextMockup);
+        app = new App(workerMockup);
 
         app.configure(exApp, null, null);
 
@@ -146,16 +152,18 @@ describe('App', function() {
 
     it('should only allow valid oids for oid-parameters', function(done) {
 
-        var contextMockup = {
-            routes: [
-                {
-                    path: '/ok/then',
-                    method: 'get'
-                }
-            ]
+        var workerMockup = {
+            context: {
+                routes: [
+                    {
+                        path: '/ok/then',
+                        method: 'get'
+                    }
+                ]
+            }
         };
 
-        app = new App(contextMockup);
+        app = new App(workerMockup);
 
         app.configure(exApp, null, null);
 

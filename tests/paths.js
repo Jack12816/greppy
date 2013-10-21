@@ -5,7 +5,7 @@
  */
 
 var temp      = '/tmp/greppy-tests';
-var exProject = 'example-project'
+var exProject = 'example-project';
 
 var paths = {
     temp           : temp,
