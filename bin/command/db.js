@@ -27,6 +27,9 @@ exports.run = function(opts)
             '    ' + 'clear'.yellow + ' [adapter.connection ...]',
             '        Clear data from all|the given connection(s).',
             '',
+            '    ' + 'purge'.yellow + ' [adapter.connection ...]',
+            '        Remove all tables/collections from all|the given connection(s).',
+            '',
             ' Combined Operations'.green.bold,
             '',
             '    ' + 'build'.yellow + ' [adapter.connection ...]',
@@ -105,7 +108,7 @@ exports.run = function(opts)
     var argument = argumentHelper.build(opts.argv);
 
     argument.setCommands({
-        atomic: ['create', 'drop', 'migrate', 'fill', 'clear'],
+        atomic: ['create', 'drop', 'migrate', 'fill', 'clear', 'purge'],
         combined: {
             build: ['create', 'migrate', 'fill'],
             rebuild: ['drop', 'create', 'migrate', 'fill'],
