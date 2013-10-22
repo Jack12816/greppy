@@ -49,6 +49,19 @@ describe('ConfigStore', function() {
         );
     });
 
+    describe('constructor', function() {
+
+        it.skip('should call the constructor of it\'s parent class', function() {
+
+            cs = new ConfigStore();
+
+            should.deepEqual(cs.path, null); // TODO: why is path undefined?!
+            cs.default.should.eql({});
+            cs.values.should.eql({});
+        });
+
+    });
+
     describe('load', function() {
 
         it('should throw an error if no path was given', function() {
@@ -96,7 +109,48 @@ describe('ConfigStore', function() {
             result.default.should.eql(defaultMockup);
             result.values.should.eql(extend({}, defaultMockup, configMockup));
         });
+    });
 
+    describe('new', function() {
+
+        it('should throw an error if no key was given', function() {
+
+            cs = new ConfigStore();
+
+            (function() {
+                cs.new();
+            }).should.throwError(/key/i);
+        });
+
+        it('should load a config and save it to the specified key if a path was given in options', function() {
+
+            cs = new ConfigStore();
+
+            cs.new('myKey', {
+                path: configPath + configFile
+            });
+
+            var result = cs.get('myKey');
+
+            result.values.should.eql(configMockup);
+            result.default.should.eql({});
+            result.path.should.equal(configPath + configFile);
+        });
+
+        it('should accept default values and values passed via options', function() {
+
+            cs = new ConfigStore();
+
+            cs.new('lorem', {
+                values: configMockup,
+                default: defaultMockup
+            });
+
+            var result = cs.get('lorem');
+
+            result.default.should.eql(defaultMockup);
+            result.values.should.eql(extend({}, defaultMockup, configMockup));
+        });
     });
 });
 

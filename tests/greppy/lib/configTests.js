@@ -49,6 +49,20 @@ describe('Config', function() {
         );
     });
 
+    describe('constructor', function() {
+
+        it('should take an options object an apply it\'s values over it\'s default values', function() {
+
+            cg = new Config({
+                values  : configMockup,
+                default : defaultMockup
+            });
+
+            cg.values.should.eql(extend({}, defaultMockup, configMockup));
+            cg.default.should.eql(defaultMockup);
+        });
+    });
+
     describe('load', function() {
 
         it('should throw an error if no path was provided', function() {
