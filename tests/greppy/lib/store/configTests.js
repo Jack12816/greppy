@@ -11,11 +11,14 @@ var es          = require('execSync');
 var extend      = require('extend');
 var root        = path.resolve(__dirname + '/../../../../');
 var paths       = require(root + '/tests/paths');
+var cwdBak      = process.cwd();
 var ConfigStore = require(root + '/lib/store/config');
 var cs          = null;
 
 describe('ConfigStore', function() {
 
+    var appConfigPath = paths.temp + '/app/config/' + '';
+    var appConfigFile = 'application.js';
     var configPath    = paths.temp + '/';
     var configFile    = 'configStore.js';
     var configMockup  = {
@@ -40,9 +43,17 @@ describe('ConfigStore', function() {
     before(function() {
 
         es.run('mkdir -p ' + configPath);
+        es.run('mkdir -p ' + appConfigPath);
 
         // create config mockup
         fs.writeFileSync(configPath + configFile, 'var config = ' +
+            JSON.stringify(configMockup) +
+            ';' +
+            'module.exports = config;'
+        );
+
+        // create application config mockup
+        fs.writeFileSync(appConfigPath + appConfigFile, 'var config = ' +
             JSON.stringify(configMockup) +
             ';' +
             'module.exports = config;'
@@ -51,15 +62,31 @@ describe('ConfigStore', function() {
 
     describe('constructor', function() {
 
-        it.skip('should call the constructor of it\'s parent class', function() {
+        before(function() {
+            process.chdir(paths.temp);
+        });
+
+        after(function() {
+            process.chdir(cwdBak);
+        });
+
+        it('should call the constructor of it\'s parent class', function() {
 
             cs = new ConfigStore();
 
-            should.deepEqual(cs.path, null); // TODO: why is path undefined?!
-            cs.default.should.eql({});
-            cs.values.should.eql({});
+            cs.should.have.property('namespaces');
+            cs.namespaces.should.have.property('default');
         });
 
+        it('should load the application-config if there is one', function() {
+
+            cs = new ConfigStore();
+
+            var result = cs.get('app');
+
+            result.path.should.equal(appConfigPath + appConfigFile);
+            result.values.should.eql(configMockup);
+        });
     });
 
     describe('load', function() {
