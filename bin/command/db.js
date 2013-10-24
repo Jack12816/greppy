@@ -67,9 +67,7 @@ exports.run = function(opts)
     if (0 === opts.argv.length) {
 
         if (0 === configs.namespaces.length) {
-
-            console.log('No database configurations found.');
-            return;
+            return console.log('No database configurations found.');
         }
 
         configs.namespaces.forEach(function(namespace) {
@@ -169,8 +167,10 @@ exports.run = function(opts)
 
         if (err) {
             console.log(err);
-            return;
+            return process.exit(1);
         }
+
+        return process.exit(0);
     });
 };
 

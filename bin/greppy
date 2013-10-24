@@ -26,6 +26,10 @@ require('./../lib/extension/datatype/array');
 require('./../lib/extension/datatype/number');
 require('./../lib/extension/datatype/string');
 
+// Unlimit process EventEmitter listeners to
+// avoid warnings for this console application
+process.setMaxListeners(0);
+
 // Create a default table
 table = new Table.TableOutputStream({
     omitHeader: true,
