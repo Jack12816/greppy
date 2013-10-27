@@ -1,3 +1,4 @@
+SHELL=/bin/bash
 REPORTER ?= list
 
 all: test
