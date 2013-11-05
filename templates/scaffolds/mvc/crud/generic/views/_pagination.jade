@@ -9,11 +9,11 @@
       - if (1 == page)
         li.disabled
           a(data-page="1")
-            i.icon-double-angle-left
+            i.fa.fa-angle-double-left
       - else
         li
           a(data-page="#{page - 1}").pointer
-            i.icon-double-angle-left
+            i.fa.fa-angle-double-left
       - for (var i = (page - 5); i <= (((page + 5) > pagesCount) ? pagesCount : (page + 5)); i++)
         - if (0 < i)
           - if (i == page)
@@ -25,11 +25,11 @@
       - if (pagesCount == page)
         li.disabled
           a(data-page="#{page}")
-            i.icon-double-angle-right
+            i.fa.fa-angle-double-right
       - else
         li
           a(data-page="#{page + 1}").pointer
-            i.icon-double-angle-right
+            i.fa.fa-angle-double-right
 
   .pull-right
     select#pagination-limit.form-control

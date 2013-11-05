@@ -6,7 +6,7 @@
 
       .btn-group#search-trash(data-toggle="buttons")
         label.btn.btn-danger
-          i.icon-trash
+          i.fa.fa-trash-o
           input(type="checkbox", title="Search in the bin")
       {{/softDeletable}}
 
@@ -16,7 +16,7 @@
         input.form-control#search-input(type="text", placeholder="Search fuzzy..", data-property="fuzzy")
         .input-group-btn
           button.btn.btn-info#search-btn(tabindex="-1", type="button", title="Search for the input")
-            i.icon-search
+            i.fa.fa-search
           button.btn.btn-info#search-clear(tabindex="-1", type="button", title="Reset filters")
-            i.icon-undo
+            i.fa.fa-undo
 

@@ -15,7 +15,7 @@ var mocha = new Mocha({
     reporter: (process.argv[2] === '--reporter' && process.argv[3]) ? process.argv[3] : 'list'
 });
 
-var tm    = new Manager(mocha, metas, testPath);
+var tm = new Manager(mocha, metas, testPath);
 
 tm.setBefore(execBefore);
 tm.setAfter(execAfter);

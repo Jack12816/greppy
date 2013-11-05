@@ -1,7 +1,7 @@
 - if ('edit' == req.greppy.route.action && 'undefined' !== typeof {{{name}}})
 
     a.btn.btn-default(href="#{controller.link('show', { id: {{{name}}}.id })}", title="Show {{{name}}} details")
-      i.icon-search
+      i.fa.fa-search
     &nbsp;
 
 - var disableBackLink = false
@@ -14,13 +14,13 @@
   - if ('index' != req.greppy.route.action)
 
     a.btn.btn-default(href="#{controller.link('index')}", title="Back to overview")
-      i.icon-th-list
+      i.fa.fa-th-list
 
   - if ('new' != req.greppy.route.action)
 
     &nbsp;
     a.btn.btn-primary(href="#{controller.link('new')}", title="Create a new {{{name}}}")
-      i.icon-plus
+      i.fa.fa-plus
 
 - if ('show' == req.greppy.route.action || 'index' == req.greppy.route.action)
 
@@ -29,11 +29,11 @@
     - if ('show' != req.greppy.route.action)
 
       a.btn.btn-default(href="#{controller.link('show', { id: {{{name}}}.id })}", title="Show {{{name}}} details")
-        i.icon-search
+        i.fa.fa-search
 
     &nbsp;
     a.btn.btn-warning(href="#{controller.link('edit', { id: {{{name}}}.id })}", title="Edit this {{{name}}}")
-      i.icon-pencil
+      i.fa.fa-pencil
 
     &nbsp;
 
@@ -41,16 +41,16 @@
     - if (!{{{name}}}.deleted_at)
 
       a.btn.btn-danger.delete-operation(title="Delete", data-id="#{ {{{name}}}.id }")
-        i.icon-trash
+        i.fa.fa-trash-o
 
     - else
 
       a.btn.btn-success.restore-operation(title="Restore", data-id="#{ {{{name}}}.id }")
-        i.icon-refresh
+        i.fa.fa-refresh
     {{/softDeletable}}
     {{^softDeletable}}
     a.btn.btn-danger.delete-operation(title="Delete", data-id="#{ {{{name}}}.id }")
-      i.icon-trash
+      i.fa.fa-trash-o
     {{/softDeletable}}
 
 - if ('undefined' === typeof {{{name}}} || 'show' == req.greppy.route.action)

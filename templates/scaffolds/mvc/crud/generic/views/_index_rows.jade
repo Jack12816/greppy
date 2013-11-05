@@ -5,7 +5,7 @@
 
     td.min.text-center
       i(title="{{{headline}}} is #{ {{{name}}}.deleted_at ? '' : 'not' } deleted",
-        data-toggle="tooltip", class="#{ {{{name}}}.deleted_at ? 'icon-remove' : 'icon-ok' }")
+        data-toggle="tooltip", class="#{ {{{name}}}.deleted_at ? 'fa-times' : 'fa-check' }")
   {{/softDeletable}}
   {{^softDeletable}}
   tr

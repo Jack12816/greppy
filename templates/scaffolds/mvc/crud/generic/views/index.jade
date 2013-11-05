@@ -12,14 +12,14 @@ block content
         tr
           {{#softDeletable}}
           th.text-center(title="Deletion status")
-            i.icon-trash
+            i.fa.fa-trash-o
           {{/softDeletable}}
           {{#attributes}}
           th(data-property="{{{name}}}") {{{humanized}}}
           {{/attributes}}
           th(data-property="created_at") Created at
           th
-            i.icon-wrench
+            i.fa.fa-wrench
             |  Operations
       tbody
         include _index_rows
