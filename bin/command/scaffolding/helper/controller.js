@@ -82,6 +82,11 @@ helper.getModelAttributes = function(backend, modelPath)
                 return;
             }
 
+            // Skip custom data-types
+            if ('function' !== typeof type) {
+                return;
+            }
+
             attributes.push({
                 name     : attr,
                 type     : (new type()).constructor.name.toLowerCase(),

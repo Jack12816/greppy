@@ -4,7 +4,7 @@
   tr(class="#{ {{{name}}}.deleted_at ? 'danger' : '' }")
 
     td.min.text-center
-      i(title="{{{headline}}} is #{ {{{name}}}.deleted_at ? '' : 'not' } deleted",
+      i.fa(title="{{{headline}}} is #{ {{{name}}}.deleted_at ? '' : 'not' } deleted",
         data-toggle="tooltip", class="#{ {{{name}}}.deleted_at ? 'fa-times' : 'fa-check' }")
   {{/softDeletable}}
   {{^softDeletable}}
