@@ -51,13 +51,20 @@ exports.run = function(opts)
             );
 
             var modulePath = operation.options.path;
+            var assetsPublicPath = appPath + 'public/modules/';
+
+            // Try to build the assetsPublicPath, on error it just exists
+            try {
+                (require('node-fs')).mkdirSync(assetsPublicPath, '0744', true);
+            } catch (e) {
+            }
 
             operation.options.modules.forEach(function(module) {
 
-                var assetsSrcPath  = modulePath + module + '/resources/public';
-                var assetsDestPath = appPath + 'public/modules/' + module;
-                var task           = '';
-                var perform        = true;
+                var assetsSrcPath    = modulePath + module + '/resources/public';
+                var assetsDestPath   = assetsPublicPath + module;
+                var task             = '';
+                var perform          = true;
 
                 if (!fs.existsSync(assetsSrcPath) || !fs.statSync(assetsSrcPath).isDirectory()) {
                     return;

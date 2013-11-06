@@ -31,6 +31,9 @@ var {{{name}}} = new Schema({
         default: null
     }
     {{/softdelete}}
+    {{^softdelete}}
+
+    {{/softdelete}}
 });
 
 {{{name}}}.info = {
