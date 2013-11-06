@@ -102,7 +102,7 @@ helper.getModelAttributes = function(backend, modelPath)
     }
 
     return [];
-}
+};
 
 /**
  * Map the details for given attributes array.
@@ -191,7 +191,7 @@ helper.mapDetails = function(results, attributes)
     });
 
     return attrs;
-}
+};
 
 module.exports = helper;
 

@@ -47,7 +47,7 @@ exports.run = function(opts, debug)
         } else {
             printDebugDetails(context);
         }
-    }
+    };
 
     var printDebugDetails = function(context)
     {
@@ -74,7 +74,7 @@ exports.run = function(opts, debug)
         });
 
         console.log();
-    }
+    };
 
     if (0 === contextNames.length) {
 
@@ -105,5 +105,5 @@ exports.run = function(opts, debug)
     contexts.contexts.forEach(function(context) {
         printDetails(contexts.instance[context]);
     });
-}
+};
 

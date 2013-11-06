@@ -65,9 +65,9 @@ exports.run = function(options, printHints, callback)
                             name    : model,
                             module  : module,
                             backend : backend,
-                            path    : modules.path + module + '/models/'
-                                        + backend + '/' + model
-                        }
+                            path    : modules.path + module + '/models/' +
+                                      backend + '/' + model
+                        };
                     });
                 });
             });
@@ -101,7 +101,7 @@ exports.run = function(options, printHints, callback)
         if (3 > Object.keys(results).length || !valid) {
 
             console.log('[Error] '.red + 'Not all required questions were answered.');
-            console.log('        Skip further generation.')
+            console.log('        Skip further generation.');
             return;
         }
 
@@ -136,11 +136,10 @@ exports.run = function(options, printHints, callback)
                 {
                     name     : results.namePlural + '.js',
 
-                    template : __dirname + '/../../../../templates/scaffolds/mvc/crud/'
-                                + results.backend + '/controller.js.mustache',
+                    template : __dirname + '/../../../../templates/scaffolds/mvc/crud/' +
+                               results.backend + '/controller.js.mustache',
 
-                    path     : process.cwd() + '/modules/' + results.module
-                                + '/controllers/'
+                    path     : process.cwd() + '/modules/' + results.module + '/controllers/'
                 }
             ];
 
@@ -149,19 +148,19 @@ exports.run = function(options, printHints, callback)
                 generationConfig.push({
                     name: file,
                     template: viewsPath + file,
-                    path: process.cwd() + '/modules/' + results.module
-                            + '/resources/views/' + results.namePlural + '/'
+                    path: process.cwd() + '/modules/' + results.module +
+                          '/resources/views/' + results.namePlural + '/'
                 });
             };
 
             var viewsPath = __dirname + '/../../../../templates/scaffolds/mvc/crud/generic/views/';
             fs.readdirSync(viewsPath).forEach(addView);
 
-            var viewsPath = __dirname + '/../../../../templates/scaffolds/mvc/crud/' + results.backend + '/views/';
+            viewsPath = __dirname + '/../../../../templates/scaffolds/mvc/crud/' + results.backend + '/views/';
             fs.readdirSync(viewsPath).forEach(addView);
 
             commandHelper.generateScaffoldsByConfig(generationConfig, results);
         });
     });
-}
+};
 

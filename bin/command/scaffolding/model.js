@@ -124,7 +124,7 @@ exports.run = function(options, printHints, callback)
             if (0 !== matched.length) {
 
                 question.options.hint += ' and dont use one of the following names:\n';
-                question.options.hint += '     * '.red + matched.join('\n     * '.red)
+                question.options.hint += '     * '.red + matched.join('\n     * '.red);
 
                 question.options.validator = function(input)
                 {
@@ -166,7 +166,7 @@ exports.run = function(options, printHints, callback)
                 }
 
                 callback && callback();
-            }
+            };
 
             question.postAsk = function(results, callback)
             {
@@ -180,7 +180,7 @@ exports.run = function(options, printHints, callback)
                 });
 
                 callback && callback();
-            }
+            };
         }
 
         question.ask(function(err, data) {
@@ -195,7 +195,7 @@ exports.run = function(options, printHints, callback)
         if (4 >= Object.keys(results).length) {
 
             console.log('[Error] '.red + 'Not all required questions were answered.');
-            console.log('        Skip further generation.')
+            console.log('        Skip further generation.');
             return;
         }
 
@@ -219,7 +219,7 @@ exports.run = function(options, printHints, callback)
 
                 results.properties[idx].fixture = 'utils.content.';
 
-                if ('' == item.default) {
+                if ('' === item.default) {
                     item.default = false;
                 }
 
@@ -298,8 +298,8 @@ exports.run = function(options, printHints, callback)
 
                     results.properties[idx].nullable = 'true';
                     results.properties[idx].notEmpty = 'false';
-                    results.properties[idx].fixture = 'utils.content.optional('
-                        + results.properties[idx].fixture + ')';
+                    results.properties[idx].fixture = 'utils.content.optional(' +
+                                                      results.properties[idx].fixture + ')';
 
                 } else {
                     results.properties[idx].nullable = 'false';
@@ -340,33 +340,33 @@ exports.run = function(options, printHints, callback)
             {
                 name     : results.name + '.js',
 
-                template : __dirname + '/../../../templates/scaffolds/db/'
-                            + backend + '/model.js.mustache',
+                template : __dirname + '/../../../templates/scaffolds/db/' +
+                           backend + '/model.js.mustache',
 
-                path     : process.cwd() + '/modules/' + results.module
-                            + '/models/' + results.connection + '/'
+                path     : process.cwd() + '/modules/' + results.module +
+                           '/models/' + results.connection + '/'
             },
             {
-                name     : (require('moment'))().format('YYYYMMDDHHmmss')
-                            + '-add_' + results.name.toLowerCase() + '_'
-                            + ('mongodb' == backend ? 'collection' : 'table') + '.js',
+                name     : (require('moment'))().format('YYYYMMDDHHmmss') +
+                           '-add_' + results.name.toLowerCase() + '_' +
+                           ('mongodb' == backend ? 'collection' : 'table') + '.js',
 
-                template : __dirname + '/../../../templates/scaffolds/db/'
-                            + backend + '/migration.js.mustache',
+                template : __dirname + '/../../../templates/scaffolds/db/' +
+                           backend + '/migration.js.mustache',
 
-                path     : process.cwd() + '/database/migrations/'
-                            + results.connection + '/'
+                path     : process.cwd() + '/database/migrations/' +
+                           results.connection + '/'
             },
             {
                 name     : '00-' + results.name.toLowerCase() + '.js',
 
-                template : __dirname + '/../../../templates/scaffolds/db/'
-                            + backend + '/fixture.js.mustache',
+                template : __dirname + '/../../../templates/scaffolds/db/' +
+                           backend + '/fixture.js.mustache',
 
-                path     : process.cwd() + '/database/fixtures/'
-                            + results.connection + '/'
+                path     : process.cwd() + '/database/fixtures/' +
+                           results.connection + '/'
             }
         ], results);
     });
-}
+};
 

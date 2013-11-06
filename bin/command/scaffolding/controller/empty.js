@@ -59,7 +59,7 @@ exports.run = function(options, printHints, callback)
         if (2 > Object.keys(results).length || !valid) {
 
             console.log('[Error] '.red + 'Not all required questions were answered.');
-            console.log('        Skip further generation.')
+            console.log('        Skip further generation.');
             return;
         }
 
@@ -77,11 +77,10 @@ exports.run = function(options, printHints, callback)
                 {
                     name     : results.name + '.js',
 
-                    template : __dirname + '/../../../../templates/scaffolds/mvc/empty/'
-                                + 'controller.js.mustache',
+                    template : __dirname + '/../../../../templates/scaffolds/mvc/empty/' +
+                               'controller.js.mustache',
 
-                    path     : process.cwd() + '/modules/' + results.module
-                                + '/controllers/'
+                    path     : process.cwd() + '/modules/' + results.module + '/controllers/'
                 }
             ];
 
@@ -91,13 +90,13 @@ exports.run = function(options, printHints, callback)
                 generationConfig.push({
                     name: file,
                     template: viewsPath + file,
-                    path: process.cwd() + '/modules/' + results.module
-                            + '/resources/views/' + results.name + '/'
+                    path: process.cwd() + '/modules/' + results.module +
+                          '/resources/views/' + results.name + '/'
                 });
             });
 
             commandHelper.generateScaffoldsByConfig(generationConfig, results);
         });
     });
-}
+};
 

@@ -17,7 +17,7 @@ exports.run = function(opts)
         ].join('\n');
 
         console.log(help);
-    }
+    };
 
     if (opts.options.help || 0 === opts.argv.length) {
         return printHelp();
@@ -45,9 +45,8 @@ exports.run = function(opts)
         if ('install' === operation.name) {
 
             console.log(
-                'Run ' + operation.name.yellow
-                + ' for ' + operation.options.modules.join(', ')
-                + '\n'
+                'Run ' + operation.name.yellow +
+                ' for ' + operation.options.modules.join(', ') + '\n'
             );
 
             var modulePath = operation.options.path;
@@ -81,14 +80,14 @@ exports.run = function(opts)
                     }
 
                 } catch (e) {
-                    task = 'new'.bold.green
+                    task = 'new'.bold.green;
                 }
 
                 table.writeRow([
                     task,
-                    assetsSrcPath.replace(appPath, '').replace(module, module.red).green
-                    + ' -> '
-                    + assetsDestPath.replace(appPath, '').replace(module, module.red).white
+                    assetsSrcPath.replace(appPath, '').replace(module, module.red).green +
+                    ' -> ' +
+                    assetsDestPath.replace(appPath, '').replace(module, module.red).white
                 ]);
 
                 if (perform) {
@@ -97,5 +96,5 @@ exports.run = function(opts)
             });
         }
     });
-}
+};
 

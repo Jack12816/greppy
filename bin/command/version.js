@@ -32,14 +32,14 @@ exports.run = function()
 
             table.writeRow([
                 'Git commit'.bold.green,
-                new String(info.hash + ' by ' + info.author).white
-                + new String(' <' + info.email + '> ').grey
-                + new String(info.date + ' (' + info.timeAgo + ')').white
+                (info.hash + ' by ' + info.author).white +
+                (' <' + info.email + '> ').grey +
+                (info.date + ' (' + info.timeAgo + ')').white
             ]);
 
             callback && callback();
         });
-    }
+    };
 
     var cwdInfo = function()
     {
@@ -53,10 +53,7 @@ exports.run = function()
 
             table.writeRow([
                 'Current project'.bold.green,
-                new String(
-                    package.name
-                    + new String(' <' + package.description + '>').grey
-                ).white
+                (package.name + (' <' + package.description + '>').grey).white
             ]);
 
             table.writeRow([
@@ -72,14 +69,14 @@ exports.run = function()
 
                 table.writeRow([
                     'Git commit'.bold.green,
-                    new String(info.hash + ' by ' + info.author).white
-                    + new String(' <' + info.email + '> ').grey
-                    + new String(info.date + ' (' + info.timeAgo + ')').white
+                    (info.hash + ' by ' + info.author).white +
+                    (' <' + info.email + '> ').grey +
+                    (info.date + ' (' + info.timeAgo + ')').white
                 ]);
             });
         }
-    }
+    };
 
     greppyInfo(cwdInfo);
-}
+};
 

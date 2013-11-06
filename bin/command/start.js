@@ -10,7 +10,7 @@ exports.run = function(contexts, debug)
     // Find a Greppy project recursivly
     var appPath = commandHelper.findProjectOrDie();
 
-    var contexts    = commandHelper.checkContexts(contexts || []);
+    contexts        = commandHelper.checkContexts(contexts || []);
     var startScript = projectHelper.findStartScript(process.cwd());
 
     if (false === startScript) {
@@ -46,7 +46,7 @@ exports.run = function(contexts, debug)
 
             global.table.writeRow([
                 'start'.bold.green,
-                new String(context + ' -- started (' + child.pid + ')').white
+                (context + ' -- started (' + child.pid + ')').white
             ]);
         });
 
@@ -102,7 +102,7 @@ exports.run = function(contexts, debug)
         var emitExitToChild = function() {
             console.log();
             child.kill('SIGINT');
-        }
+        };
 
         process.on('SIGINT', emitExitToChild);
         process.on('SIGTERM ', emitExitToChild);
@@ -133,8 +133,8 @@ exports.run = function(contexts, debug)
         contexts.contexts.forEach(function(context) {
 
             tabs.push(
-                'screen -t ' + context + ' ' + new String(tabs.length + 1)
-                + ' greppy -s ' + context + ' -d'
+                'screen -t ' + context + ' ' + (tabs.length + 1) +
+                ' greppy -s ' + context + ' -d'
             );
         });
 
@@ -143,7 +143,7 @@ exports.run = function(contexts, debug)
                    .replace('{{projectName}}', projectName)
                    .replace('{{contextList}}', contexts.contexts.join(','));
 
-        var tmpConfPath = '/tmp/.' + projectName + '.screenrc', conf;
+        var tmpConfPath = '/tmp/.' + projectName + '.screenrc';
         fs.writeFileSync(tmpConfPath, conf);
 
         var screen = new (require('screen-init'))({
@@ -153,5 +153,5 @@ exports.run = function(contexts, debug)
         // We are done with this starting process
         return;
     }
-}
+};
 

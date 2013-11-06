@@ -62,7 +62,7 @@ exports.run = function(options, printHints, callback)
         if (2 >= Object.keys(results).length) {
 
             console.log('[Error] '.red + 'Not all required questions were answered.');
-            console.log('        Skip further generation.')
+            console.log('        Skip further generation.');
             return;
         }
 
@@ -83,8 +83,8 @@ exports.run = function(options, printHints, callback)
                 {
                     name     : results.nameLower + '.js',
 
-                    template : __dirname + '/../../../templates/scaffolds/'
-                                + 'context.js.mustache',
+                    template : __dirname + '/../../../templates/scaffolds/' +
+                               'context.js.mustache',
 
                     path     : process.cwd() + '/app/context/'
                 }
@@ -93,5 +93,5 @@ exports.run = function(options, printHints, callback)
             commandHelper.generateScaffoldsByConfig(generationConfig, results);
         });
     });
-}
+};
 

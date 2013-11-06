@@ -44,7 +44,7 @@ exports.run = function(options, printHints, callback)
         if (undefined === results.name) {
 
             console.log('[Error] '.red + 'Not all required questions were answered.');
-            console.log('        Skip further generation.')
+            console.log('        Skip further generation.');
             return;
         }
 
@@ -71,8 +71,8 @@ exports.run = function(options, printHints, callback)
         commandHelper.generateScaffoldPaths(generationConfig);
 
         // Setup files to generate
-        var generationConfig = [];
-        var viewsPath        = (require('path')).normalize(
+        generationConfig = [];
+        var viewsPath    = (require('path')).normalize(
             __dirname + '/../../../templates/scaffolds/module/views'
         );
 
@@ -97,5 +97,5 @@ exports.run = function(options, printHints, callback)
             }
         });
     });
-}
+};
 

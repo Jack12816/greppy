@@ -31,7 +31,7 @@ exports.run = function(opts)
         ].join('\n');
 
         console.log(help);
-    }
+    };
 
     if (opts.options.help || 0 === opts.argv.length) {
         return printHelp();
@@ -68,7 +68,7 @@ exports.run = function(opts)
         ].join('\n');
 
         console.log(hints);
-    }
+    };
 
     async.eachSeries(operations, function(operation, callback) {
 
@@ -95,5 +95,5 @@ exports.run = function(opts)
             return;
         }
     });
-}
+};
 

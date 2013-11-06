@@ -79,7 +79,7 @@ exports.run = function(opts)
                 global.table.writeRow(['error '.bold.red, err]);
             }
         });
-    }
+    };
 
     childProcess.exec('npm', function(err, stdout, stderr) {
 
@@ -107,5 +107,5 @@ exports.run = function(opts)
             createProject();
         });
     });
-}
+};
 

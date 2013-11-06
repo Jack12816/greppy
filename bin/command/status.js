@@ -19,9 +19,7 @@ exports.run = function(opts)
 
             global.table.writeRow([
                 context.bold.green,
-                new String(
-                    'is not running'.red.bold
-                ).white
+                ('is not running'.red.bold).white
             ]);
 
             return console.log();
@@ -37,17 +35,14 @@ exports.run = function(opts)
 
         global.table.writeRow([
             context.bold.green,
-            new String(
-                'context is running '.green
-                + '(parent is ' + pid + ')'
-            ).white
+            ('context is running '.green + '(parent is ' + pid + ')').white
         ]);
 
         memoryByPid.forEach(function(res) {
 
             global.table.writeRow([
-                new String( res.pid || 'total' ).white.bold,
-                new String(
+                ((res.pid || 'total') + '').white.bold,
+                (
                     ((res.pid) ? 'used ' : '') + res.usage
                 ).white
             ]);
@@ -55,5 +50,5 @@ exports.run = function(opts)
 
         console.log();
     });
-}
+};
 

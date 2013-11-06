@@ -37,7 +37,7 @@ helper.findProjectOrDie = function()
     process.chdir(result.path);
 
     return result.path;
-}
+};
 
 /**
  * Find a project in current working directory.
@@ -56,7 +56,7 @@ helper.findProject = function()
     process.chdir(result.path);
 
     return result.path;
-}
+};
 
 /**
  * Check a given array of context names for existence.
@@ -76,17 +76,13 @@ helper.checkContexts = function(contexts)
 
         if (-1 === appContexts.contexts.indexOf(context)) {
 
-            console.log(
-                new String('Context ' + context.green.bold
-                    + ' does not exist.').white
-            );
+            console.log(('Context ' + context.green.bold + ' does not exist.').white);
             console.log();
             console.log(
-                new String('Available contexts are: '
-                    + appContexts.contexts.join(', ').green.bold).white
+                ('Available contexts are: ' + appContexts.contexts.join(', ').green.bold).white
             );
-            process.exit(1);
-            return;
+
+            return process.exit(1);
         }
     });
 
@@ -94,7 +90,7 @@ helper.checkContexts = function(contexts)
         path     : appContexts.path,
         contexts : contexts
     };
-}
+};
 
 /**
  * Check a given array of module names for existence.
@@ -114,17 +110,13 @@ helper.checkModules = function(modules)
 
         if (-1 === appModules.modules.indexOf(module)) {
 
-            console.log(
-                new String('Module ' + module.green.bold
-                    + ' does not exist.').white
-            );
+            console.log(('Module ' + module.green.bold + ' does not exist.').white);
             console.log();
             console.log(
-                new String('Available modules are: '
-                    + appModules.modules.join(', ').green.bold).white
+                ('Available modules are: ' + appModules.modules.join(', ').green.bold).white
             );
-            process.exit(1);
-            return;
+
+            return process.exit(1);
         }
     });
 
@@ -132,7 +124,7 @@ helper.checkModules = function(modules)
         path    : appModules.path,
         modules : modules
     };
-}
+};
 
 /**
  * Get all database configurations.
@@ -174,13 +166,13 @@ helper.getDatabaseConfigs = function()
 
     if (0 === dbConfigs.configs.length) {
 
-        console.log('No database configuration found.')
+        console.log('No database configuration found.');
         process.exit(1);
         return;
     }
 
     return dbConfigs;
-}
+};
 
 /**
  * Check the given namespaces against the configurations found
@@ -227,17 +219,13 @@ helper.checkDatabaseNamespace = function(namespaces)
         // No wildcard and not valid, exit
         if (false === conf) {
 
-            console.log(
-                new String('Namespace ' + namespace.green.bold
-                    + ' does not exist.').white
-            );
+            console.log(('Namespace ' + namespace.green.bold + ' does not exist.').white);
             console.log();
             console.log(
-                new String('Available namespaces are: '
-                    + dbConfigs.namespaces.join(', ').green.bold).white
+                ('Available namespaces are: ' + dbConfigs.namespaces.join(', ').green.bold).white
             );
-            process.exit(1);
-            return;
+
+            return process.exit(1);
         }
 
         // No wildcard but valid namespace
@@ -248,7 +236,7 @@ helper.checkDatabaseNamespace = function(namespaces)
     registeredNamespaces = Array.uniq(registeredNamespaces);
 
     return registeredNamespaces;
-}
+};
 
 /**
  * Get a database connection configuration by it's namespace.
@@ -286,7 +274,7 @@ helper.getDatabaseConfigByNamespace = function(namespace, configs)
     });
 
     return result;
-}
+};
 
 /**
  * Check the running state of a context and print information about it
@@ -301,14 +289,14 @@ helper.checkForRunningContextState = function(state)
 
         global.table.writeRow([
             'start'.bold.green,
-            new String(state.name + ' -- already running (' + state.pid + ')').white
+            (state.name + ' -- already running (' + state.pid + ')').white
         ]);
 
         return true;
     }
 
     return false;
-}
+};
 
 /**
  * Check the running state of a context and print information about it
@@ -323,14 +311,14 @@ helper.checkForStoppedContextState = function(state)
 
         global.table.writeRow([
             'stop'.bold.green,
-            new String(state.name + ' -- already stopped').white
+            (state.name + ' -- already stopped').white
         ]);
 
         return true;
     }
 
     return false;
-}
+};
 
 /**
  * Formatting a given dialog based result array.
@@ -347,7 +335,7 @@ helper.dialogResultsFormat = function(results)
     });
 
     return res;
-}
+};
 
 /**
  * Generate files by configuration.
@@ -379,10 +367,10 @@ helper.generateScaffoldsByConfig = function(fileConfigs, results, clear)
 
         global.table.writeRow([
             'generate '.bold.green,
-            new String(config.path + config.name).replace(process.cwd() + '/', '').white
+            (config.path + config.name).replace(process.cwd() + '/', '').white
         ]);
     });
-}
+};
 
 /**
  * Get the identity of the current user.
@@ -427,11 +415,11 @@ helper.getCurrentUser = function(callback)
 
         getUserStr = function(callback) {
             callback && callback(null, defaultStr);
-        }
+        };
     }
 
     getUserStr(callback);
-}
+};
 
 /**
  * Create directories by an given array.
@@ -457,10 +445,10 @@ helper.generateScaffoldPaths = function(paths, clear)
 
         global.table.writeRow([
             'create '.bold.green,
-            new String(path).replace(process.cwd() + '/', '').white
+            (path).replace(process.cwd() + '/', '').white
         ]);
     });
-}
+};
 
 module.exports = helper;
 

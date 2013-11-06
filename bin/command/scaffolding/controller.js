@@ -21,7 +21,7 @@ exports.run = function(options, printHints, callback)
         if (err || undefined === data.result) {
 
             console.log('[Error] '.red + 'Not all required questions were answered.');
-            console.log('        Skip further generation.')
+            console.log('        Skip further generation.');
             return;
         }
 
@@ -30,9 +30,9 @@ exports.run = function(options, printHints, callback)
         try {
             (require('./controller/' + data.result.toLowerCase())).run(options, printHints, callback);
         } catch (e) {
-            console.log('[Error] '.red + 'The selected type could not be loaded.')
+            console.log('[Error] '.red + 'The selected type could not be loaded.');
             return;
         }
     });
-}
+};
 

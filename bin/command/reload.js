@@ -19,10 +19,7 @@ exports.run = function(opts)
 
             global.table.writeRow([
                 context.bold.green,
-                new String(
-                    'is not running '.red.bold
-                    + '- skip reloading'
-                ).white
+                ('is not running '.red.bold + '- skip reloading').white
             ]);
 
             return console.log();
@@ -36,29 +33,26 @@ exports.run = function(opts)
 
                  global.table.writeRow([
                     context.bold.green,
-                    new String(
-                        'context is running '.green
-                        + '- sending SIGHUP: '
-                        + 'failed.'.red
-
+                    (
+                        'context is running '.green + '- sending SIGHUP: ' +
+                        'failed.'.red
                     ).white
                 ]);
 
-                console.log(new String(err).red);
+                console.log(err.red);
                 return console.log();
             }
 
             global.table.writeRow([
                 context.bold.green,
-                new String(
-                    'context is running '.green
-                    + '- sending SIGHUP: '
-                    + 'reloaded.'.bold.green
+                (
+                    'context is running '.green + '- sending SIGHUP: ' +
+                    'reloaded.'.bold.green
                 ).white
             ]);
 
             console.log();
         });
     });
-}
+};
 
