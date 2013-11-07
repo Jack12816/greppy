@@ -49,19 +49,27 @@ describe('App', function() {
         var contextMockup = {
             routes: []
         };
-        var hasBodyParser = false;
+        var hasJSON       = false;
+        var hasUrlencoded = false;
 
         app = new App(contextMockup);
 
         app.configure(exApp, null, null);
 
-        hasBodyParser = exApp.stack.some(function(mw) {
-            if ('bodyParser' === getFuncName(mw.handle)) {
+        hasJSON = exApp.stack.some(function(mw) {
+            if ('json' === getFuncName(mw.handle)) {
                 return true;
             }
         });
 
-        hasBodyParser.should.be.true;
+        hasUrlencoded = exApp.stack.some(function(mw) {
+            if ('urlencoded' === getFuncName(mw.handle)) {
+                return true;
+            }
+        });
+
+        hasJSON.should.be.true;
+        hasUrlencoded.should.be.true;
     });
 
     it('should only allow digits for id-parameters', function(done) {
