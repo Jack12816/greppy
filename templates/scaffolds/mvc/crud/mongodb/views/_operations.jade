@@ -1,8 +1,8 @@
 - if ('edit' == req.greppy.route.action && 'undefined' !== typeof {{{name}}})
 
-    a.btn.btn-default(href="#{controller.link('show', { oid: {{{name}}}.id })}", title="Show {{{name}}} details")
-      i.fa.fa-search
-    &nbsp;
+  a.btn.btn-default(href="#{controller.link('show', { oid: {{{name}}}.id })}", title="Show {{{name}}} details")
+    i.fa.fa-search
+  &nbsp;
 
 - var disableBackLink = false
 
@@ -71,15 +71,15 @@
           ok: function(callback) {
 
             $.ajax({
-                type: "DELETE",
-                url: greppy.controller.link('destroy', {oid: id})
+              type: "DELETE",
+              url: greppy.controller.link('destroy', {oid: id})
             }).done(function(data) {
-                {{#softDeletable}}
-                window.location.reload();
-                {{/softDeletable}}
-                {{^softDeletable}}
-                window.location = greppy.controller.link('index');
-                {{/softDeletable}}
+              {{#softDeletable}}
+              window.location.reload();
+              {{/softDeletable}}
+              {{^softDeletable}}
+              window.location = greppy.controller.link('index');
+              {{/softDeletable}}
             });
 
             callback && callback();
@@ -101,10 +101,10 @@
           ok: function(callback) {
 
             $.ajax({
-                type: "POST",
-                url: greppy.controller.link('restore', {oid: id})
+              type: "POST",
+              url: greppy.controller.link('restore', {oid: id})
             }).done(function(data) {
-                window.location.reload();
+              window.location.reload();
             });
 
             callback && callback();
