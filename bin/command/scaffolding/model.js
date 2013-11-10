@@ -129,7 +129,7 @@ exports.run = function(options, printHints, callback)
                 question.options.validator = function(input)
                 {
                     if (-1 === matched.indexOf(input)) {
-                        if (null !== input.match(/^[a-z_][a-z0-9_]*$/gi)) {
+                        if (null !== input.match(/^[a-z_][a-z0-9_.]*$/gi)) {
                             return true;
                         }
                     }

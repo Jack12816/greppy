@@ -166,7 +166,13 @@ exports.run = function(opts)
     }, function(err) {
 
         if (err) {
-            console.log(err);
+
+            if (err.stack) {
+                console.log(err.stack);
+            } else {
+                console.log(err);
+            }
+
             return process.exit(1);
         }
 
