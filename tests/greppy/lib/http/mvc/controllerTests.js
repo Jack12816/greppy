@@ -45,13 +45,15 @@ describe('Controller', function() {
         should.equal(cr.options.auth.routes, null);
     });
 
-    it('should have an actions object', function() {
-
+    it('should have an actions namespace', function() {
         cr.actions.should.be.a('object');
     });
 
-    it('should have a viewPath property', function() {
+    it('should have an helpers namespace', function() {
+        cr.helpers.should.be.a('object');
+    });
 
+    it('should have a viewPath property', function() {
         cr.viewPath.should.be.a('string');
     });
 
@@ -97,7 +99,7 @@ describe('Controller', function() {
     });
 
     it('should correctly handle the params-argument of it\'s link method', function() {
-        
+
         var actionsMockup = {
             testAction: {
                 path: '/myTest/:myParam'

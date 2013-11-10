@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-REPORTER ?= list
+REPORTER ?= spec
 
 all: test
 
