@@ -52,7 +52,7 @@ util.inherits(ACMEContext, greppy.get('app.worker.context'));
 ACMEContext.prototype.configure = function(app, server, callback)
 {
     // Templating Engine
-    app.set('views', process.cwd() + '/modules/acme/resources/views');
+    app.set('views', process.cwd() + '/modules/acme/resources/views/');
     app.set('view engine', 'jade');
     app.locals.pretty = true;
 

@@ -26,7 +26,7 @@ describe('Context', function() {
 
         ct = new Context();
 
-        ct.description.should.be.a('string');
+        ct.description.should.be.a.String;
     });
 
     it('should have a property backends which should be an empty object', function() {

@@ -1,0 +1,3 @@
+app/config/application.js
+.vagrant*
+npm-debug.log

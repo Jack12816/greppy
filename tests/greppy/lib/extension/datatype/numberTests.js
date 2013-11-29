@@ -21,7 +21,7 @@ describe('Extensions for Number', function() {
             var num    = 3;
             var result = num.format(4, ',', '.');
 
-            result.should.be.a('string');
+            result.should.be.a.String;
         });
 
         it('should have the defined amount of decimals', function() {
@@ -56,7 +56,7 @@ describe('Extensions for Number', function() {
             var num    = 3;
             var result = num.humanize();
 
-            result.should.be.a('string');
+            result.should.be.a.String;
         });
 
         it('should round and strip decimals of a number smaller than thousand', function() {
@@ -107,7 +107,7 @@ describe('Extensions for Number', function() {
             var num    = 10;
             var result = num.memory();
 
-            result.should.be.a('string');
+            result.should.be.a.String;
         });
 
         it('should return the rounded number of bytes with a B-suffix for numbers smaller than 1024', function() {

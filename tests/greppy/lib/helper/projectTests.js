@@ -34,7 +34,7 @@ describe('ProjectHelper', function() {
             result.should.have.property('path');
             result.should.have.property('searched');
             result.should.have.property('found', true);
-            result.path.should.be.a('string');
+            result.path.should.be.a.String;
             result.searched.should.be.an.instanceOf(Array);
         });
 
@@ -46,7 +46,7 @@ describe('ProjectHelper', function() {
             result.should.have.property('path');
             result.should.have.property('searched');
             result.should.have.property('found', false);
-            result.path.should.be.a('string');
+            result.path.should.be.a.String;
             result.searched.should.be.an.instanceOf(Array);
         });
     });
@@ -60,7 +60,7 @@ describe('ProjectHelper', function() {
 
             result.should.have.property('path');
             result.should.have.property('contexts');
-            result.path.should.be.a('string');
+            result.path.should.be.a.String;
             result.contexts.should.be.an.instanceOf(Array);
         });
 
@@ -71,7 +71,7 @@ describe('ProjectHelper', function() {
 
             result.should.have.property('path');
             result.should.have.property('contexts');
-            result.path.should.be.a('string');
+            result.path.should.be.a.String;
             result.path.should.not.be.empty;
             result.contexts.should.be.an.instanceOf(Array);
             result.contexts.should.be.empty;
@@ -87,7 +87,7 @@ describe('ProjectHelper', function() {
 
             result.should.have.property('path');
             result.should.have.property('modules');
-            result.path.should.be.a('string');
+            result.path.should.be.a.String;
             result.path.should.not.be.empty;
             result.modules.should.be.an.instanceOf(Array);
             result.modules.should.include('acme');
@@ -100,7 +100,7 @@ describe('ProjectHelper', function() {
 
             result.should.have.property('path');
             result.should.have.property('modules');
-            result.path.should.be.a('string');
+            result.path.should.be.a.String;
             result.path.should.not.be.empty;
             result.modules.should.be.empty;
         });
@@ -152,7 +152,7 @@ describe('ProjectHelper', function() {
             curAppPath = validAppPath;
             var result = pt.findStartScript(curAppPath);
 
-            result.should.be.a('string');
+            result.should.be.a.String;
             result.should.not.be.empty;
         });
 
@@ -202,9 +202,9 @@ describe('ProjectHelper', function() {
 
             configs.forEach(function(config) {
                 should.exist(result.instance[config]);
-                result.instance[config].should.be.a('object');
+                result.instance[config].should.be.a.Object;
                 should.exist(result.instance[config].infrastructure);
-                result.instance[config].infrastructure.should.be.a('object');
+                result.instance[config].infrastructure.should.be.a.Object;
             });
         });
 

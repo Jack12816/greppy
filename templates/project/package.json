@@ -1,26 +1,25 @@
 {
-    "name"         : "acme",
-    "description"  : "Website of ACME",
-    "version"      : "0.1.0",
-    "private"      : false,
-    "contributors" : [
+    "name": "acme",
+    "description": "Website of ACME",
+    "version": "0.1.0",
+    "private": false,
+    "contributors": [
         {
-            "name"  : "",
-            "email" : ""
+            "name": "",
+            "email": ""
         }
     ],
-    "dependencies" : {
-        "greppy"            : "~0.3.0",
-        "express"           : "~3.4.0",
-        "jade"              : "~0.35.0",
-        "piler"             : "~0.4.1",
-        "async"             : "~0.2.5",
-        "moment"            : "~2.0.0",
-        "node-fs"           : "~0.1.5",
-        "memory-cache"      : "~0.0.5",
-        "node-uuid"         : "~1.4.0",
-        "validator"         : "~1.2.1",
-        "express-validator" : "~0.3.2",
-        "winston"           : "~0.7.2"
+    "dependencies": {
+        "greppy": "~0.4.0",
+        "express": "~3.4.5",
+        "jade": "~0.35.0",
+        "async": "~0.2.5",
+        "moment": "~2.4.0",
+        "node-fs": "~0.1.7",
+        "memory-cache": "~0.0.5",
+        "node-uuid": "~1.4.0",
+        "validator": "~2.0.0",
+        "express-validator": "~1.0.1",
+        "winston": "~0.7.2"
     }
 }

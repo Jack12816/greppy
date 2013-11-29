@@ -19,7 +19,7 @@ describe('ProjectHelper for tests', function() {
 
         tp = new TestProject();
 
-        tp.path.should.be.a('string');
+        tp.path.should.be.a.String;
         tp.path.should.match(/\/$/);
     });
 

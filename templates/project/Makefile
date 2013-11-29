@@ -1,3 +1,5 @@
+SHELL=/bin/bash
+
 .PHONY: all clean configure deinstall install
 
 configure:

@@ -25,12 +25,12 @@ describe('FormHelper', function () {
 
             result1.should.be.an.instanceOf(Array);
             result1.should.have.length(1);
-            result1[0].should.be.a('string');
+            result1[0].should.be.a.String;
             result1[0].should.equal('joo');
 
             result2.should.be.an.instanceOf(Array);
             result2.should.have.length(1);
-            result2[0].should.be.a('number');
+            result2[0].should.be.a.Number;
             result2[0].should.equal(1234);
         });
 
@@ -40,9 +40,9 @@ describe('FormHelper', function () {
 
             result.should.be.an.instanceOf(Array);
             result.should.have.length(2);
-            result[0].should.be.a('string');
+            result[0].should.be.a.String;
             result[0].should.equal('meow');
-            result[1].should.be.a('number');
+            result[1].should.be.a.Number;
             result[1].should.equal(32);
         });
 
@@ -83,7 +83,7 @@ describe('FormHelper', function () {
             var result = fm.sanitizeIntegerList('1234');
 
             result.should.eql([1234]);
-            result[0].should.be.a('number');
+            result[0].should.be.a.Number;
         });
 
         it('should return an empty array if an empty array was passed', function() {
@@ -118,9 +118,9 @@ describe('FormHelper', function () {
             var result2 = fm.sanitizeStringList('okay');
 
             result1.should.eql(['12']);
-            result1[0].should.be.a('string');
+            result1[0].should.be.a.String;
             result2.should.eql(['okay']);
-            result2[0].should.be.a('string');
+            result2[0].should.be.a.String;
         });
 
         it('should return an empty array if an empty array was passed', function() {
@@ -148,9 +148,9 @@ describe('FormHelper', function () {
             var result2 = fm.sanitizeFloatList('3.234');
 
             result1.should.have.length(1);
-            result1[0].should.be.a('number');
+            result1[0].should.be.a.Number;
             result2.should.have.length(1);
-            result2[0].should.be.a('number');
+            result2[0].should.be.a.Number;
         });
 
         it('should return an empty array if an empty array was passed', function() {

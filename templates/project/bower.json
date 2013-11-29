@@ -2,9 +2,9 @@
     "name": "acme",
     "version": "0.1.0",
     "dependencies": {
-        "bootstrap": "3.0.0",
-        "font-awesome": "3.2.1",
-        "greppy": "0.3.0"
+        "bootstrap": "~3.0.2",
+        "font-awesome": "~4.0.3",
+        "greppy": "~0.9.1"
     },
     "ignore": [
         "**/.*",

@@ -46,15 +46,15 @@ describe('Controller', function() {
     });
 
     it('should have an actions namespace', function() {
-        cr.actions.should.be.a('object');
+        cr.actions.should.be.a.Object;
     });
 
     it('should have an helpers namespace', function() {
-        cr.helpers.should.be.a('object');
+        cr.helpers.should.be.a.Object;
     });
 
     it('should have a viewPath property', function() {
-        cr.viewPath.should.be.a('string');
+        cr.viewPath.should.be.a.String;
     });
 
     it('should have a configure method which calls the provided callback', function(done) {
