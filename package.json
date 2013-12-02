@@ -1,7 +1,7 @@
 {
     "name": "greppy",
     "description": "Easy and lightweight application framework",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "private": false,
     "author": "Hermann Mayer <hermann.mayer92@googlemail.com> (http://hermann-mayer.net/)",
     "license": "LGPL-3.0",

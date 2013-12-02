@@ -50,12 +50,13 @@ exports.run = function(opts)
             if (file.match(/\.npmignore$|\.gitignore$/gi)) {
                 return;
             }
-            
-            if (file.match(/\.greppyignore/gi)) {
-		file = file.replace(/\.greppyignore/gi, '.gitignore');
-	    }
 
             var fileDest = appPath + file.replace(path.normalize(__dirname + '/../../templates/project'), '');
+
+            if (file.match(/\.greppyignore/gi)) {
+                fileDest = fileDest.replace(/\.greppyignore/gi, '.gitignore');
+            }
+
             global.table.writeRow(['create '.bold.green, fileDest.replace(appPath + '/', '')]);
             fs.createReadStream(file).pipe(fs.createWriteStream(fileDest));
         });
