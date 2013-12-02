@@ -47,9 +47,13 @@ exports.run = function(opts)
 
         files.forEach(function(file) {
 
-            if (file.match(/\.gitkeep$/gi)) {
+            if (file.match(/\.npmignore$|\.gitignore$/gi)) {
                 return;
             }
+            
+            if (file.match(/\.greppyignore/gi)) {
+		file = file.replace(/\.greppyignore/gi, '.gitignore');
+	    }
 
             var fileDest = appPath + file.replace(path.normalize(__dirname + '/../../templates/project'), '');
             global.table.writeRow(['create '.bold.green, fileDest.replace(appPath + '/', '')]);
