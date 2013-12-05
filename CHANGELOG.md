@@ -1,3 +1,9 @@
+Version 0.4.4
+=============
+
+* [dc3745d](https://github.com/Jack12816/greppy/commit/dc3745d) **[Extension]** Added SI prefixes for Numbers with positive power.
+* [0b35aff](https://github.com/Jack12816/greppy/commit/0b35aff) **[Package]** Downgraded to mongodb 1.3.19.
+
 Version 0.4.3
 =============
 
