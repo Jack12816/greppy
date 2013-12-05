@@ -1,3 +1,20 @@
+Version 0.4.3
+=============
+
+* [d09da76](https://github.com/Jack12816/greppy/commit/d09da76) **[Release]** Bumped version to 0.4.3. Cleaned up some dirty files.
+
+Version 0.4.2
+=============
+
+* [0caf5c2](https://github.com/Jack12816/greppy/commit/0caf5c2) **[Issue #18][Binary][Release]** Fixed new project init bug. Bumped version to 0.4.2.
+
+Version 0.4.1
+=============
+
+* [3336d58](https://github.com/Jack12816/greppy/commit/3336d58) **[Docs]** Polished the changelog.
+* [213aede](https://github.com/Jack12816/greppy/commit/213aede) **[Issue #18]** Fixed new project init.
+* [1abd596](https://github.com/Jack12816/greppy/commit/1abd596) **[Release]** Bumped version to 0.4.1.
+
 Version 0.4.0
 =============
 
