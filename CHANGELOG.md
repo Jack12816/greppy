@@ -1,3 +1,8 @@
+Version 0.4.5
+=============
+
+* [f5633e3](https://github.com/Jack12816/greppy/commit/f5633e3) **[Package]** Updated mongodb/mongoose dependency versions.
+
 Version 0.4.4
 =============
 
