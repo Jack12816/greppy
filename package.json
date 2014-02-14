@@ -36,7 +36,7 @@
         "node-fs": "~0.1.7",
         "async": "~0.2.9",
         "winston": "~0.7.2",
-        "express-winston": "~0.2.1",
+        "express-winston": "~0.2.3",
         "extend": "~1.2.1",
         "moment": "~2.4.0",
         "memory-cache": "~0.0.5",
