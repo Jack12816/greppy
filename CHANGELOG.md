@@ -1,3 +1,14 @@
+Version 0.5.0
+=============
+
+* [03657e2](https://github.com/Jack12816/greppy/commit/03657e2) **[Commons]** Add support for missing ES5/6 implementations.
+* [2de1bc5](https://github.com/Jack12816/greppy/commit/2de1bc5) **[Extension][Datatype]** Fixed htmlencode and htmldecode for String.
+* [7b4b392](https://github.com/Jack12816/greppy/commit/7b4b392) **[Extension][Datatype]** Shortened htmldecode of String, as there are no special characters in RegExp.
+* [0eb5c47](https://github.com/Jack12816/greppy/commit/0eb5c47) **[Helpers][Data-Grid]** Added support for SQL joined counts.
+* [a291d3b](https://github.com/Jack12816/greppy/commit/a291d3b) **[Helpers][Data-Grid]** Reworked support for SQL joined counts.
+* [b38cf2e](https://github.com/Jack12816/greppy/commit/b38cf2e) **[LDAP]** Cleaned up LDAP client code.
+* [3c3990c](https://github.com/Jack12816/greppy/commit/3c3990c) **[Store][Helper]** Added support for wildcard loading of helpers.
+
 Version 0.4.5
 =============
 
