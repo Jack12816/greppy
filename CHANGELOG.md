@@ -1,3 +1,12 @@
+Version 0.5.1
+=============
+
+* [fbd9987](https://github.com/Jack12816/greppy/commit/fbd9987) **[Binary]** Improved functionality of the new project command, we are now much more error tolerant on missing binaries.
+* [46a95b8](https://github.com/Jack12816/greppy/commit/46a95b8) **[Commons][Config]** Updates readme, updated dependecies. Added config file for Travis CI.
+* [2d7e4c5](https://github.com/Jack12816/greppy/commit/2d7e4c5) **[Helpers]** Extended the view date helper, diffToNow accepts now an optional unit.
+* [ba7819c](https://github.com/Jack12816/greppy/commit/ba7819c) **[Tests]** Cleaned up coding styles on the test suite. Enabled output of creating the test project.
+* [ea3e0a9](https://github.com/Jack12816/greppy/commit/ea3e0a9) **[Worker][Logging]** Added resolved module::controller:action for every debug request log.
+
 Version 0.5.0
 =============
 
