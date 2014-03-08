@@ -1,4 +1,4 @@
-/*
+/**
  * Main entry point for starting the tests.
  *
  * @author Nabil Krause <nabil.krause@silberlicht.eu>

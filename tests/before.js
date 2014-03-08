@@ -1,16 +1,16 @@
- /*
+/**
  * Hooks which are executed before starting the tests.
  *
  * @author Nabil Krause <nabil.krause@silberlicht.eu>
  */
 
-function before(skipCreateProject) {
-
+function before(skipCreateProject)
+{
     createExampleProject(skipCreateProject);
-}
+};
 
-function createExampleProject(skip) {
-
+function createExampleProject(skip)
+{
     if (skip) {
         console.log('Skipping creation of example project...');
         return;
@@ -23,7 +23,7 @@ function createExampleProject(skip) {
     var tp          = new TestProject(paths.exampleProject);
     var code;
 
-    tp.showOutput = false;
+    tp.showOutput = true;
 
     code = tp.createProjectSync();
 
@@ -32,7 +32,7 @@ function createExampleProject(skip) {
     }
 
     console.log('Successfully setup example project!');
-}
+};
 
 module.exports = before;
 
