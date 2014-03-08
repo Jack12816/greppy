@@ -85,24 +85,5 @@ describe('Extensions for String', function() {
             result4.should.equal('nts');
         });
     });
-
-    describe('contains', function() {
-
-        it('should return true if the provided string is contained within the calling string', function() {
-
-            var myStr  = 'that\'s just the way it is.';
-            var result = myStr.contains('the way');
-
-            result.should.be.true;
-        });
-
-        it('should return false if the provided string is not contained within the calling string', function() {
-
-            var myStr  = 'good';
-            var result = myStr.contains('well');
-
-            result.should.be.false;
-        });
-    });
 });
 
