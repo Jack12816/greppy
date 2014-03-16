@@ -1,9 +1,9 @@
 [![Greppy logo](http://greppy.org/img/greppy-teaser.png)](http://greppy.org/)
 
-Greppy is a top layer framework utilising the [Express](http://expressjs.com/) framework. Greppy extends
-the functionality of Express and increases the reuseability for common parts of
-your application. Furthermore it standardizes an application directory structure
-which helps you to manage large code bases.
+Greppy is a top layer framework utilising the [Express](http://expressjs.com/)
+framework. Greppy extends the functionality of Express and increases the
+reuseability for common parts of your application. Furthermore, it standardizes
+an application directory structure which helps you to manage large code bases.
 
 For more details take a look at [greppy.org](http://greppy.org) or the
 [Greppy API](http://docs.greppy.org/). If you got any problems, a wish to
