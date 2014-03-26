@@ -1,3 +1,13 @@
+Version 0.6.0
+=============
+
+* [b0e9d52](https://github.com/Jack12816/greppy/commit/b0e9d52) **[Commons]** Updated changelog.
+* [22d640f](https://github.com/Jack12816/greppy/commit/22d640f) **[Commons]** Updated readme.
+* [40486fc](https://github.com/Jack12816/greppy/commit/40486fc) **[Commons]** Updated readme.
+* [e685164](https://github.com/Jack12816/greppy/commit/e685164) **[Global]** Added env variable to the greppy global variable.
+* [8869288](https://github.com/Jack12816/greppy/commit/8869288) **[MVC-Loader][Binary]** Rewritten the MVC loader to improve performance (most parts now use parallel execution) and ported all necessary methods to work asynchronously. Added a -f/--force flag to the binary which works in combination with -k/--stop.
+* [ce6476e](https://github.com/Jack12816/greppy/commit/ce6476e) **[Stores][Helper]** Added a check for environments without modules directory - so loading Greppy wont fail.
+
 Version 0.5.1
 =============
 
