@@ -48,6 +48,7 @@ var getopt = require('node-getopt').create([
     ['m', 'status', 'Check the status of the whole application'],
     ['l', 'list', 'List (all|given) application worker contexts,\n                      use in combination with the debug flag for debugging information'],
     ['d', 'debug', 'Debug flag to start a context in foreground'],
+    ['f', 'force', 'Can be used in combination with start'],
     ['', 'db', 'Database operations namespace'],
     ['', 'generate', 'Scaffolding operations namespace'],
     ['', 'assets', 'Assets operations namespace'],
@@ -71,6 +72,7 @@ var opts = getopt.parseSystem();
 (function() {
 
     var debug = (opts.options.hasOwnProperty('debug')) ? true : false;
+    var force = (opts.options.hasOwnProperty('force')) ? true : false;
 
     // Db namespace command
     if (opts.options.hasOwnProperty('db')) {
@@ -116,7 +118,7 @@ var opts = getopt.parseSystem();
 
     // Stop command
     if (opts.options.hasOwnProperty('stop')) {
-        require('./command/stop').run(opts.argv);
+        require('./command/stop').run(opts.argv, force);
         return;
     }
 

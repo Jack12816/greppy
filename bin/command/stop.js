@@ -5,7 +5,7 @@
  * @author Hermann Mayer <hermann.mayer92@gmail.com>
  */
 
-exports.run = function(contexts, callback)
+exports.run = function(contexts, force)
 {
     // Find a Greppy project recursivly
     var appPath = commandHelper.findProjectOrDie();
@@ -21,7 +21,10 @@ exports.run = function(contexts, callback)
             return;
         }
 
-        processHelper.kill(state.pid, function(err) {
+        // Use SIGINT as default, with force use SIGKILL
+        var signal = (true === force) ? 9 : 2;
+
+        processHelper.kill(state.pid, signal, function(err) {
 
             if (err) {
 
