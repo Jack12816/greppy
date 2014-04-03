@@ -41,6 +41,10 @@ util.inherits({{{name}}}Context, greppy.get('app.worker.context'));
 
 /**
  * Worker context configure method.
+ *
+ * @param {Object} app - The application object
+ * @param {Object} server - Server object
+ * @param {Function} callback - Function to call on finish
  */
 {{{name}}}Context.prototype.configure = function(app, server, callback)
 {
