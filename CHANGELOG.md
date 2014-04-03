@@ -1,3 +1,8 @@
+Version 0.7.2
+=============
+
+* [09bb4ce](https://github.com/Jack12816/greppy/commit/09bb4ce) **[Worker]** Fixed order for context modules loading to prevent auth adapter errors on controllers.
+
 Version 0.7.1
 =============
 
