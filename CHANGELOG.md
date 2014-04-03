@@ -1,3 +1,8 @@
+Version 0.7.0
+
+* [f2f780e](https://github.com/Jack12816/greppy/commit/f2f780e) **[MVC-Loader]** Fixed some minor typos.
+* [9d18819](https://github.com/Jack12816/greppy/commit/9d18819) **[Worker]** Reordered the core boot sequence of base app, context and common stuff. Run more tasks in parallel.
+
 Version 0.6.0
 =============
 
