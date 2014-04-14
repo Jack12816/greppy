@@ -1,21 +1,17 @@
-Version 0.7.2
-=============
+# Version 0.7.2
 
 * [09bb4ce](https://github.com/Jack12816/greppy/commit/09bb4ce) **[Worker]** Fixed order for context modules loading to prevent auth adapter errors on controllers.
 
-Version 0.7.1
-=============
+# Version 0.7.1
 
 * [5a229a2](https://github.com/Jack12816/greppy/commit/5a229a2) **[Worker]** Fixed error on non-existing greppy.helper and a string.format problem.
 
-Version 0.7.0
-=============
+# Version 0.7.0
 
 * [f2f780e](https://github.com/Jack12816/greppy/commit/f2f780e) **[MVC-Loader]** Fixed some minor typos.
 * [9d18819](https://github.com/Jack12816/greppy/commit/9d18819) **[Worker]** Reordered the core boot sequence of base app, context and common stuff. Run more tasks in parallel.
 
-Version 0.6.0
-=============
+# Version 0.6.0
 
 * [b0e9d52](https://github.com/Jack12816/greppy/commit/b0e9d52) **[Commons]** Updated changelog.
 * [22d640f](https://github.com/Jack12816/greppy/commit/22d640f) **[Commons]** Updated readme.
@@ -24,8 +20,7 @@ Version 0.6.0
 * [8869288](https://github.com/Jack12816/greppy/commit/8869288) **[MVC-Loader][Binary]** Rewritten the MVC loader to improve performance (most parts now use parallel execution) and ported all necessary methods to work asynchronously. Added a -f/--force flag to the binary which works in combination with -k/--stop.
 * [ce6476e](https://github.com/Jack12816/greppy/commit/ce6476e) **[Stores][Helper]** Added a check for environments without modules directory - so loading Greppy wont fail.
 
-Version 0.5.1
-=============
+# Version 0.5.1
 
 * [fbd9987](https://github.com/Jack12816/greppy/commit/fbd9987) **[Binary]** Improved functionality of the new project command, we are now much more error tolerant on missing binaries.
 * [46a95b8](https://github.com/Jack12816/greppy/commit/46a95b8) **[Commons][Config]** Updates readme, updated dependecies. Added config file for Travis CI.
@@ -33,8 +28,7 @@ Version 0.5.1
 * [ba7819c](https://github.com/Jack12816/greppy/commit/ba7819c) **[Tests]** Cleaned up coding styles on the test suite. Enabled output of creating the test project.
 * [ea3e0a9](https://github.com/Jack12816/greppy/commit/ea3e0a9) **[Worker][Logging]** Added resolved module::controller:action for every debug request log.
 
-Version 0.5.0
-=============
+# Version 0.5.0
 
 * [03657e2](https://github.com/Jack12816/greppy/commit/03657e2) **[Commons]** Add support for missing ES5/6 implementations.
 * [2de1bc5](https://github.com/Jack12816/greppy/commit/2de1bc5) **[Extension][Datatype]** Fixed htmlencode and htmldecode for String.
@@ -44,36 +38,30 @@ Version 0.5.0
 * [b38cf2e](https://github.com/Jack12816/greppy/commit/b38cf2e) **[LDAP]** Cleaned up LDAP client code.
 * [3c3990c](https://github.com/Jack12816/greppy/commit/3c3990c) **[Store][Helper]** Added support for wildcard loading of helpers.
 
-Version 0.4.5
-=============
+# Version 0.4.5
 
 * [f5633e3](https://github.com/Jack12816/greppy/commit/f5633e3) **[Package]** Updated mongodb/mongoose dependency versions.
 
-Version 0.4.4
-=============
+# Version 0.4.4
 
 * [dc3745d](https://github.com/Jack12816/greppy/commit/dc3745d) **[Extension]** Added SI prefixes for Numbers with positive power.
 * [0b35aff](https://github.com/Jack12816/greppy/commit/0b35aff) **[Package]** Downgraded to mongodb 1.3.19.
 
-Version 0.4.3
-=============
+# Version 0.4.3
 
 * [d09da76](https://github.com/Jack12816/greppy/commit/d09da76) **[Release]** Bumped version to 0.4.3. Cleaned up some dirty files.
 
-Version 0.4.2
-=============
+# Version 0.4.2
 
 * [0caf5c2](https://github.com/Jack12816/greppy/commit/0caf5c2) **[Issue #18][Binary][Release]** Fixed new project init bug. Bumped version to 0.4.2.
 
-Version 0.4.1
-=============
+# Version 0.4.1
 
 * [3336d58](https://github.com/Jack12816/greppy/commit/3336d58) **[Docs]** Polished the changelog.
 * [213aede](https://github.com/Jack12816/greppy/commit/213aede) **[Issue #18]** Fixed new project init.
 * [1abd596](https://github.com/Jack12816/greppy/commit/1abd596) **[Release]** Bumped version to 0.4.1.
 
-Version 0.4.0
-=============
+# Version 0.4.0
 
 * [5a47912](https://github.com/Jack12816/greppy/commit/5a47912) **[App]** Added version validator.
 * [77d2b90](https://github.com/Jack12816/greppy/commit/77d2b90) **[Backend/MySQL]** Added ability to use the ORM and the models on migrations.
@@ -129,14 +117,12 @@ Version 0.4.0
 * [58d8f1d](https://github.com/Jack12816/greppy/commit/58d8f1d) **[Tests]** Made tests compatible with class changes. Fixed missing semicolon.
 * [99abfa6](https://github.com/Jack12816/greppy/commit/99abfa6) **[Tests]** Optimizations; paths now stored centrally.
 
-Version 0.3.1
-=============
+# Version 0.3.1
 
 * [adc193d](https://github.com/Jack12816/greppy/commit/adc193d) **[Release]** Bumped version to 0.3.1.
 * [a39ec8e](https://github.com/Jack12816/greppy/commit/a39ec8e) **[Tests/Helpers]** Moved test-helpers to tests-directory and fixed some path issues resulting from this change.
 
-Version 0.3.0
-=============
+# Version 0.3.0
 
 * [4465591](https://github.com/Jack12816/greppy/commit/4465591) **[Auth]** Added the functionality to pass an entity from an auth adapter into req.greppy.auth.entity.
 * [5a931c1](https://github.com/Jack12816/greppy/commit/5a931c1) **[Auth]** Implemented the auth eco-system.
@@ -252,8 +238,7 @@ Version 0.3.0
 * [4093018](https://github.com/Jack12816/greppy/commit/4093018) **[Worker]** Added the ability to push all view helpers to the application, so they can be accessed by the user.
 * [c9e9e8e](https://github.com/Jack12816/greppy/commit/c9e9e8e) **[WorkerContext]** Added IPC class which handles annotation of worker context on the master. Refactored worker context class.
 
-Version 0.2.0
-=============
+# Version 0.2.0
 
 * [c53ab7b](https://github.com/Jack12816/greppy/commit/c53ab7b) Added readme file.
 * [ecffcee](https://github.com/Jack12816/greppy/commit/ecffcee) **[Binary]** Addes list switch to greppy binary.
