@@ -20,7 +20,7 @@ helper.findProjectOrDie = function()
 
     if (false === result.found) {
 
-        console.log(result.path.green.bold + ' is not a Greppy project or is located in one.');
+        console.log(result.path.green.bold + ' is neither a Greppy project nor located in one.');
         console.log();
         console.log('Searched for a Greppy project in this paths:');
         console.log();
