@@ -6,7 +6,7 @@
 
 var should = require('should');
 var path   = require('path');
-var root   = path.resolve(__dirname + '/../../../../../');
+var root   = path.resolve(__dirname + '/../../../../../../');
 var Form   = require(root + '/lib/helper/controller/form');
 var fm     = null;
 

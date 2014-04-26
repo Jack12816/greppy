@@ -6,7 +6,7 @@
 
 var should   = require('should');
 var path     = require('path');
-var root     = path.resolve(__dirname + '/../../../../../');
+var root     = path.resolve(__dirname + '/../../../../../../');
 var DataGrid = require(root + '/lib/helper/controller/data-grid');
 var dg       = null;
 
@@ -145,7 +145,6 @@ describe('DataGrid', function() {
 
             result.where.should.equal('(mySearchColumn LIKE \'%mySearchTerm%\') AND (deleted_at IS NULL)');
         });
-
     });
 });
 

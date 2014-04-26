@@ -7,7 +7,7 @@
 var should      = require('should');
 var path        = require('path');
 var fs          = require('fs');
-var root        = path.resolve(__dirname + '/../../../../../');
+var root        = path.resolve(__dirname + '/../../../../../../');
 var TestProject = require(root + '/tests/helper/project');
 var tp          = null;
 

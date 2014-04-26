@@ -6,7 +6,7 @@
 
 var should     = require('should');
 var path       = require('path');
-var root       = path.resolve(__dirname + '/../../../../../');
+var root       = path.resolve(__dirname + '/../../../../../../');
 var Controller = require(root + '/lib/http/mvc/controller');
 var cr         = null;
 

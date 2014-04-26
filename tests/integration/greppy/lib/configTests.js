@@ -9,7 +9,7 @@ var path   = require('path');
 var fs     = require('fs');
 var es     = require('execSync');
 var extend = require('extend');
-var root   = path.resolve(__dirname + '/../../../');
+var root   = path.resolve(__dirname + '/../../../../');
 var paths  = require(root + '/tests/paths');
 var Config = require(root + '/lib/config');
 var cg     = null;
@@ -51,7 +51,7 @@ describe('Config', function() {
 
     describe('constructor', function() {
 
-        it('should take an options object an apply it\'s values over it\'s default values', function() {
+        it('should take an options object and apply it\'s values over it\'s default values', function() {
 
             cg = new Config({
                 values  : configMockup,
@@ -83,7 +83,7 @@ describe('Config', function() {
             }).should.throwError(/does not exist/);
         });
 
-        it('should load a config on instanciation when a path property is passed to the constructor', function() {
+        it('should load a config on instantiation when a path property is passed to the constructor', function() {
 
             cg = new Config({
                 path: configPath + configFile

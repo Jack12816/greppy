@@ -3,8 +3,13 @@ REPORTER ?= spec
 
 all: test
 
-test:
-	@node ./tests/start.js --reporter $(REPORTER)
+test: test-unit test-integration
 
-.PHONY: test
+test-unit:
+	@node ./tests/start.js --type unit --reporter $(REPORTER)
+
+test-integration:
+	@node ./tests/start.js --type integration --reporter $(REPORTER)
+
+.PHONY: test test-unit test-integration
 

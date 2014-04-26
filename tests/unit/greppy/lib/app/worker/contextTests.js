@@ -6,7 +6,7 @@
 
 var should  = require('should');
 var path    = require('path');
-var root    = path.resolve(__dirname + '/../../../../../');
+var root    = path.resolve(__dirname + '/../../../../../../');
 var express = require('express');
 var Context = require(root + '/lib/app/worker/context');
 var ct      = null;
@@ -58,7 +58,7 @@ describe('Context', function() {
     });
 
     it('should have a method configure which calls a given callback', function(done) {
-        
+
         ct = new Context();
 
         ct.configure(null, null, function() {

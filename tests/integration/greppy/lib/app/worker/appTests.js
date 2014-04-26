@@ -9,7 +9,7 @@ var should  = require('should');
 var path    = require('path');
 var request = require('supertest');
 var colors  = require('colors');
-var root    = path.resolve(__dirname + '/../../../../../');
+var root    = path.resolve(__dirname + '/../../../../../../');
 var express = require('express');
 var App     = require(root + '/lib/app/worker/app');
 

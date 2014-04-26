@@ -6,7 +6,7 @@
 
 var should = require('should');
 var path   = require('path');
-var root   = path.resolve(__dirname + '/../../../../');
+var root   = path.resolve(__dirname + '/../../../../../');
 var paths  = require(root + '/tests/paths');
 var Worker = require(root + '/lib/app/worker');
 var wr     = null;

@@ -6,7 +6,7 @@
 
 var should         = require('should');
 var path           = require('path');
-var root           = path.resolve(__dirname + '/../../../../');
+var root           = path.resolve(__dirname + '/../../../../../');
 var paths          = require(root + '/tests/paths');
 var validAppPath   = path.resolve('templates/project');
 var invalidAppPath = path.resolve('templates');

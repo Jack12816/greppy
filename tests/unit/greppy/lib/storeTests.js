@@ -6,7 +6,7 @@
 
 var should  = require('should');
 var path    = require('path');
-var root    = path.resolve(__dirname + '/../../../');
+var root    = path.resolve(__dirname + '/../../../../');
 var Store   = require(root + '/lib/store');
 var se      = null;
 
@@ -15,7 +15,7 @@ describe('Store', function() {
     describe('constructor', function() {
 
         it('should register namespaces passed in as argument via the constructor', function() {
-            
+
             var namespaces         = ['checkMe', 'lookAtThis', 'ohWow'];
             var namespacesExpected = namespaces.slice(0);
 
