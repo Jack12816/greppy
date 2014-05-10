@@ -40,6 +40,23 @@ var {{{name}}}Context = function()
 util.inherits({{{name}}}Context, greppy.get('app.worker.context'));
 
 /**
+ * Worker context pre configure method.
+ *
+ * @param {Object} app - The application object
+ * @param {Object} server - Server object
+ * @param {Function} callback - Function to call on finish
+ */
+{{{name}}}Context.prototype.preConfigure = function(app, server, callback)
+{
+    // // Use the body parser parts
+    // // The bodyParser will be removed with connect 3.0
+    // app.use(express.json());
+    // app.use(express.urlencoded());
+
+    callback && callback();
+};
+
+/**
  * Worker context configure method.
  *
  * @param {Object} app - The application object
@@ -59,6 +76,30 @@ util.inherits({{{name}}}Context, greppy.get('app.worker.context'));
 
     // Start listening for connections
     server.listen({{{port}}});
+
+    callback && callback();
+};
+
+/**
+ * Worker context post configure method.
+ *
+ * @param {Object} app - The application object
+ * @param {Object} server - Server object
+ * @param {Function} callback - Function to call on finish
+ */
+{{{name}}}Context.prototype.postConfigure = function(app, server, callback)
+{
+    // // Add 404 error handler
+    // app.use(function(req, res, next) {
+    //     res.render('error/notfound-layout');
+    // });
+
+    // // Add error handler middleware
+    // app.use(function(err, req, res, next) {
+    //     logger.error(err.stack);
+    //     res.status(500);
+    //     res.render('error/catch-all', { error: err });
+    // });
 
     callback && callback();
 };

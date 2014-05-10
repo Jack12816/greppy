@@ -23,8 +23,10 @@ describe('Default App Configurator', function() {
 
         // setting global needed by some tests
         logger  = {
-            debug: function(s) {
-            }
+            debug: function(s) {},
+            info: function(s) {},
+            warn: function(s) {},
+            error: function(s) {}
         };
 
         // mockup of greppy global
