@@ -17,17 +17,17 @@ helper.checkBinaryDependencies = function(callback)
 {
     var binaries = [
         {
-            command: 'npm',
+            command: 'npm -v',
             onError: 'warning',
             isAvailable: true
         },
         {
-            command: 'bower --allow-root',
+            command: 'bower --allow-root -v',
             onError: 'warning',
             isAvailable: true
         },
         {
-            command: 'greppy',
+            command: 'greppy -v',
             onError: 'warning',
             isAvailable: true
         }
@@ -169,7 +169,7 @@ helper.bootstrapProject = function(path, binaries, callback)
         function(callback) {
 
             var binary = binaries.npm;
-            binary.command += ' install';
+            binary.command = 'npm install';
 
             helper.runCommand(
                 binary, path,
@@ -183,7 +183,7 @@ helper.bootstrapProject = function(path, binaries, callback)
         function(callback) {
 
             var binary = binaries.bower;
-            binary.command += ' install';
+            binary.command = 'bower --allow-root install';
 
             helper.runCommand(
                 binary, path,
@@ -197,7 +197,7 @@ helper.bootstrapProject = function(path, binaries, callback)
         function(callback) {
 
             var binary = binaries.greppy;
-            binary.command += ' --assets install';
+            binary.command = 'greppy --assets install';
 
             helper.runCommand(
                 binary, path,
